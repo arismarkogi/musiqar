@@ -856,10 +856,10 @@ Widget build(BuildContext context) {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: 40),
-              ranking(1, 'gioxatz', 11),
-              ranking(2, 'eleni', 10),
-              ranking(3, 'bill', 9),
-              ranking(4, 'betty', 8),
+              ranking(1, 'user1', 11),
+              ranking(2, 'user1', 10),
+              ranking(3, 'user3', 9),
+              ranking(4, 'user4', 8),
             ],
           ),
         ),
@@ -1046,7 +1046,7 @@ Widget build(BuildContext context) {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: 40),
-              info('gioxatz'),
+              info('user1'),
               SizedBox(height: 100),
               Bio(bio),
             ],
