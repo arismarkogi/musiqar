@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_drawing_board/flutter_drawing_board.dart';
+import 'package:flutter_drawing_board/paint_contents.dart';
+import 'package:flutter_drawing_board/paint_extension.dart';
 
 
 
@@ -341,7 +349,7 @@ Widget build(BuildContext context) {
         const SizedBox(height: 25),
         sline(),
         const SizedBox(height: 45),
-        buildMenuItem(context, 'Available Courses', HomePage()),
+        buildMenuItem(context, 'Available Courses', Drawpage()),
         const SizedBox(height: 25),
         sline(),
         const SizedBox(height: 45),
@@ -857,7 +865,7 @@ Widget build(BuildContext context) {
             children: <Widget>[
               SizedBox(height: 40),
               ranking(1, 'user1', 11),
-              ranking(2, 'user1', 10),
+              ranking(2, 'user2', 10),
               ranking(3, 'user3', 9),
               ranking(4, 'user4', 8),
             ],
@@ -1046,7 +1054,7 @@ Widget build(BuildContext context) {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: 40),
-              info('user1'),
+              info('user2user'),
               SizedBox(height: 100),
               Bio(bio),
             ],
@@ -1997,7 +2005,7 @@ Widget customInput(String labelText, TextEditingController controller, BuildCont
                             // Navigate to the homepage
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => HomePage()),
+                              MaterialPageRoute(builder: (context) => Questiontype()),
                             );
                           },
                           child: Icon(Icons.edit),
@@ -2172,4 +2180,495 @@ Widget build(BuildContext context) {
 class NewCoursePage3 extends StatefulWidget {
   @override
   _NewCoursePage3State createState() => _NewCoursePage3State();
+}
+
+
+
+class Questiontype extends StatefulWidget {
+  @override
+  _Questiontype createState() => _Questiontype();
+}
+
+class _Questiontype extends State<Questiontype> {
+
+
+    TextEditingController Questions = TextEditingController();
+
+
+ Widget customInput(String labelText, TextEditingController controller, {bool isPassword = false}) {
+  return Container(
+    width: 210,
+    height: 56,
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 300,
+          height: 56,
+          decoration: ShapeDecoration(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(4),
+                topRight: Radius.circular(4),
+              ),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  decoration: ShapeDecoration(
+                    color: Color(0xFFE0E0E0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(4),
+                        topRight: Radius.circular(4),
+                      ),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          obscureText: isPassword,
+                          controller: controller,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: labelText, // Use the provided labelText
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                decoration: ShapeDecoration(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 1,
+                      strokeAlign: BorderSide.strokeAlignCenter,
+                      color: Color(0xFF49454F),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+
+Widget CancelButton({
+  required VoidCallback onPressed,
+  required String buttonText,
+  Widget? child,
+}) {
+  return Container(
+    width: 92,
+    height: 40,
+    child: TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        backgroundColor: Color(0xFF681F1F),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(100),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              buttonText,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w500,
+                height: 0.10,
+                letterSpacing: 0.10,
+              ),
+            ),
+            if (child != null) SizedBox(width: 6),
+            if (child != null) child,
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+
+  String selectedQuestionType = 'Select question type';
+  TextEditingController question = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+      automaticallyImplyLeading: false,
+      centerTitle: true,
+      backgroundColor: Color(0xFFFEF7FF),
+      title: Center(
+        child: Image.asset(
+          'assets/logo.png',
+          width: 150,
+          height: 50,
+        ),
+      ),
+    ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+                'Add question',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Color(0xFF6750A4),
+                    fontSize: 20,
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w700,
+                    height: 0.10,
+                    letterSpacing: 0.10,
+                ),
+            ),
+            SizedBox(height: 20),
+            customInput('Question', question),
+            SizedBox(height: 50),
+            Text(
+                'Select type of question',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Color(0xFF6750A4),
+                    fontSize: 20,
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w700,
+                    height: 0.10,
+                    letterSpacing: 0.10,
+                ),
+            ),
+            SizedBox(height: 20),
+            DropdownButton<String>(
+              value: selectedQuestionType,
+              onChanged: (String? newValue) {
+                if (newValue != null) {
+                  setState(() {
+                    selectedQuestionType = newValue;
+                  });
+                }
+              },
+              items: <String>[
+                'Select question type',
+                'Select correct answer',
+                'Left or Right',
+                'Draw',
+              ].map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Container(
+                    padding: EdgeInsets.all(12.0), // Add padding around the text
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200, // Add a light gray background color
+                      borderRadius: BorderRadius.circular(8.0), // Add rounded corners
+                    ),
+                    child: Text(
+                      value,
+                      style: TextStyle(
+                        color: Colors.black, // Change text color
+                        fontSize: 16.0, // Change font size
+                        fontWeight: FontWeight.w400, // Change font weight
+                        fontFamily: 'Roboto', // Change font family
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+            SizedBox(height: 50),
+            CancelButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2()));
+                print(selectedQuestionType);
+              },
+              buttonText: 'Cancel',
+            ),
+            SizedBox(height: 50),
+            CancelButton(
+              onPressed: () {
+                if(selectedQuestionType == "Draw"){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Drawpage()));
+                }
+                else{
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3()));
+                }
+                print(selectedQuestionType);
+              },
+              buttonText: 'Next',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+class Triangle extends PaintContent {
+  Triangle();
+
+  Triangle.data({
+    required this.startPoint,
+    required this.A,
+    required this.B,
+    required this.C,
+    required Paint paint,
+  }) : super.paint(paint);
+
+  factory Triangle.fromJson(Map<String, dynamic> data) {
+    return Triangle.data(
+      startPoint: jsonToOffset(data['startPoint'] as Map<String, dynamic>),
+      A: jsonToOffset(data['A'] as Map<String, dynamic>),
+      B: jsonToOffset(data['B'] as Map<String, dynamic>),
+      C: jsonToOffset(data['C'] as Map<String, dynamic>),
+      paint: jsonToPaint(data['paint'] as Map<String, dynamic>),
+    );
+  }
+
+  Offset startPoint = Offset.zero;
+
+  Offset A = Offset.zero;
+  Offset B = Offset.zero;
+  Offset C = Offset.zero;
+
+  @override
+  void startDraw(Offset startPoint) => this.startPoint = startPoint;
+
+  @override
+  void drawing(Offset nowPoint) {
+    A = Offset(
+        startPoint.dx + (nowPoint.dx - startPoint.dx) / 2, startPoint.dy);
+    B = Offset(startPoint.dx, nowPoint.dy);
+    C = nowPoint;
+  }
+
+  @override
+  void draw(Canvas canvas, Size size, bool deeper) {
+    final Path path = Path()
+      ..moveTo(A.dx, A.dy)
+      ..lineTo(B.dx, B.dy)
+      ..lineTo(C.dx, C.dy)
+      ..close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  Triangle copy() => Triangle();
+
+  @override
+  Map<String, dynamic> toContentJson() {
+    return <String, dynamic>{
+      'startPoint': startPoint.toJson(),
+      'A': A.toJson(),
+      'B': B.toJson(),
+      'C': C.toJson(),
+      'paint': paint.toJson(),
+    };
+  }
+}
+
+
+class Drawpage extends StatefulWidget {
+  const Drawpage({Key? key}) : super(key: key);
+
+  @override
+  State<Drawpage> createState() => _Drawpage();
+}
+
+class _Drawpage extends State<Drawpage> {
+  final DrawingController _drawingController = DrawingController();
+
+  @override
+  void dispose() {
+    _drawingController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _getImageData(BuildContext context) async {
+    final Uint8List? data =
+        (await _drawingController.getImageData())?.buffer.asUint8List();
+    if (data == null) {
+      debugPrint('beeee');
+      return;
+    }
+
+    if (mounted) {
+      showDialog<void>(
+        context: context,
+        builder: (BuildContext c) {
+          return Material(
+            color: Colors.transparent,
+            child: InkWell(
+                onTap: () => Navigator.pop(c), child: Image.memory(data)),
+          );
+        },
+      );
+    }
+  }
+
+  Future<void> _getJson(BuildContext context) async {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext c) {
+        return Center(
+          child: Material(
+            color: Colors.white,
+            child: InkWell(
+              onTap: () => Navigator.pop(c),
+              child: Container(
+                constraints:
+                    const BoxConstraints(maxWidth: 500, maxHeight: 800),
+                padding: const EdgeInsets.all(20.0),
+                child: SelectableText(
+                  const JsonEncoder.withIndent('  ')
+                      .convert(_drawingController.getJsonList()),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+  
+Widget SaveButton({
+  required VoidCallback onPressed,
+  required String buttonText,
+  Widget? child,
+}) {
+  return Container(
+    width: 92,
+    height: 40,
+    child: TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        backgroundColor: Color(0xFF681F1F),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(100),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              buttonText,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w500,
+                height: 0.10,
+                letterSpacing: 0.10,
+              ),
+            ),
+            if (child != null) SizedBox(width: 6),
+            if (child != null) child,
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    resizeToAvoidBottomInset: false,
+    backgroundColor: Colors.grey,
+    appBar: AppBar(
+      centerTitle: true,
+      backgroundColor: Color(0xFFFEF7FF),
+      title: Center(
+        child: Image.asset(
+          'assets/logo.png',
+          width: 150,
+          height: 50,
+        ),
+      ),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.save),
+          onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2()));
+          },
+        ),
+      ],
+    ),
+    body: Column(
+      children: <Widget>[
+        Expanded(
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return DrawingBoard(
+                // boardPanEnabled: false,
+                // boardScaleEnabled: false,
+                controller: _drawingController,
+                background: Container(
+                  width: constraints.maxWidth,
+                  height: constraints.maxHeight,
+                  color: Colors.white,
+                ),
+                showDefaultActions: true,
+                showDefaultTools: true,
+                defaultToolsBuilder: (Type t, _) {
+                  return DrawingBoard.defaultTools(t, _drawingController)
+                    ..insert(
+                      1,
+                      DefToolItem(
+                        icon: Icons.change_history_rounded,
+                        isActive: t == Triangle,
+                        onTap: () =>
+                            _drawingController.setPaintContent(Triangle()),
+                      ),
+                    );
+                },
+              );
+            },
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 }
