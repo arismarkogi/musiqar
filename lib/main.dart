@@ -4,15 +4,36 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_drawing_board/flutter_drawing_board.dart';
 import 'package:flutter_drawing_board/paint_contents.dart';
 import 'package:flutter_drawing_board/paint_extension.dart';
 
+import 'package:flutter/rendering.dart';
+import 'homepage.dart';
 
 
+
+
+void main() {
+  //debugPaintSizeEnabled = true;
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Figma to Flutter Example',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: HomePage(),
+    );
+  }
+}
+/*
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper.internal();
   factory DatabaseHelper() => _instance;
@@ -78,6 +99,9 @@ class DatabaseHelper {
     return await dbClient.query('users');
   }
 }
+
+
+
 
 
 void main() {
@@ -2672,3 +2696,4 @@ Widget build(BuildContext context) {
 }
 
 }
+*/
