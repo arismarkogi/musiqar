@@ -98,7 +98,8 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
           ),
         ),
       ),
-      body: Center(
+      body: SingleChildScrollView(
+      child: Center(
         child: Column(
           children: <Widget>[
             SizedBox(height: 20),
@@ -141,6 +142,7 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
             ),
           ],
         ),
+      ),
       ),
     );
   }
