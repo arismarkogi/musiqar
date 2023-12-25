@@ -63,7 +63,7 @@ Widget customdesc(String labelText, TextEditingController controller, {bool isPa
                     side: BorderSide(
                       width: 1,
                       strokeAlign: BorderSide.strokeAlignCenter,
-                      color: Color(0xFF49454F),
+                      color: Color.fromARGB(255, 212, 209, 216),
                     ),
                   ),
                 ),

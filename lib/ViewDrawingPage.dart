@@ -15,8 +15,16 @@ class ViewDrawingPage extends StatelessWidget {
    Widget build(BuildContext context) {
      return Scaffold(
        appBar: AppBar(
-         title: Text('Saved Drawing'),
-       ),
+        //automaticallyImplyLeading: false,
+        centerTitle: true,
+        title: Center(
+          child: Image.asset(
+            'assets/logo.png',
+            width: 120,
+            height: 40,
+          ),
+        ),
+      ),
        body: Center(
          child: Image.file(File(imagePath)),
        ),
