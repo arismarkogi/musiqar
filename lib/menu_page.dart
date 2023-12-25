@@ -7,6 +7,7 @@ import 'new_course_page1.dart';
 import 'widgets/menu_item.dart';
 import 'widgets/sline.dart';
 import 'widgets/menu_logo.dart';
+import 'drawww.dart';
 
 
 class MenuPage extends StatefulWidget {
@@ -33,7 +34,7 @@ class _MenuPageState extends State<MenuPage> {
           const SizedBox(height: 25),
           sline(),
           const SizedBox(height: 45),
-          buildMenuItem(context, 'Available Courses', Drawpage()),
+          buildMenuItem(context, 'Available Courses', DrawingPage()),
           const SizedBox(height: 25),
           sline(),
           const SizedBox(height: 45),
