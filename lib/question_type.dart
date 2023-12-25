@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'new_course_page3.dart';
 import 'new_course_page4.dart';
+import 'new_course_page5.dart';
 import 'widgets/custom_input.dart';
 import 'widgets/cancel_button.dart';
+
 
 import 'drawpage.dart';
 
@@ -123,8 +125,15 @@ class _Questiontype extends State<Questiontype> {
                 else if(selectedQuestionType == "Select correct answer"){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage4()));
                 }
-                else{
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3()));
+                else if(selectedQuestionType == "Left or Right"){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage5()));
+                }
+                else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Select question type.'),
+                      ),
+                    );
                 }
                 print(selectedQuestionType);
               },

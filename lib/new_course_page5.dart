@@ -3,7 +3,6 @@ import 'homepage.dart';
 import 'menu_page.dart';
 import 'widgets/custom_input.dart';
 import 'widgets/cancel_button.dart';
-import 'widgets/custom_desc.dart';
 import 'question_type.dart';
 import 'new_course_page2.dart';
 
@@ -60,7 +59,7 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
           child: Column(
             children: <Widget>[
               Text(
-                'Right or Left',
+                'Left or Right',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF6750A4),
@@ -111,9 +110,9 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
                   }
                 },
                 items: <String>[
-                  'Select question type',
-                  'Right', 
-                  'Left',
+                  'Select correct answer',
+                  'Left', 
+                  'Right',
                 ].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
@@ -147,16 +146,20 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
               SizedBox(height: 20),
               CancelButton(
                 onPressed: () {
-                  if(selectedAnswer == "Right"){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2()));
-                    print("Right");
-                  }
-                  else if(selectedAnswer == "Left"){
+                  if(selectedAnswer == "Left"){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2()));
                     print("Left");
                   }
-                  else{
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage5()));
+                  else if(selectedAnswer == "Right"){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2()));
+                    print("Right");
+                  }
+                  else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Select correct answer.'),
+                      ),
+                    );
                   }
                 },
                 buttonText: 'Save',
