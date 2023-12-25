@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_drawing_board/flutter_drawing_board.dart';
 import 'package:flutter_drawing_board/paint_contents.dart';
-import 'package:flutter_drawing_board/paint_extension.dart';
-import 'package:flutter/services.dart';
-import 'dart:convert';
-import 'new_course_page2.dart';
-import 'widgets/save_button.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
+import 'dart:io';
+import 'dart:ui' as ui;
+import 'dart:typed_data';
+import 'package:flutter/rendering.dart';
+import 'ViewDrawingPage.dart';
 
 class Triangle extends PaintContent {
   Triangle();
@@ -20,12 +22,22 @@ class Triangle extends PaintContent {
 
   factory Triangle.fromJson(Map<String, dynamic> data) {
     return Triangle.data(
-      startPoint: jsonToOffset(data['startPoint'] as Map<String, dynamic>),
-      A: jsonToOffset(data['A'] as Map<String, dynamic>),
-      B: jsonToOffset(data['B'] as Map<String, dynamic>),
-      C: jsonToOffset(data['C'] as Map<String, dynamic>),
-      paint: jsonToPaint(data['paint'] as Map<String, dynamic>),
+      startPoint: Offset(data['startPoint']['dx'] as double, data['startPoint']['dy'] as double),
+      A: Offset(data['A']['dx'] as double, data['A']['dy'] as double),
+      B: Offset(data['B']['dx'] as double, data['B']['dy'] as double),
+      C: Offset(data['C']['dx'] as double, data['C']['dy'] as double),
+      paint: Paint()..color = Color(int.parse(data['paint']['color'] as String)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'startPoint': {'dx': startPoint.dx, 'dy': startPoint.dy},
+      'A': {'dx': A.dx, 'dy': A.dy},
+      'B': {'dx': B.dx, 'dy': B.dy},
+      'C': {'dx': C.dx, 'dy': C.dy},
+      'paint': {'color': paint.color.value.toRadixString(16)},
+    };
   }
 
   Offset startPoint = Offset.zero;
@@ -40,7 +52,9 @@ class Triangle extends PaintContent {
   @override
   void drawing(Offset nowPoint) {
     A = Offset(
-        startPoint.dx + (nowPoint.dx - startPoint.dx) / 2, startPoint.dy);
+      startPoint.dx + (nowPoint.dx - startPoint.dx) / 2,
+      startPoint.dy,
+    );
     B = Offset(startPoint.dx, nowPoint.dy);
     C = nowPoint;
   }
@@ -71,7 +85,22 @@ class Triangle extends PaintContent {
   }
 }
 
+extension OffsetExtension on Offset {
+  Map<String, dynamic> toJson() {
+    return {
+      'dx': this.dx,
+      'dy': this.dy,
+    };
+  }
+}
 
+extension PaintExtension on Paint {
+  Map<String, dynamic> toJson() {
+    return {
+      'color': this.color.value.toRadixString(16),
+    };
+  }
+}
 
 class Drawpage extends StatefulWidget {
   const Drawpage({Key? key}) : super(key: key);
@@ -81,62 +110,45 @@ class Drawpage extends StatefulWidget {
 }
 
 class _Drawpage extends State<Drawpage> {
+  final GlobalKey _repaintKey = GlobalKey();
   final DrawingController _drawingController = DrawingController();
 
-  @override
-  void dispose() {
-    _drawingController.dispose();
-    super.dispose();
-  }
 
+ final ScreenshotController _screenshotController = ScreenshotController();
+
+  
   Future<void> _getImageData(BuildContext context) async {
-    final Uint8List? data =
-    (await _drawingController.getImageData())?.buffer.asUint8List();
-    if (data == null) {
-      debugPrint('beeee');
-      return;
-    }
+  print('Calling _getImageData');
+  try {
+    // Trigger a repaint to ensure the drawing is captured
+    setState(() {});
 
-    if (mounted) {
-      showDialog<void>(
-        context: context,
-        builder: (BuildContext c) {
-          return Material(
-            color: Colors.transparent,
-            child: InkWell(
-                onTap: () => Navigator.pop(c), child: Image.memory(data)),
-          );
-        },
+    // Delay to wait for the repaint to complete
+    await Future.delayed(const Duration(milliseconds: 300));
+
+    Uint8List? data = await _screenshotController.capture();
+
+    if (data != null) {
+      final Directory directory = await getApplicationDocumentsDirectory();
+      final String filePath = '${directory.path}/drawing_image.png';
+
+      await File(filePath).writeAsBytes(data);
+      debugPrint('Image saved at: $filePath');
+
+      // Navigate to a new page to view the saved drawing
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ViewDrawingPage(imagePath: filePath),
+        ),
       );
+    } else {
+      debugPrint('Error capturing image');
     }
+  } catch (e) {
+    debugPrint('Error in _getImageData: $e');
   }
-
-  Future<void> _getJson(BuildContext context) async {
-    showDialog<void>(
-      context: context,
-      builder: (BuildContext c) {
-        return Center(
-          child: Material(
-            color: Colors.white,
-            child: InkWell(
-              onTap: () => Navigator.pop(c),
-              child: Container(
-                constraints:
-                const BoxConstraints(maxWidth: 500, maxHeight: 800),
-                padding: const EdgeInsets.all(20.0),
-                child: SelectableText(
-                  const JsonEncoder.withIndent('  ')
-                      .convert(_drawingController.getJsonList()),
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-
+}
 
 
 
@@ -160,19 +172,20 @@ class _Drawpage extends State<Drawpage> {
           IconButton(
             icon: Icon(Icons.save),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2()));
+              _getImageData(context);
             },
           ),
         ],
       ),
-      body: Column(
+      body: 
+      Screenshot(
+        controller: _screenshotController,
+        child: Column(
         children: <Widget>[
           Expanded(
             child: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
                 return DrawingBoard(
-                  // boardPanEnabled: false,
-                  // boardScaleEnabled: false,
                   controller: _drawingController,
                   background: Container(
                     width: constraints.maxWidth,
@@ -199,7 +212,7 @@ class _Drawpage extends State<Drawpage> {
           ),
         ],
       ),
+      ),
     );
   }
-
 }

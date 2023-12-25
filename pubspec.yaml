@@ -28,6 +28,11 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  open_file:
+  file_picker:
+  flutter_colorpicker:
+  screenshot:
+  path_provider:
   image_picker: 
   sqflite: 'any'
   path: 'any'

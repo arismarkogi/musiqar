@@ -4,6 +4,7 @@ import 'new_course_page1.dart';
 import 'new_course_page3.dart';
 import 'widgets/add_chapter.dart';
 import 'widgets/cancel_button.dart';
+import 'course_settings.dart';
 
 class _NewCoursePage2State extends State<NewCoursePage2> {
   List<Widget> chapterInputs = []; // List to store dynamically added CustomInputs
@@ -76,7 +77,7 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                               // Navigate to the homepage
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => HomePage()),
+                                MaterialPageRoute(builder: (context) => FileUploadPage()),
                               );
                             },
                             child: Icon(Icons.edit),

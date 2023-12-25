@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter_drawing_board/flutter_drawing_board.dart';
 import 'package:flutter_drawing_board/paint_contents.dart';
 import 'package:flutter_drawing_board/paint_extension.dart';
@@ -13,11 +14,8 @@ import 'package:flutter_drawing_board/paint_extension.dart';
 import 'package:flutter/rendering.dart';
 import 'homepage.dart';
 
-
-
-
-void main() {
-  //debugPaintSizeEnabled = true;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
