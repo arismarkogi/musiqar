@@ -3,6 +3,8 @@ import 'new_course_page2.dart';
 import 'widgets/cancel_button.dart';
 import 'widgets/add_question.dart';
 import 'question_type.dart';
+
+
 Widget inputQuestion(String labelText, TextEditingController controller, BuildContext context, {bool isPassword = false}) {
   TextEditingController controller = TextEditingController(); // Create a new controller for each input
   return Container(

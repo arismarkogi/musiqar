@@ -25,22 +25,22 @@ class _SignInPageState extends State<SignInPage> {
   void signIn(BuildContext context) async {
     String email = signInEmailController.text;
     String password = signInPasswordController.text;
-
+    /*
     // Check the database for the user
     List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
     print('kati egine');
     bool isUserValid = users.any((user) =>
     user['username'] == email && user['password'] == password);
-
-    if (isUserValid) {
+    */
+   // if (isUserValid) {
       // Navigate to the profile page
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ProfilePage()),
       );
-    } else {
+   // } else {
       // Show an error message or handle invalid credentials
-    }
+    //}
   }
 
   void signUp(BuildContext context) async {
@@ -49,7 +49,7 @@ class _SignInPageState extends State<SignInPage> {
     String cpassword = signUpConfirmPasswordController.text;
 
     // Check if the password and confirm password match
-    if (password != cpassword) {
+    /*if (password != cpassword) {
       // Show an error message or handle password mismatch
       return;
     }
@@ -65,7 +65,7 @@ class _SignInPageState extends State<SignInPage> {
 
     // Insert the new user into the database
     await DatabaseHelper().insertUser({'username': email, 'password': password});
-
+      */
     // Navigate to the profile page after successful sign-up
     Navigator.push(
       context,
