@@ -4,15 +4,17 @@ import 'menu_page.dart';
 import 'widgets/custom_input.dart';
 import 'widgets/cancel_button.dart';
 import 'question_type.dart';
-import 'new_course_page3.dart';
+import 'new_course_page2.dart';
+import 'widgets/input_unchangeable.dart';
+import 'drawpage.dart';
 
 
-class NewCoursePage5 extends StatefulWidget {
+class NewCoursePage6 extends StatefulWidget {
   @override
-  _NewCoursePage5 createState() => _NewCoursePage5();
+  _NewCoursePage6 createState() => _NewCoursePage6();
 }
 
-class _NewCoursePage5 extends State<NewCoursePage5> {
+class _NewCoursePage6 extends State<NewCoursePage6> {
 
   TextEditingController Questions = TextEditingController();
 
@@ -58,19 +60,7 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
         child: Center(
           child: Column(
             children: <Widget>[
-              Text(
-                'Left or Right',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xFF6750A4),
-                  fontSize: 20,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w700,
-                  height: 0.10,
-                  letterSpacing: 0.10,
-                ),
-              ),
-              SizedBox(height: 70),
+              SizedBox(height: 30),
               Text(
                 'Add Question',
                 textAlign: TextAlign.center,
@@ -85,7 +75,6 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
               ),
               SizedBox(height: 30),
               customInput('Question', question, context: context),
-              SizedBox(height: 40),
               SizedBox(height: 50),
               Text(
                 'Select type of question',
@@ -100,43 +89,26 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
                 ),
               ),
               SizedBox(height: 20),
-              DropdownButton<String>(
-                value: selectedAnswer,
-                onChanged: (String? newValue) {
-                  if (newValue != null) {
-                    setState(() {
-                      selectedAnswer = newValue;
-                    });
-                  }
+              customInput_un('Draw', question, context: context),
+              SizedBox(height: 30),
+              Container(
+                width: 260,
+                height: 190,
+                child: 
+                Icon(Icons.add_a_photo,)
+              ),
+              SizedBox(height: 20),
+              InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Drawpage()));
                 },
-                items: <String>[
-                  'Select correct answer',
-                  'Left', 
-                  'Right',
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Container(
-                      padding: EdgeInsets.all(12.0), // Add padding around the text
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200, // Add a light gray background color
-                        borderRadius: BorderRadius.circular(8.0), // Add rounded corners
-                      ),
-                      child: Text(
-                        value,
-                        style: TextStyle(
-                          color: Colors.black, // Change text color
-                          fontSize: 16.0, // Change font size
-                          fontWeight: FontWeight.w400, // Change font weight
-                          fontFamily: 'Roboto', // Change font family
-                        ),
-                      ),
-                    ),
-                  );
-                }).toList(),
+                child: Icon(
+                  Icons.edit,
+                  size: 30,
+                  color: Colors.blue,
+                ),
               ),
               SizedBox(height: 70),
-
               CancelButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => Questiontype()));
@@ -146,21 +118,7 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
               SizedBox(height: 20),
               CancelButton(
                 onPressed: () {
-                  if(selectedAnswer == "Left"){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3()));
-                    print("Left");
-                  }
-                  else if(selectedAnswer == "Right"){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3()));
-                    print("Right");
-                  }
-                  else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Select correct answer.'),
-                      ),
-                    );
-                  }
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2()));
                 },
                 buttonText: 'Save',
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/new_course_page7.dart';
 import 'package:flutter_drawing_board/flutter_drawing_board.dart';
 import 'package:flutter_drawing_board/paint_contents.dart';
 import 'package:path_provider/path_provider.dart';
@@ -7,7 +8,7 @@ import 'dart:io';
 import 'dart:ui' as ui;
 import 'dart:typed_data';
 import 'package:flutter/rendering.dart';
-import 'ViewDrawingPage.dart';
+import 'new_course_page7.dart';
 
 class Triangle extends PaintContent {
   Triangle();
@@ -116,14 +117,12 @@ class _Drawpage extends State<Drawpage> {
 
  final ScreenshotController _screenshotController = ScreenshotController();
 
-  
+
   Future<void> _getImageData(BuildContext context) async {
   print('Calling _getImageData');
   try {
-    // Trigger a repaint to ensure the drawing is captured
     setState(() {});
 
-    // Delay to wait for the repaint to complete
     await Future.delayed(const Duration(milliseconds: 300));
 
     Uint8List? data = await _screenshotController.capture();
@@ -135,11 +134,10 @@ class _Drawpage extends State<Drawpage> {
       await File(filePath).writeAsBytes(data);
       debugPrint('Image saved at: $filePath');
 
-      // Navigate to a new page to view the saved drawing
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ViewDrawingPage(imagePath: filePath),
+          builder: (context) => NewCoursePage7(imagePath: filePath),
         ),
       );
     } else {
@@ -149,6 +147,7 @@ class _Drawpage extends State<Drawpage> {
     debugPrint('Error in _getImageData: $e');
   }
 }
+
 
 
 

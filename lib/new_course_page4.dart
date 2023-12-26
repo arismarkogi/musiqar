@@ -18,11 +18,10 @@ class NewCoursePage4 extends StatefulWidget {
 }
 
 class _NewCoursePage4State extends State<NewCoursePage4> {
-  List<Widget> textInputs = []; // List to store dynamically added CustomInputs
+  List<Widget> textInputs = []; 
 
   List<TextEditingController> answerscontroller = [];
   List<TextEditingController> newanswerscontroller = [];
-  //TextEditingController Questions = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +56,6 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
                 ),
               ),
               SizedBox(height: 30),
-              // SizedBox(height: 20),
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: textInputs.length,
@@ -69,17 +67,14 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
               SizedBox(height: 20),
               AddAnswer(
                 onPressed: () {
-                  // Create a new controller for each question
                   TextEditingController newController = TextEditingController();
                   answerscontroller.add(newController);
                   TextEditingController newansController = TextEditingController();
                   newanswerscontroller.add(newansController);
-
                   setState(() {
                     textInputs.add(CustomBox(
                       textController: newansController,
                       onSelect: (isSelected) {
-                        // Handle the selection state change
                         if (isSelected) {
                           print('Selected!');
                         } else {
@@ -101,7 +96,7 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
               SizedBox(height: 20),
               CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3()));
                 },
                 buttonText: 'Save',
               ),
@@ -153,7 +148,6 @@ class _CustomBoxState extends State<CustomBox> {
       ),
       child: Row(
         children: [
-          // Image on the left
           GestureDetector(
             onTap: _pickImage,
             child: Container(
@@ -171,11 +165,10 @@ class _CustomBoxState extends State<CustomBox> {
               ),
               child: imagePath == null
                   ? Icon(Icons.add_a_photo)
-                  : null, // Show an icon or placeholder if no image is selected
+                  : null,
             ),
           ),
-          SizedBox(width: 8), // Add spacing between image and text
-          // Text in the middle
+          SizedBox(width: 8), 
           Expanded(
             child: TextField(
               controller: widget.textController,
@@ -185,8 +178,7 @@ class _CustomBoxState extends State<CustomBox> {
               ),
             ),
           ),
-          SizedBox(width: 8), // Add spacing between text and select button
-          // Select button on the right
+          SizedBox(width: 8), 
           IconButton(
             icon: Icon(isSelected ? Icons.check_circle : Icons.radio_button_unchecked),
             onPressed: () {

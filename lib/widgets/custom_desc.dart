@@ -26,7 +26,7 @@ Widget customdesc(String labelText, TextEditingController controller, {bool isPa
               Container(
                 width: double.infinity,
                 decoration: ShapeDecoration(
-                  color: Color(0xFFE0E0E0),
+                  color: Color.fromARGB(255, 255, 255, 255),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(4),
@@ -63,7 +63,7 @@ Widget customdesc(String labelText, TextEditingController controller, {bool isPa
                     side: BorderSide(
                       width: 1,
                       strokeAlign: BorderSide.strokeAlignCenter,
-                      color: Color.fromARGB(255, 212, 209, 216),
+                      color: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
                 ),

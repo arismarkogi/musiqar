@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'menu_page.dart';
 import 'homepage.dart';
 import 'new_course_page1.dart';
 import 'new_course_page3.dart';
@@ -7,8 +8,8 @@ import 'widgets/cancel_button.dart';
 import 'course_settings.dart';
 
 class _NewCoursePage2State extends State<NewCoursePage2> {
-  List<Widget> chapterInputs = []; // List to store dynamically added CustomInputs
-  List<String> chaptersTitles = []; // List to store chapter titles/texts
+  List<Widget> chapterInputs = []; 
+  List<String> chaptersTitles = []; 
 
 
   TextEditingController Chapters = TextEditingController();
@@ -43,7 +44,7 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                       controller: controller,
                       onChanged: (text) {
                         setState(() {
-                          chaptersTitles[index] = text; // Update the text for the specific chapter index
+                          chaptersTitles[index] = text; 
                         });
                       },
                       decoration: InputDecoration(
@@ -52,12 +53,10 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 8), // Add some spacing between the input field and additional content
-                  // Use a Column for the text and icons
+                  SizedBox(width: 8), 
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Add the first line of text with clickable icon
                       Row(
                         children: [
                           Text(
@@ -74,7 +73,6 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              // Navigate to the homepage
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => FileUploadPage()),
@@ -84,7 +82,6 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                           ),
                         ],
                       ),
-                      // Add the second line of text with clickable icon
                       Row(
                         children: [
                           Text(
@@ -101,7 +98,6 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              // Navigate to the homepage
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => NewCoursePage3()),
@@ -160,14 +156,11 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                 ),
               ),
               SizedBox(height: 30),
-              // customInput('Chapter', Chapters, context),
-              // SizedBox(height: 20),
-              // Dynamically added CustomInputs
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: chapterInputs.length,
                 itemBuilder: (context, index) => Container(
-                  width: 200, // Set a fixed width for the dynamically added items
+                  width: 200, 
                   child: chapterInputs[index],
                 ),
               ),
@@ -177,7 +170,7 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                   setState(() {
                     TextEditingController newController = TextEditingController();
                     chapterInputs.add(inputChapter('New Chapter', newController, context, chapterInputs.length));
-                    chaptersTitles.add(''); // Initialize an empty title for the new chapter
+                    chaptersTitles.add('');
                   });
                 },
                 buttonText: '+      Add Chapter',
@@ -188,6 +181,13 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage1()));
                 },
                 buttonText: 'Cancel',
+              ),
+              SizedBox(height: 20),
+              CancelButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage()));
+                },
+                buttonText: 'Save',
               ),
             ],
           ),
