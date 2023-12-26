@@ -6,7 +6,7 @@ import 'question_type.dart';
 
 
 Widget inputQuestion(String labelText, TextEditingController controller, BuildContext context, {bool isPassword = false}) {
-  TextEditingController controller = TextEditingController(); // Create a new controller for each input
+  TextEditingController controller = TextEditingController(); 
   return Container(
     width: 390,
     height: 58,
@@ -80,7 +80,7 @@ Widget inputQuestion(String labelText, TextEditingController controller, BuildCo
 }
 
 class _NewCoursePage3State extends State<NewCoursePage3> {
-  List<Widget> chapterInputs = []; // List to store dynamically added CustomInputs
+  List<Widget> chapterInputs = []; 
 
 
   TextEditingController Questions = TextEditingController();
@@ -122,7 +122,7 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
               shrinkWrap: true,
               itemCount: chapterInputs.length,
               itemBuilder: (context, index) => Container(
-                width: 200, // Set a fixed width for the dynamically added items
+                width: 200, 
                 child: chapterInputs[index],
               ),
             ),

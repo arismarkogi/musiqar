@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:open_file/open_file.dart';
 import 'course_settings_with_file.dart';
+import 'widgets/custom_input.dart';
 
 class FileUploadPage extends StatefulWidget {
   @override

@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:open_file/open_file.dart';
 import 'course_settings.dart';
+import 'new_course_page2.dart';
 import 'widgets/custom_input.dart';
+import 'widgets/cancel_button.dart';
 
 
 class FileOpenPage extends StatelessWidget {
@@ -22,7 +24,10 @@ class FileOpenPage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: () {
-              _navigateToUploadPage(context);
+              Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => FileUploadPage()),
+            );
             },
           ),
         ],
@@ -68,6 +73,13 @@ class FileOpenPage extends StatelessWidget {
             ),
             SizedBox(height: 30),
             customInput('Filename', filename, context: context),
+            SizedBox(height: 50, width: 150),
+            CancelButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2()));
+              },
+              buttonText: 'Save',
+            ),
           ],
         ),
       ),
@@ -84,7 +96,4 @@ class FileOpenPage extends StatelessWidget {
     }
   }
 
-  void _navigateToUploadPage(BuildContext context) {
-    Navigator.pushReplacementNamed(context, '/upload'); // Replace current page with the FileUploadPage
-  }
 }

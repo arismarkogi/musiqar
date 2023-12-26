@@ -1,5 +1,3 @@
-// ViewDrawingPage.dart
-
 import 'package:flutter/material.dart';
 import 'drawpage.dart';
 import 'package:path/path.dart';

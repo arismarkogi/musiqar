@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/new_course_page6.dart';
 import 'new_course_page3.dart';
 import 'new_course_page4.dart';
 import 'new_course_page5.dart';
@@ -120,7 +121,7 @@ class _Questiontype extends State<Questiontype> {
             CancelButton(
               onPressed: () {
                 if(selectedQuestionType == "Draw"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Drawpage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage6()));
                 }
                 else if(selectedQuestionType == "Select correct answer"){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage4()));
