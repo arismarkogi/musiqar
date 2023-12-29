@@ -7,6 +7,9 @@ import 'widgets/info.dart';
 
 class ProfilePage extends StatelessWidget {
 
+  final Map<String, dynamic> userData;
+
+  ProfilePage({required this.userData});
 
   String bio = "We can solve any instance of the minimum-cost circulation problem using a natural generalization of the Ford-Fulkerson augmenting path algorithm called cycle canceling.This algorithm is normally attributed to Morton Klein in 1967, but the key insights date back at least to A. N. Tolstoy’s studies of railway transportation networks in the late 1920s.";
 
@@ -41,9 +44,7 @@ class ProfilePage extends StatelessWidget {
       ),
       body: GestureDetector(
         onHorizontalDragEnd: (details) {
-          // Check if the drag was from left to right
           if (details.primaryVelocity! > 0) {
-            // Navigate to the menu page
             Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage()));
           }
         },
@@ -54,9 +55,9 @@ class ProfilePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(height: 40),
-                info('user2user'),
+                info(userData['name']),
                 SizedBox(height: 100),
-                Bio(bio),
+                Bio(userData['bio']),
               ],
             ),
           ),
@@ -64,11 +65,10 @@ class ProfilePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Navigate to the home page
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileSettings()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileSettings(userData: userData,)));
         },
         child: Icon(Icons.mode_edit),
-        backgroundColor: Colors.white, // Adjust the color as needed
+        backgroundColor: Colors.white, 
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );

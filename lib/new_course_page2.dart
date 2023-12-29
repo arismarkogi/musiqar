@@ -7,16 +7,19 @@ import 'widgets/add_chapter.dart';
 import 'widgets/cancel_button.dart';
 import 'course_settings.dart';
 
+
+class ChapterInfo {
+  TextEditingController controller;
+  String title;
+
+  ChapterInfo({required this.controller, required this.title});
+}
+
+
 class _NewCoursePage2State extends State<NewCoursePage2> {
-  List<Widget> chapterInputs = []; 
-  List<String> chaptersTitles = []; 
+  List<ChapterInfo> chapterInputs = [];
 
-
-  TextEditingController Chapters = TextEditingController();
-
-
-
-  Widget inputChapter(String labelText, TextEditingController controller, BuildContext context,int index, {bool isPassword = false}) {
+  Widget inputChapter(String labelText, TextEditingController controller, BuildContext context, {bool isPassword = false}) {
     return Container(
       width: 400,
       height: 58,
@@ -37,14 +40,14 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Add TextField for input
                   Expanded(
                     child: TextField(
                       obscureText: isPassword,
                       controller: controller,
                       onChanged: (text) {
                         setState(() {
-                          chaptersTitles[index] = text; 
+                          // Update the title in the ChapterInfo
+                          chapterInputs.firstWhere((info) => info.controller == controller).title = text;
                         });
                       },
                       decoration: InputDecoration(
@@ -160,8 +163,8 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                 shrinkWrap: true,
                 itemCount: chapterInputs.length,
                 itemBuilder: (context, index) => Container(
-                  width: 200, 
-                  child: chapterInputs[index],
+                  width: 200,
+                  child: inputChapter('New Chapter', chapterInputs[index].controller, context),
                 ),
               ),
               SizedBox(height: 20),
@@ -169,8 +172,7 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                 onPressed: () {
                   setState(() {
                     TextEditingController newController = TextEditingController();
-                    chapterInputs.add(inputChapter('New Chapter', newController, context, chapterInputs.length));
-                    chaptersTitles.add('');
+                    chapterInputs.add(ChapterInfo(controller: newController, title: ''));
                   });
                 },
                 buttonText: '+      Add Chapter',
