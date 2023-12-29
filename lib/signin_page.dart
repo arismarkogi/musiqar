@@ -23,55 +23,77 @@ class _SignInPageState extends State<SignInPage> {
 
 
   void signIn(BuildContext context) async {
-    String email = signInEmailController.text;
-    String password = signInPasswordController.text;
-    /*
-    // Check the database for the user
-    List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
-    print('kati egine');
-    bool isUserValid = users.any((user) =>
-    user['username'] == email && user['password'] == password);
-    */
-   // if (isUserValid) {
-      // Navigate to the profile page
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ProfilePage()),
-      );
-   // } else {
-      // Show an error message or handle invalid credentials
-    //}
-  }
+  String email = signInEmailController.text;
+  String password = signInPasswordController.text;
 
-  void signUp(BuildContext context) async {
-    String email = signUpEmailController.text;
-    String password = signUpPasswordController.text;
-    String cpassword = signUpConfirmPasswordController.text;
+  List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
+  bool isUserValid = users.any((user) =>
+      user['email'] == email && user['password'] == password);
 
-    // Check if the password and confirm password match
-    /*if (password != cpassword) {
-      // Show an error message or handle password mismatch
-      return;
-    }
-    print('kati egine');
-    // Check if the user already exists
-    List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
-    bool isUserExists = users.any((user) => user['username'] == email);
+  if (isUserValid) {
+    // Get the user data
+    Map<String, dynamic> userData =
+        users.firstWhere((user) => user['email'] == email);
 
-    if (isUserExists) {
-      // Show an error message or handle existing user
-      return;
-    }
-
-    // Insert the new user into the database
-    await DatabaseHelper().insertUser({'username': email, 'password': password});
-      */
-    // Navigate to the profile page after successful sign-up
+    // Navigate to the profile page with user data
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ProfilePage()),
+      MaterialPageRoute(
+        builder: (context) => ProfilePage(userData: userData),
+      ),
+    );
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Incorrect username or password.'),
+      ),
     );
   }
+}
+
+void signUp(BuildContext context) async {
+  String email = signUpEmailController.text;
+  String password = signUpPasswordController.text;
+  String cpassword = signUpConfirmPasswordController.text;
+
+  // Check if the password and confirm password match
+  if (password != cpassword) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Passwords do not match!!!'),
+      ),
+    );
+    return;
+  }
+
+  List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
+  bool isUserExists = users.any((user) => user['email'] == email);
+
+  if (isUserExists) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('User exists!!!'),
+      ),
+    );
+    return;
+  }
+
+  // Insert the new user into the database
+  await DatabaseHelper().insertUser({'email': email, 'password': password});
+
+  // Get the user data
+  Map<String, dynamic> userData =
+      users.firstWhere((user) => user['email'] == email);
+
+  // Navigate to the profile page with user data
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => ProfilePage(userData: userData),
+    ),
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -102,11 +124,10 @@ class _SignInPageState extends State<SignInPage> {
           ),
         ],
       ),
-      body: GestureDetector(
+      body: SingleChildScrollView(
+      child:GestureDetector(
         onHorizontalDragEnd: (details) {
-          // Check if the drag was from left to right
           if (details.primaryVelocity! > 0) {
-            // Navigate to the menu page
             Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage()));
           }
         },
@@ -171,6 +192,7 @@ class _SignInPageState extends State<SignInPage> {
             ),
           ),
         ),
+      ),
       ),
     );
   }

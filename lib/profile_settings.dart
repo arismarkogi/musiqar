@@ -222,9 +222,15 @@ import 'widgets/custom_input.dart';
 import 'widgets/custom_desc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'data/database_helper.dart';
 
 
 class ProfileSettings extends StatefulWidget {
+
+  final Map<String, dynamic> userData;
+
+  ProfileSettings({required this.userData});
+
   @override
   _ProfileSettingsState createState() => _ProfileSettingsState();
 }
@@ -237,6 +243,17 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   TextEditingController dobController = TextEditingController();
   TextEditingController bioController = TextEditingController();
   File? selectedImage;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController.text = widget.userData['name'];
+    surnameController.text = widget.userData['surname'];
+    emailController.text = widget.userData['email'];
+    dobController.text = widget.userData['dateofbirth'];
+    passwordController.text = widget.userData['password'];
+    bioController.text = widget.userData['bio'];
+  }
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
@@ -325,17 +342,27 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             left: 120,
             right: 120,
             child: Save_button(
-              onPressed: () {
+              onPressed: () async {
+                // Update the user data in the database
+                await DatabaseHelper().updateUser({
+                  'id': widget.userData['id'],
+                  'name': nameController.text,
+                  'surname': surnameController.text,
+                  'email': emailController.text,
+                  'password': passwordController.text,
+                  'dateofbirth': dobController.text,
+                  'bio': bioController.text,
+                });
+
                 print('Changes saved');
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ProfilePage()),
+                  MaterialPageRoute(builder: (context) => ProfilePage(userData: widget.userData)),
                 );
               },
               buttonText: 'Save Changes',
             ),
           ),
-
         ],
       ),
     );

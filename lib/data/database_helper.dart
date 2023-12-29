@@ -18,26 +18,31 @@ class DatabaseHelper {
   DatabaseHelper.internal();
 
   Future<Database> initDb() async {
-    String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'your_database_name.db');
+  String databasesPath = await getDatabasesPath();
+  String path = join(databasesPath, 'your_database_name.db');
 
+  try {
     // Open the database
     var db = await openDatabase(path, version: 1, onCreate: _onCreate);
     return db;
+  } catch (e) {
+    print('Error initializing database: $e');
+    rethrow; // Rethrow the error after printing
   }
+}
 
   void _onCreate(Database db, int version) async {
     // Create tables, initialize your database schema here
     await db.execute('''
       CREATE TABLE users (
-        id INTEGER PRIMARY KEY,
-        email TEXT,
-        password TEXT, 
-        name TEXT,
-        surname TEXT,
-        dateofbirth TEXT,
-        bio TEXT
-      )
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT,
+      password TEXT, 
+      name TEXT,
+      surname TEXT,
+      dateofbirth TEXT,
+      bio TEXT
+    )
     ''');
   }
 
@@ -66,3 +71,5 @@ class DatabaseHelper {
     return await dbClient.delete('users', where: 'id = ?', whereArgs: [id]);
   }
 }
+
+
