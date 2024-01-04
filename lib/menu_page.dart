@@ -8,7 +8,6 @@ import 'widgets/menu_item.dart';
 import 'widgets/sline.dart';
 import 'widgets/menu_logo.dart';
 import 'drawww.dart';
-import 'adminpage.dart';
 
 
 class MenuPage extends StatefulWidget {
@@ -31,7 +30,7 @@ class _MenuPageState extends State<MenuPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: 45),
-          buildMenuItem(context, 'My Courses', DrawingPage()),
+          buildMenuItem(context, 'My Courses', ProfileSettings()),
           const SizedBox(height: 25),
           sline(),
           const SizedBox(height: 45),
@@ -39,19 +38,15 @@ class _MenuPageState extends State<MenuPage> {
           const SizedBox(height: 25),
           sline(),
           const SizedBox(height: 45),
-          buildMenuItem(context, 'Rankings', RankingsPage()), 
+          buildMenuItem(context, 'Rankings', RankingsPage()), // Replace RankingsPage() with the actual page widget
           const SizedBox(height: 25),
           sline(),
           const SizedBox(height: 45),
-          buildMenuItem(context, 'User profile', SignInPage()), 
+          buildMenuItem(context, 'User profile', SignInPage()), // Replace UserProfilePage() with the actual page widget
           const SizedBox(height: 25),
           sline(),
           const SizedBox(height: 45),
-          buildMenuItem(context, 'New course', NewCoursePage1()),
-          const SizedBox(height: 25),
-          sline(),
-          const SizedBox(height: 45),
-          buildMenuItem(context, 'Admin page', AdminPage()),
+          buildMenuItem(context, 'New course', NewCoursePage1()),// Replace NewCoursePage() with the actual page widget
           const SizedBox(height: 25),
           sline(),
           Expanded(
