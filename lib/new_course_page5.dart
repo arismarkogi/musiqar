@@ -8,6 +8,12 @@ import 'new_course_page3.dart';
 
 
 class NewCoursePage5 extends StatefulWidget {
+
+  final int userId;
+  final int courseId;
+
+  NewCoursePage5({required this.userId, required this.courseId});
+
   @override
   _NewCoursePage5 createState() => _NewCoursePage5();
 }
@@ -42,7 +48,7 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
         leading: IconButton(
           icon: Icon(Icons.menu),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage(userId: widget.userId)));
           },
         ),
         actions: [
@@ -117,18 +123,18 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Container(
-                      padding: EdgeInsets.all(12.0), // Add padding around the text
+                      padding: EdgeInsets.all(12.0), 
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade200, // Add a light gray background color
-                        borderRadius: BorderRadius.circular(8.0), // Add rounded corners
+                        color: Colors.grey.shade200, 
+                        borderRadius: BorderRadius.circular(8.0), 
                       ),
                       child: Text(
                         value,
                         style: TextStyle(
-                          color: Colors.black, // Change text color
-                          fontSize: 16.0, // Change font size
-                          fontWeight: FontWeight.w400, // Change font weight
-                          fontFamily: 'Roboto', // Change font family
+                          color: Colors.black, 
+                          fontSize: 16.0, 
+                          fontWeight: FontWeight.w400, 
+                          fontFamily: 'Roboto',
                         ),
                       ),
                     ),
@@ -139,7 +145,7 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
 
               CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Questiontype()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Questiontype(userId: widget.userId, courseId: widget.courseId)));
                 },
                 buttonText: 'Cancel',
               ),
@@ -147,11 +153,11 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
               CancelButton(
                 onPressed: () {
                   if(selectedAnswer == "Left"){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId)));
                     print("Left");
                   }
                   else if(selectedAnswer == "Right"){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId)));
                     print("Right");
                   }
                   else {

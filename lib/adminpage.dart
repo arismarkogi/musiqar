@@ -9,7 +9,9 @@ import 'data/database_helper.dart';
 
 
 class AdminPage extends StatelessWidget {
+  final int userId;
 
+  AdminPage({required this.userId});
 
   final DatabaseHelper dbHelper = DatabaseHelper();
 
@@ -56,7 +58,7 @@ class AdminPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MenuPage()),
+                    MaterialPageRoute(builder: (context) => MenuPage(userId: userId)),
                   );
                 },
                 child: Text('Menu'),

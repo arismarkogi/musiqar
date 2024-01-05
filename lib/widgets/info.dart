@@ -49,7 +49,7 @@ Widget info(String name) {
             decoration: ShapeDecoration(
               color: Color(0xFFFAFAFA),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(43.0), // Half of height for oval shape
+                borderRadius: BorderRadius.circular(43.0),
                 side: BorderSide(
                   width: 1,
                   color: Colors.black,
@@ -76,10 +76,10 @@ Widget info(String name) {
                   fontSize: 16,
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.w400,
-                  height: 1.2, // Adjust the line spacing as needed
+                  height: 1.2, 
                   letterSpacing: 0.50,
                 ),
-                softWrap: true, // This property should be set here
+                softWrap: true, 
               ),
             ),
           ),

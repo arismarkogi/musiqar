@@ -12,10 +12,13 @@ import 'dart:convert';
 import 'dart:io';
 
 
-
 class NewCoursePage7 extends StatefulWidget {
-  const NewCoursePage7({Key? key, required this.imagePath}) : super(key: key);
+  final int userId;
   final String imagePath;
+  final int courseId;
+
+  NewCoursePage7({required this.userId, required this.courseId, required this.imagePath, Key? key})
+      : super(key: key);
 
   @override
   _NewCoursePage7State createState() => _NewCoursePage7State();
@@ -44,7 +47,7 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
         leading: IconButton(
           icon: Icon(Icons.menu),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage(userId: widget.userId)));
           },
         ),
         actions: [
@@ -99,7 +102,7 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
               SizedBox(height: 20),
               InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Drawpage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Drawpage(userId: widget.userId, courseId: widget.courseId)));
                 },
                 child: Icon(
                   Icons.edit,
@@ -110,14 +113,14 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
               SizedBox(height: 70),
               CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Questiontype()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Questiontype(userId: widget.userId, courseId: widget.courseId)));
                 },
                 buttonText: 'Cancel',
               ),
               SizedBox(height: 20),
               CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId)));
                 },
                 buttonText: 'Save',
               ),

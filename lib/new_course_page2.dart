@@ -6,6 +6,9 @@ import 'new_course_page3.dart';
 import 'widgets/add_chapter.dart';
 import 'widgets/cancel_button.dart';
 import 'course_settings.dart';
+import 'course_info_provider.dart';
+import 'package:provider/provider.dart';
+
 
 
 class ChapterInfo {
@@ -17,7 +20,16 @@ class ChapterInfo {
 
 
 class _NewCoursePage2State extends State<NewCoursePage2> {
+  late CourseInfoProvider courseProvider;
   List<ChapterInfo> chapterInputs = [];
+
+  @override
+  void initState() {
+    super.initState();
+    courseProvider = context.read<CourseInfoProvider>();
+    chapterInputs = List.from(courseProvider.chapterInputs);
+  }
+
 
   Widget inputChapter(String labelText, TextEditingController controller, BuildContext context, {bool isPassword = false}) {
     return Container(
@@ -46,10 +58,15 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                       controller: controller,
                       onChanged: (text) {
                         setState(() {
-                          // Update the title in the ChapterInfo
-                          chapterInputs.firstWhere((info) => info.controller == controller).title = text;
+                          var existingInfo = chapterInputs.firstWhere(
+                            (info) => info.controller == controller,
+                            orElse: () => ChapterInfo(controller: controller, title: ''),
+                          );
+
+                          existingInfo.title = text;
                         });
                       },
+
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: labelText,
@@ -78,7 +95,7 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                             onTap: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => FileUploadPage()),
+                                MaterialPageRoute(builder: (context) => FileUploadPage(userId: widget.userId, courseId: widget.courseId)),
                               );
                             },
                             child: Icon(Icons.edit),
@@ -103,7 +120,7 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                             onTap: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => NewCoursePage3()),
+                                MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId)),
                               );
                             },
                             child: Icon(Icons.edit),
@@ -128,6 +145,7 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
 
 @override
   Widget build(BuildContext context) {
+    var courseProvider = context.watch<CourseInfoProvider>();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -161,14 +179,15 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
               SizedBox(height: 30),
               ListView.builder(
                 shrinkWrap: true,
-                itemCount: chapterInputs.length,
+                itemCount: courseProvider.chapterInputs.length,
                 itemBuilder: (context, index) => Container(
                   width: 200,
-                  child: inputChapter('New Chapter', chapterInputs[index].controller, context),
+                  child: inputChapter('New Chapter', courseProvider.chapterInputs[index].controller, context),
                 ),
               ),
+
               SizedBox(height: 20),
-              AddChapter(
+             /*AddChapter(
                 onPressed: () {
                   setState(() {
                     TextEditingController newController = TextEditingController();
@@ -177,17 +196,30 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                 },
                 buttonText: '+      Add Chapter',
               ),
+              */
+              AddChapter(
+                onPressed: () {
+                  setState(() {
+                    TextEditingController newController = TextEditingController();
+                    // Remove this line
+                    // chapterInputs.add(ChapterInfo(controller: newController, title: ''));
+                    // Use the CourseInfoProvider to add a new chapter
+                    courseProvider.addChapter(ChapterInfo(controller: newController, title: ''));
+                  });
+                },
+                buttonText: '+      Add Chapter',
+              ),
               SizedBox(height: 20),
               CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage1()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage1(userId: widget.userId, courseId: widget.courseId)));
                 },
                 buttonText: 'Cancel',
               ),
               SizedBox(height: 20),
               CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage(userId: widget.userId)));
                 },
                 buttonText: 'Save',
               ),
@@ -199,7 +231,13 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
   }
 }
 
+
 class NewCoursePage2 extends StatefulWidget {
+  final int userId;
+  final int courseId;
+
+  NewCoursePage2({required this.userId, required this.courseId});
+
   @override
   _NewCoursePage2State createState() => _NewCoursePage2State();
 }

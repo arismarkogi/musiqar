@@ -6,6 +6,10 @@ import 'data/database_helper.dart';
 import 'widgets/sline.dart';
 import 'widgets/custom_input.dart';
 import 'widgets/signin_button.dart';
+import 'profile_settings.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
 
 
 class SignInPage extends StatefulWidget {
@@ -20,43 +24,50 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController signUpPasswordController = TextEditingController();
   TextEditingController signUpConfirmPasswordController = TextEditingController();
 
+  var userID = 0;
 
 
   void signIn(BuildContext context) async {
-  String email = signInEmailController.text;
-  String password = signInPasswordController.text;
+    String email = signInEmailController.text;
+    String password = signInPasswordController.text;
 
-  List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
-  bool isUserValid = users.any((user) =>
-      user['email'] == email && user['password'] == password);
+    List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
+    bool isUserValid = users.any((user) =>
+        user['email'] == email && user['password'] == password);
 
-  if (isUserValid) {
-    // Get the user data
-    Map<String, dynamic> userData =
-        users.firstWhere((user) => user['email'] == email);
+    if (isUserValid) {
+      Map<String, dynamic> userData =
+          users.firstWhere((user) => user['email'] == email);
+      
+       setState(() {
+        userID = userData['id'];
+      });
 
-    // Navigate to the profile page with user data
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ProfilePage(userData: userData),
-      ),
-    );
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Incorrect username or password.'),
-      ),
-    );
-  }
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MenuPage(userId: userData['id']),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Incorrect username or password.'),
+        ),
+      );
+    }
 }
+
+
+
+
+
 
 void signUp(BuildContext context) async {
   String email = signUpEmailController.text;
   String password = signUpPasswordController.text;
   String cpassword = signUpConfirmPasswordController.text;
 
-  // Check if the password and confirm password match
   if (password != cpassword) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -66,30 +77,23 @@ void signUp(BuildContext context) async {
     return;
   }
 
-  List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
-  bool isUserExists = users.any((user) => user['email'] == email);
+  int userId = await DatabaseHelper().insertUser({'email': email, 'password': password});
 
-  if (isUserExists) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('User exists!!!'),
-      ),
-    );
+  if (userId == 0) {
+    print('Failed to insert user into the database');
     return;
   }
 
-  // Insert the new user into the database
-  await DatabaseHelper().insertUser({'email': email, 'password': password});
+  // Fetch the complete user data with the id
+  List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
+  Map<String, dynamic> userData = users.firstWhere((user) => user['id'] == userId);
 
-  // Get the user data
-  Map<String, dynamic> userData =
-      users.firstWhere((user) => user['email'] == email);
-
-  // Navigate to the profile page with user data
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => ProfilePage(userData: userData),
+      builder: (context) => ProfileSettings(
+        userId: userId,
+      ),
     ),
   );
 }
@@ -112,7 +116,7 @@ void signUp(BuildContext context) async {
         leading: IconButton(
           icon: Icon(Icons.menu),
           onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage(userId: userID,)));
           },
         ),
         actions: [
@@ -128,7 +132,7 @@ void signUp(BuildContext context) async {
       child:GestureDetector(
         onHorizontalDragEnd: (details) {
           if (details.primaryVelocity! > 0) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage(userId: userID)));
           }
         },
         child:Center(
@@ -150,12 +154,10 @@ void signUp(BuildContext context) async {
                   ),
                 ),
                 SizedBox(height: 30),
-                // Input boxes
                 customInput('Email', signInEmailController, context: context),
                 SizedBox(height: 16),
                 customInput('Password', signInPasswordController, isPassword: true, context: context),
                 SizedBox(height: 16),
-                // Sign-in button
                 singinbutton(
                   onPressed: () => signIn(context),
                   buttonText: 'Sign in',
@@ -173,17 +175,16 @@ void signUp(BuildContext context) async {
                     fontFamily: 'Roboto',
                     fontWeight: FontWeight.w700,
                     height: 0.04,
-                    letterSpacing: 0.50,                ),
+                    letterSpacing: 0.50,                
+                    ),
                 ),
                 SizedBox(height: 30),
-                // Input boxes
                 customInput('Email', signUpEmailController, context: context),
                 SizedBox(height: 16),
                 customInput('Password', signUpPasswordController, isPassword: true, context: context),
                 SizedBox(height: 16),
                 customInput('Confirm Password', signUpConfirmPasswordController, isPassword: true, context: context),
                 SizedBox(height: 16),
-                // Sign-up button
                 singinbutton(
                   onPressed: () => signUp(context),
                   buttonText: 'Sign up',

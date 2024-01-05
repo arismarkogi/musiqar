@@ -28,12 +28,16 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  arcore_flutter_plugin: ^0.2.0-alpha
+  provider:
   open_file:
   file_picker:
   flutter_colorpicker:
   screenshot:
   path_provider:
   image_picker: 
+  syncfusion_flutter_pdfviewer:
+  vector_math:
   sqflite: 'any'
   path: 'any'
   flutter:
@@ -69,5 +73,12 @@ flutter:
 
   assets:
     - assets/logo.png
+    - assets/earth_map.jpg
     - assets/sax.png
     - assets/piano.jpg
+    - assets/course.jpg
+    - assets/pdf.png
+    - assets/ar.png
+    - assets/quiz.png
+    - assets/dummy.pdf
+    - assets/piano3d.glb

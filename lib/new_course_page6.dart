@@ -10,6 +10,11 @@ import 'drawpage.dart';
 
 
 class NewCoursePage6 extends StatefulWidget {
+  final int userId;
+  final int courseId;
+
+  NewCoursePage6({required this.userId, required this.courseId});
+
   @override
   _NewCoursePage6 createState() => _NewCoursePage6();
 }
@@ -44,7 +49,7 @@ class _NewCoursePage6 extends State<NewCoursePage6> {
         leading: IconButton(
           icon: Icon(Icons.menu),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage(userId: widget.userId)));
           },
         ),
         actions: [
@@ -100,7 +105,7 @@ class _NewCoursePage6 extends State<NewCoursePage6> {
               SizedBox(height: 20),
               InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Drawpage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Drawpage(userId: widget.userId, courseId: widget.courseId)));
                 },
                 child: Icon(
                   Icons.edit,
@@ -111,14 +116,14 @@ class _NewCoursePage6 extends State<NewCoursePage6> {
               SizedBox(height: 70),
               CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Questiontype()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Questiontype(userId: widget.userId, courseId: widget.courseId)));
                 },
                 buttonText: 'Cancel',
               ),
               SizedBox(height: 20),
               CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2(userId: widget.userId, courseId: widget.courseId)));
                 },
                 buttonText: 'Save',
               ),
