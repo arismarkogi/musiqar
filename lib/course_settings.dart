@@ -6,7 +6,19 @@ import 'package:open_file/open_file.dart';
 import 'course_settings_with_file.dart';
 import 'widgets/custom_input.dart';
 
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'course_settings_with_file.dart';
+import 'widgets/custom_input.dart';
+
 class FileUploadPage extends StatefulWidget {
+  final int userId;
+  final int courseId;
+
+  FileUploadPage({required this.userId, required this.courseId});
+
   @override
   _FileUploadPageState createState() => _FileUploadPageState();
 }
@@ -29,15 +41,25 @@ class _FileUploadPageState extends State<FileUploadPage> {
                 final result = await FilePicker.platform.pickFiles();
 
                 if (result != null) {
+                  // Save the file to the app's local storage
+                  final file = File(result.files.single.path!);
+                  final appDocumentDir = await getApplicationDocumentsDirectory();
+                  final localFilePath = '${appDocumentDir.path}/${result.files.single.name}';
+                  await file.copy(localFilePath);
+
+                  // Store the file path in the database
+                  // You need to implement the appropriate method in your DatabaseHelper
+                  // to store the file path associated with the user ID
+                  // For example: DatabaseHelper().storeFilePath(widget.userId, localFilePath);
+
                   setState(() {
-                    filePath = result.files.single.path!;
+                    filePath = localFilePath;
                   });
 
-                  // Navigate to the second page after file upload
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => FileOpenPage(filePath: filePath),
+                      builder: (context) => FileOpenPage(filePath: filePath, userId: widget.userId, courseId: widget.courseId),
                     ),
                   );
                 }

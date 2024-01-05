@@ -5,6 +5,13 @@ import 'widgets/add_question.dart';
 import 'question_type.dart';
 
 
+class _NewCoursePage3State extends State<NewCoursePage3> {
+  List<Widget> chapterInputs = []; 
+
+
+  TextEditingController Questions = TextEditingController();
+
+  
 Widget inputQuestion(String labelText, TextEditingController controller, BuildContext context, {bool isPassword = false}) {
   TextEditingController controller = TextEditingController(); 
   return Container(
@@ -61,7 +68,7 @@ Widget inputQuestion(String labelText, TextEditingController controller, BuildCo
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => Questiontype()),
+                              MaterialPageRoute(builder: (context) => Questiontype(userId: widget.userId, courseId: widget.courseId)),
                             );
                           },
                           child: Icon(Icons.edit),
@@ -79,11 +86,6 @@ Widget inputQuestion(String labelText, TextEditingController controller, BuildCo
   );
 }
 
-class _NewCoursePage3State extends State<NewCoursePage3> {
-  List<Widget> chapterInputs = []; 
-
-
-  TextEditingController Questions = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +140,7 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
             SizedBox(height: 20),
             CancelButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2(userId: widget.userId, courseId: widget.courseId)));
               },
               buttonText: 'Cancel',
             ),
@@ -152,6 +154,13 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
 
 
 class NewCoursePage3 extends StatefulWidget {
+
+  final int userId;
+  final int courseId;
+
+  NewCoursePage3({required this.userId, required this.courseId});
+
+
   @override
   _NewCoursePage3State createState() => _NewCoursePage3State();
 }

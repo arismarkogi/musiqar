@@ -104,11 +104,15 @@ extension PaintExtension on Paint {
 }
 
 class Drawpage extends StatefulWidget {
-  const Drawpage({Key? key}) : super(key: key);
+  final int userId;
+  final int courseId;
+
+  Drawpage({required this.userId, required this.courseId, Key? key}) : super(key: key);
 
   @override
   State<Drawpage> createState() => _Drawpage();
 }
+
 
 class _Drawpage extends State<Drawpage> {
   final GlobalKey _repaintKey = GlobalKey();
@@ -137,7 +141,7 @@ class _Drawpage extends State<Drawpage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => NewCoursePage7(imagePath: filePath),
+          builder: (context) => NewCoursePage7(imagePath: filePath, userId: widget.userId, courseId: widget.courseId),
         ),
       );
     } else {

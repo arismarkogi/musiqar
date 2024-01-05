@@ -10,6 +10,11 @@ import 'widgets/cancel_button.dart';
 import 'drawpage.dart';
 
 class Questiontype extends StatefulWidget {
+  final int userId;
+  final int courseId;
+
+  Questiontype({required this.userId, required this.courseId});
+
   @override
   _Questiontype createState() => _Questiontype();
 }
@@ -91,18 +96,18 @@ class _Questiontype extends State<Questiontype> {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Container(
-                    padding: EdgeInsets.all(12.0), // Add padding around the text
+                    padding: EdgeInsets.all(12.0), 
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade200, // Add a light gray background color
-                      borderRadius: BorderRadius.circular(8.0), // Add rounded corners
+                      color: Colors.grey.shade200, 
+                      borderRadius: BorderRadius.circular(8.0),  
                     ),
                     child: Text(
                       value,
                       style: TextStyle(
-                        color: Colors.black, // Change text color
-                        fontSize: 16.0, // Change font size
-                        fontWeight: FontWeight.w400, // Change font weight
-                        fontFamily: 'Roboto', // Change font family
+                        color: Colors.black, 
+                        fontSize: 16.0,  
+                        fontWeight: FontWeight.w400,
+                        fontFamily: 'Roboto', 
                       ),
                     ),
                   ),
@@ -112,7 +117,7 @@ class _Questiontype extends State<Questiontype> {
             SizedBox(height: 50, width: 150),
             CancelButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId)));
                 print(selectedQuestionType);
               },
               buttonText: 'Cancel',
@@ -121,13 +126,13 @@ class _Questiontype extends State<Questiontype> {
             CancelButton(
               onPressed: () {
                 if(selectedQuestionType == "Draw"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage6()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage6(userId: widget.userId, courseId: widget.courseId)));
                 }
                 else if(selectedQuestionType == "Select correct answer"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage4()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage4(userId: widget.userId, courseId: widget.courseId)));
                 }
                 else if(selectedQuestionType == "Left or Right"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage5()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage5(userId: widget.userId, courseId: widget.courseId)));
                 }
                 else {
                     ScaffoldMessenger.of(context).showSnackBar(

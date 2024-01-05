@@ -13,6 +13,11 @@ import 'new_course_page2.dart';
 import 'new_course_page3.dart';
 
 class NewCoursePage4 extends StatefulWidget {
+  final int userId;
+  final int courseId;
+
+  NewCoursePage4({required this.userId, required this.courseId});
+
   @override
   _NewCoursePage4State createState() => _NewCoursePage4State();
 }
@@ -89,14 +94,14 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
               SizedBox(height: 20),
               CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId)));
                 },
                 buttonText: 'Cancel',
               ),
               SizedBox(height: 20),
               CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId)));
                 },
                 buttonText: 'Save',
               ),

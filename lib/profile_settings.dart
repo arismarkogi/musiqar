@@ -223,13 +223,13 @@ import 'widgets/custom_desc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'data/database_helper.dart';
-
+import 'dart:typed_data';
+import 'widgets/save_button.dart';
 
 class ProfileSettings extends StatefulWidget {
+  final int userId;
 
-  final Map<String, dynamic> userData;
-
-  ProfileSettings({required this.userData});
+  ProfileSettings({required this.userId});
 
   @override
   _ProfileSettingsState createState() => _ProfileSettingsState();
@@ -247,24 +247,36 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   @override
   void initState() {
     super.initState();
-    nameController.text = widget.userData['name'];
-    surnameController.text = widget.userData['surname'];
-    emailController.text = widget.userData['email'];
-    dobController.text = widget.userData['dateofbirth'];
-    passwordController.text = widget.userData['password'];
-    bioController.text = widget.userData['bio'];
+
+    // Fetch user data based on the user ID
+    _fetchUserData();
   }
+
+  Future<void> _fetchUserData() async {
+    List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
+    Map<String, dynamic> userData = users.firstWhere((user) => user['id'] == widget.userId);
+
+    setState(() {
+      nameController.text = userData['name'] ?? '';
+      surnameController.text = userData['surname'] ?? '';
+      emailController.text = userData['email'] ?? '';
+      dobController.text = userData['dateofbirth'] ?? '';
+      // passwordController.text = userData['password'] ?? '';
+      bioController.text = userData['bio'] ?? '';
+    });
+  }
+
 
   Future<void> _pickImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  final picker = ImagePicker();
+  final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    if (pickedFile != null) {
-      setState(() {
-        selectedImage = File(pickedFile.path);
-      });
-    }
+  if (pickedFile != null) {
+    setState(() {
+      selectedImage = File(pickedFile.path);
+    });
   }
+}
 
 
   @override
@@ -341,24 +353,47 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             bottom: 10,
             left: 120,
             right: 120,
-            child: Save_button(
+            child: SaveButton(
               onPressed: () async {
-                // Update the user data in the database
-                await DatabaseHelper().updateUser({
-                  'id': widget.userData['id'],
-                  'name': nameController.text,
-                  'surname': surnameController.text,
-                  'email': emailController.text,
-                  'password': passwordController.text,
-                  'dateofbirth': dobController.text,
-                  'bio': bioController.text,
-                });
+                try {
+                  if (selectedImage != null) {
+                    List<int> imageBytes = await selectedImage!.readAsBytes();
 
-                print('Changes saved');
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfilePage(userData: widget.userData)),
-                );
+                    await DatabaseHelper().updateUser({
+                      'id': widget.userId,
+                      'name': nameController.text,
+                      'surname': surnameController.text,
+                      'email': emailController.text,
+                      'password': passwordController.text,
+                      'dateofbirth': dobController.text,
+                      'bio': bioController.text,
+                      'image': Uint8List.fromList(imageBytes),
+                    });
+                  } else {
+                    // Update the user data without changing the image
+                    await DatabaseHelper().updateUser({
+                      'id': widget.userId,
+                      'name': nameController.text,
+                      'surname': surnameController.text,
+                      'email': emailController.text,
+                      'password': passwordController.text,
+                      'dateofbirth': dobController.text,
+                      'bio': bioController.text,
+                    });
+                  }
+
+                  print('Changes saved');
+
+                  // Fetch the latest user data after the update
+                  await _fetchUserData();
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfilePage(userId: widget.userId)),
+                  );
+                } catch (e) {
+                  print('Error during user data update: $e');
+                }
               },
               buttonText: 'Save Changes',
             ),

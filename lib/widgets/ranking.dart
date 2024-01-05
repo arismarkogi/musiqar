@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-
-Widget ranking(int rank, String name, int points) {
+Widget ranking(int rank, String name, int points, {required bool isCurrentUser}) {
   return Container(
     width: 338,
     height: 56,
@@ -35,7 +34,7 @@ Widget ranking(int rank, String name, int points) {
                   gradient: LinearGradient(
                     begin: Alignment(0.00, -1.00),
                     end: Alignment(0, 1),
-                    colors: [Color(0xFFB5B5B5), Color(0x8EB1C5C8), Color(0x00FFCDCD)],
+                    colors: [isCurrentUser ? Color.fromARGB(255, 8, 27, 236) : Color(0xFFB5B5B5),isCurrentUser ? Colors.blue : Color(0x8EB1C5C8), Color(0x00FFCDCD)],
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -52,6 +51,11 @@ Widget ranking(int rank, String name, int points) {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          if (isCurrentUser)
+                            Icon(
+                              Icons.person,
+                              color: Colors.blue, // Set color as needed
+                            ),
                         ],
                       ),
                     ),
@@ -70,10 +74,10 @@ Widget ranking(int rank, String name, int points) {
                               child: Text(
                                 '$name ',
                                 style: TextStyle(
-                                  color: Color(0xFF1D1B20),
+                                  color: isCurrentUser ? Colors.white : Color(0xFF1D1B20),
                                   fontSize: 16,
                                   fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w400,
+                                  fontWeight: isCurrentUser ? FontWeight.bold : FontWeight.w400,
                                   height: 0.09,
                                   letterSpacing: 0.50,
                                 ),
