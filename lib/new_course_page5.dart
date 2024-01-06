@@ -153,11 +153,11 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
               CancelButton(
                 onPressed: () {
                   if(selectedAnswer == "Left"){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, questionType: 'LorR',)));
                     print("Left");
                   }
                   else if(selectedAnswer == "Right"){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, questionType: 'LorR')));
                     print("Right");
                   }
                   else {

@@ -105,6 +105,7 @@ void _onUpgrade(Database db, int oldVersion, int newVersion) async {
       CREATE TABLE chapter (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT,
+      question_type TEXT,
       pdf TEXT,
       pdf_name TEXT
     )
@@ -208,6 +209,15 @@ void _onUpgrade(Database db, int oldVersion, int newVersion) async {
   }
 }
 
+
+Future<void> addchapterr() async{
+  var dbClient = await db;
+  await dbClient.execute("""
+   ALTER TABLE chapter ADD COLUMN question_type TEXT
+    """);
+}
+
+
 Future<void> _createTable(String tableName) async {
   var dbClient = await db;
 
@@ -243,6 +253,7 @@ Future<void> _createTable(String tableName) async {
         CREATE TABLE chapter (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
+        question_type TEXT,
         pdf TEXT,
         pdf_name TEXT
       )

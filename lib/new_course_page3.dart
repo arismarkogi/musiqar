@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/drawpage.dart';
 import 'new_course_page2.dart';
 import 'widgets/cancel_button.dart';
 import 'widgets/add_question.dart';
 import 'question_type.dart';
+import 'new_course_page4.dart';
+import 'new_course_page5.dart';
+import 'new_course_page6.dart';
 
 
 class _NewCoursePage3State extends State<NewCoursePage3> {
@@ -66,10 +70,28 @@ Widget inputQuestion(String labelText, TextEditingController controller, BuildCo
                         SizedBox(height: 10),
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(
+                            if(widget.questionType == "Draw"){
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => NewCoursePage6(userId: widget.userId, courseId: widget.courseId)),
+                            );
+                            }
+                            else if(widget.questionType == "Select"){
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => NewCoursePage4(userId: widget.userId, courseId: widget.courseId)),
+                            );
+                            }
+                            else if(widget.questionType == "LorR"){
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => NewCoursePage5(userId: widget.userId, courseId: widget.courseId)),
+                            );
+                            }
+                            /*Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => Questiontype(userId: widget.userId, courseId: widget.courseId)),
-                            );
+                            );*/
                           },
                           child: Icon(Icons.edit),
                         ),
@@ -157,8 +179,9 @@ class NewCoursePage3 extends StatefulWidget {
 
   final int userId;
   final int courseId;
+  final String questionType;
 
-  NewCoursePage3({required this.userId, required this.courseId});
+  NewCoursePage3({required this.userId, required this.courseId, required this.questionType});
 
 
   @override
