@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/new_course_page6.dart';
+import 'new_course_page2.dart';
 import 'new_course_page3.dart';
 import 'new_course_page4.dart';
 import 'new_course_page5.dart';
@@ -50,6 +51,7 @@ class _Questiontype extends State<Questiontype> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            /*
             Text(
               'Add question',
               textAlign: TextAlign.center,
@@ -64,7 +66,7 @@ class _Questiontype extends State<Questiontype> {
             ),
             SizedBox(height: 20),
             customInput('Question', question, context: context),
-            SizedBox(height: 50),
+            SizedBox(height: 50),*/
             Text(
               'Select type of question',
               textAlign: TextAlign.center,
@@ -115,15 +117,22 @@ class _Questiontype extends State<Questiontype> {
               }).toList(),
             ),
             SizedBox(height: 50, width: 150),
-            CancelButton(
+            /*CancelButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId)));
                 print(selectedQuestionType);
               },
               buttonText: 'Cancel',
+            ),*/
+            CancelButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2(userId: widget.userId, courseId: widget.courseId)));
+                print(selectedQuestionType);
+              },
+              buttonText: 'Cancel',
             ),
             SizedBox(height: 50, width: 150),
-            CancelButton(
+            /*CancelButton(
               onPressed: () {
                 if(selectedQuestionType == "Draw"){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage6(userId: widget.userId, courseId: widget.courseId)));
@@ -133,6 +142,28 @@ class _Questiontype extends State<Questiontype> {
                 }
                 else if(selectedQuestionType == "Left or Right"){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage5(userId: widget.userId, courseId: widget.courseId)));
+                }
+                else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Select question type.'),
+                      ),
+                    );
+                }
+                print(selectedQuestionType);
+              },
+              buttonText: 'Next',
+            ),*/
+            CancelButton(
+              onPressed: () {
+                if(selectedQuestionType == "Draw"){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, questionType: "Draw",)));
+                }
+                else if(selectedQuestionType == "Select correct answer"){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, questionType: "Select")));
+                }
+                else if(selectedQuestionType == "Left or Right"){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, questionType: "RorL",)));
                 }
                 else {
                     ScaffoldMessenger.of(context).showSnackBar(

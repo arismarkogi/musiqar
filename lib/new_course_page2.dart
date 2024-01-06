@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/question_type.dart';
 import 'menu_page.dart';
 import 'homepage.dart';
 import 'new_course_page1.dart';
@@ -120,7 +121,7 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                             onTap: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId)),
+                                MaterialPageRoute(builder: (context) => Questiontype(userId: widget.userId, courseId: widget.courseId)),
                               );
                             },
                             child: Icon(Icons.edit),

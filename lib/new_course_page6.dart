@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/new_course_page3.dart';
 import 'homepage.dart';
 import 'menu_page.dart';
 import 'widgets/custom_input.dart';
@@ -116,17 +117,17 @@ class _NewCoursePage6 extends State<NewCoursePage6> {
               SizedBox(height: 70),
               CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Questiontype(userId: widget.userId, courseId: widget.courseId)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, questionType: 'Draw')));
                 },
                 buttonText: 'Cancel',
               ),
               SizedBox(height: 20),
-              CancelButton(
+              /*CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2(userId: widget.userId, courseId: widget.courseId)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, questionType: 'Draw')));
                 },
                 buttonText: 'Save',
-              ),
+              ),*/
             ],
           ),
         ),
