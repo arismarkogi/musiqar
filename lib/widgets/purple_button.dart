@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Widget PurpleButton(String myText,VoidCallback onPressed) {
   return Container(
-    width: 120,
+    constraints: BoxConstraints(minWidth: 100),
     height: 50,
     child: TextButton(
       onPressed: onPressed,

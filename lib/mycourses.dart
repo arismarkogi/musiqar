@@ -72,7 +72,7 @@ class MyCourses extends StatelessWidget {
                       child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20), 
                           child: myCourse(courseName, instructorName, imageURL, 0.42,() {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => CoursePage(userId: userId)));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => CoursePage(userId: userId, courseId: 0,)));
                           } )
                       ),
                     ),
