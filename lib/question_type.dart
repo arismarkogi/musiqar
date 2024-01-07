@@ -6,6 +6,7 @@ import 'new_course_page4.dart';
 import 'new_course_page5.dart';
 import 'widgets/custom_input.dart';
 import 'widgets/cancel_button.dart';
+import 'data/database_helper.dart';
 
 
 import 'drawpage.dart';
@@ -13,8 +14,9 @@ import 'drawpage.dart';
 class Questiontype extends StatefulWidget {
   final int userId;
   final int courseId;
+  final int chapterId;
 
-  Questiontype({required this.userId, required this.courseId});
+  Questiontype({required this.userId, required this.courseId, required this.chapterId});
 
   @override
   _Questiontype createState() => _Questiontype();
@@ -157,13 +159,16 @@ class _Questiontype extends State<Questiontype> {
             CancelButton(
               onPressed: () {
                 if(selectedQuestionType == "Draw"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, questionType: "Draw",)));
+                  updateChapter("Draw");
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId, questionType: "Draw",)));
                 }
                 else if(selectedQuestionType == "Select correct answer"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, questionType: "Select")));
+                  updateChapter("Select");
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId, questionType: "Select")));
                 }
                 else if(selectedQuestionType == "Left or Right"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, questionType: "RorL",)));
+                  updateChapter("LorR");
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId, questionType: "LorR",)));
                 }
                 else {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -181,6 +186,16 @@ class _Questiontype extends State<Questiontype> {
       ),
     );
   }
+
+Future<void> updateChapter(String question_type) async {
+  await DatabaseHelper().updateChapterQuestionType(widget.chapterId, question_type);
+
+  print("the chapterId is equal to");
+  print(widget.chapterId);
+  if (widget.chapterId == -1) {
+    print('Failed to insert chapter into the database');
+  }
+}
 }
 
 

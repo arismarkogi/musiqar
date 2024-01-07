@@ -84,7 +84,6 @@ void signUp(BuildContext context) async {
     return;
   }
 
-  // Fetch the complete user data with the id
   List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
   Map<String, dynamic> userData = users.firstWhere((user) => user['id'] == userId);
 

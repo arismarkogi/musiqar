@@ -118,9 +118,13 @@ class HomePage extends StatelessWidget {
                 onPressed: () async {
                   //List<Map<String, dynamic>> users = await dbHelper.getAllUsers();
                   //print(users);
-                  await dbHelper.addchapterr();
-                   List<Map<String, dynamic>> courses = await dbHelper.getAllCourses();
-                   print(courses);
+                   //List<Map<String, dynamic>> courses = await dbHelper.getAllCourses();
+                   //print(courses);
+                   await dbHelper.deleteAllCourses();
+                   await dbHelper.deleteAllhas();
+                   await dbHelper.deleteallchapt();
+                   List<Map<String, dynamic>> chapters = await dbHelper.getAllCChapters();
+                   print(chapters);
                   //await DatabaseHelper().checkAndCreateTables();
 
                 },

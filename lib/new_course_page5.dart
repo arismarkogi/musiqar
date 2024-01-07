@@ -11,8 +11,9 @@ class NewCoursePage5 extends StatefulWidget {
 
   final int userId;
   final int courseId;
+  final int chapterId;
 
-  NewCoursePage5({required this.userId, required this.courseId});
+  NewCoursePage5({required this.userId, required this.courseId, required this.chapterId});
 
   @override
   _NewCoursePage5 createState() => _NewCoursePage5();
@@ -145,7 +146,7 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
 
               CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Questiontype(userId: widget.userId, courseId: widget.courseId)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Questiontype(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)));
                 },
                 buttonText: 'Cancel',
               ),
@@ -153,11 +154,11 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
               CancelButton(
                 onPressed: () {
                   if(selectedAnswer == "Left"){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, questionType: 'LorR',)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId, questionType: 'LorR',)));
                     print("Left");
                   }
                   else if(selectedAnswer == "Right"){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, questionType: 'LorR')));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId, questionType: 'LorR')));
                     print("Right");
                   }
                   else {

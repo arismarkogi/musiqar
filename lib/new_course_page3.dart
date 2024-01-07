@@ -7,6 +7,7 @@ import 'question_type.dart';
 import 'new_course_page4.dart';
 import 'new_course_page5.dart';
 import 'new_course_page6.dart';
+import 'data/database_helper.dart';
 
 
 class _NewCoursePage3State extends State<NewCoursePage3> {
@@ -73,19 +74,19 @@ Widget inputQuestion(String labelText, TextEditingController controller, BuildCo
                             if(widget.questionType == "Draw"){
                               Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => NewCoursePage6(userId: widget.userId, courseId: widget.courseId)),
+                              MaterialPageRoute(builder: (context) => NewCoursePage6(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)),
                             );
                             }
                             else if(widget.questionType == "Select"){
                               Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => NewCoursePage4(userId: widget.userId, courseId: widget.courseId)),
+                              MaterialPageRoute(builder: (context) => NewCoursePage4(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)),
                             );
                             }
                             else if(widget.questionType == "LorR"){
                               Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => NewCoursePage5(userId: widget.userId, courseId: widget.courseId)),
+                              MaterialPageRoute(builder: (context) => NewCoursePage5(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)),
                             );
                             }
                             /*Navigator.push(
@@ -107,6 +108,8 @@ Widget inputQuestion(String labelText, TextEditingController controller, BuildCo
     ),
   );
 }
+
+
 
 
   @override
@@ -180,8 +183,9 @@ class NewCoursePage3 extends StatefulWidget {
   final int userId;
   final int courseId;
   final String questionType;
+  final int chapterId;
 
-  NewCoursePage3({required this.userId, required this.courseId, required this.questionType});
+  NewCoursePage3({required this.userId, required this.courseId, required this.chapterId, required this.questionType});
 
 
   @override

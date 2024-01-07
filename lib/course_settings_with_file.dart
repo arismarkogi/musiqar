@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_application_1/data/database_helper.dart';
 import 'package:open_file/open_file.dart';
 import 'course_settings.dart';
 import 'new_course_page2.dart';
@@ -16,8 +17,9 @@ class FileOpenPage extends StatefulWidget {
   final int userId;
   final String filePath;
   final int courseId;
+  final int chapterId;
 
-  FileOpenPage({required this.userId, required this.courseId, required this.filePath, Key? key})
+  FileOpenPage({required this.userId, required this.courseId, required this.chapterId, required this.filePath, Key? key})
       : super(key: key);
 
   @override
@@ -47,7 +49,7 @@ class _FileOpenPageState extends State<FileOpenPage> {
               await _deleteFile();
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => FileUploadPage(userId: widget.userId, courseId: widget.courseId)),
+                MaterialPageRoute(builder: (context) => FileUploadPage(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)),
               );
             },
           ),
@@ -96,8 +98,15 @@ class _FileOpenPageState extends State<FileOpenPage> {
             customInput('Filename', filename, context: context),
             SizedBox(height: 50),
             CancelButton(
-              onPressed: () {
-                courseProvider.addChapter(ChapterInfo(controller: filename, title: filename.text));
+              onPressed: () async{
+                String filenameText = filename.text;
+                if (filenameText.isNotEmpty) {
+                  await DatabaseHelper().updateChapterPdf(widget.chapterId, filenameText, widget.filePath);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2(userId: widget.userId, courseId: widget.courseId)));
+                } else {
+                  print('Filename cannot be empty');
+                }
+                //courseProvider.addChapter(ChapterInfo(controller: filename, title: filename.text));
                 Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2(userId: widget.userId, courseId: widget.courseId)));
               },
               buttonText: 'Save',
@@ -125,8 +134,6 @@ class _FileOpenPageState extends State<FileOpenPage> {
         await file.delete();
       }
 
-      // Implement the method to delete the file path from the database
-      // For example: DatabaseHelper().deleteFilePath(widget.userId);
 
       print('File deleted successfully');
     } catch (e) {

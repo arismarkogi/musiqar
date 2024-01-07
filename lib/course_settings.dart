@@ -16,8 +16,9 @@ import 'widgets/custom_input.dart';
 class FileUploadPage extends StatefulWidget {
   final int userId;
   final int courseId;
+  final int chapterId;
 
-  FileUploadPage({required this.userId, required this.courseId});
+  FileUploadPage({required this.userId, required this.courseId, required this.chapterId});
 
   @override
   _FileUploadPageState createState() => _FileUploadPageState();
@@ -41,7 +42,6 @@ class _FileUploadPageState extends State<FileUploadPage> {
                 final result = await FilePicker.platform.pickFiles();
 
                 if (result != null) {
-                  // Save the file to the app's local storage
                   final file = File(result.files.single.path!);
                   final appDocumentDir = await getApplicationDocumentsDirectory();
                   final localFilePath = '${appDocumentDir.path}/${result.files.single.name}';
@@ -59,7 +59,7 @@ class _FileUploadPageState extends State<FileUploadPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => FileOpenPage(filePath: filePath, userId: widget.userId, courseId: widget.courseId),
+                      builder: (context) => FileOpenPage(filePath: filePath, userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId),
                     ),
                   );
                 }

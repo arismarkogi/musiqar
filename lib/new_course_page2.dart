@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/database_helper.dart';
 import 'package:flutter_application_1/question_type.dart';
+import 'package:sqflite/sqflite.dart';
 import 'menu_page.dart';
 import 'homepage.dart';
 import 'new_course_page1.dart';
@@ -21,17 +23,25 @@ class ChapterInfo {
 
 
 class _NewCoursePage2State extends State<NewCoursePage2> {
-  late CourseInfoProvider courseProvider;
   List<ChapterInfo> chapterInputs = [];
+  List<Map<String, dynamic>> existingChapters = [];
+  var chapterId;
 
   @override
   void initState() {
     super.initState();
-    courseProvider = context.read<CourseInfoProvider>();
-    chapterInputs = List.from(courseProvider.chapterInputs);
+    loadExistingChapters();
+  }
+
+  Future<void> loadExistingChapters() async {
+    var dbHelper = DatabaseHelper();
+    existingChapters = await dbHelper.getChaptersForCourse(widget.courseId);
+    setState(() {});
   }
 
 
+
+/*
   Widget inputChapter(String labelText, TextEditingController controller, BuildContext context, {bool isPassword = false}) {
     return Container(
       width: 400,
@@ -93,14 +103,273 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
+                              setState(() {
+                                chapterId = insertChapter(widget.courseId);
+                              });
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => FileUploadPage(userId: widget.userId, courseId: widget.courseId)),
+                                MaterialPageRoute(builder: (context) => FileUploadPage(userId: widget.userId, courseId: widget.courseId, chapterId: chapterId)),
                               );
                             },
                             child: Icon(Icons.edit),
                           ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                        Text(
+                          'Edit quiz',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFF6750A4),
+                            fontSize: 16,
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w700,
+                            height: 0.16,
+                            letterSpacing: 0.10,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            bool pdfIsNull = await DatabaseHelper().isPdfNull(chapterId);
+
+                            if (pdfIsNull) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('Add info first'),
+                                  content: Text('You need to add info before editing the quiz.'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => Questiontype(userId: widget.userId, courseId: widget.courseId, chapterId: chapterId)),
+                              );
+                            }
+                          },
+                          child: Icon(Icons.edit),
+                        ),
+                      ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  */
+
+Widget inputChapter(String labelText, TextEditingController controller, BuildContext context, {bool isPassword = false, int? chapterId}) {
+  return Container(
+    width: 400,
+    height: 58,
+    child: Row(
+      children: [
+        Expanded(
+          child: Container(
+            width: double.infinity,
+            decoration: ShapeDecoration(
+              color: Color(0xFFE0E0E0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(4),
+                  topRight: Radius.circular(4),
+                ),
+              ),
+            ),
+                        child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: TextField(
+                    obscureText: isPassword,
+                    controller: controller,
+                    onChanged: (text) {
+                      var existingInfo = chapterInputs.firstWhere(
+                        (info) => info.controller == controller,
+                        orElse: () => ChapterInfo(controller: controller, title: ''),
+                      );
+
+                      existingInfo.title = text.trim();
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: labelText,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Edit info',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFF6750A4),
+                            fontSize: 16,
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w700,
+                            height: 0.16,
+                            letterSpacing: 0.10,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            if (chapterId == null) {
+                              insertChapter(widget.courseId, controller.text).then((result) {
+                                setState(() {
+                                  chapterId = result;
+                                });
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => FileUploadPage(userId: widget.userId, courseId: widget.courseId, chapterId: chapterId!)),
+                                );
+                              });
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => FileUploadPage(userId: widget.userId, courseId: widget.courseId, chapterId: chapterId!)),
+                              );
+                            }
+                          },
+                          child: Icon(Icons.edit),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Edit quiz',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFF6750A4),
+                            fontSize: 16,
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w700,
+                            height: 0.16,
+                            letterSpacing: 0.10,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            if (chapterId == null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Add pdf first!!!'),
+                                ),
+                              );
+                              return;
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => Questiontype(userId: widget.userId, courseId: widget.courseId, chapterId: chapterId!)),
+                              );
+                            }
+                          },
+                          child: Icon(Icons.edit),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+/*
+Widget inputChapter(String labelText, TextEditingController controller, BuildContext context, {bool isPassword = false, int? chapterId}){
+  return Container(
+    width: 400,
+    height: 58,
+    child: Row(
+      children: [
+        Expanded(
+          child: Container(
+            width: double.infinity,
+            decoration: ShapeDecoration(
+              color: Color(0xFFE0E0E0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(4),
+                  topRight: Radius.circular(4),
+                ),
+              ),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: TextField(
+                    obscureText: isPassword,
+                    controller: controller,
+                    onChanged: (text) {
+                      var existingInfo = chapterInputs.firstWhere(
+                        (info) => info.controller == controller,
+                        orElse: () => ChapterInfo(controller: controller, title: ''),
+                      );
+
+                      existingInfo.title = text.trim(); 
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: labelText,
+                    ),
+                  ),
+                ),
+                  SizedBox(width: 8),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'Edit info',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(0xFF6750A4),
+                              fontSize: 16,
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w700,
+                              height: 0.16,
+                              letterSpacing: 0.10,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              int newChapterId = await insertChapter(widget.courseId, controller.text);
+                              setState(() {
+                                chapterId = newChapterId;
+                              });
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => FileUploadPage(userId: widget.userId, courseId: widget.courseId, chapterId: chapterId)),
+                              );
+                            },
+                            child: Icon(Icons.edit),
+                          ),
+
                         ],
                       ),
                       Row(
@@ -118,14 +387,44 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => Questiontype(userId: widget.userId, courseId: widget.courseId)),
-                              );
+                            onTap: () async {
+                              if (chapterId == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Add info first!!!'),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              bool pdfIsNull = await DatabaseHelper().isPdfNull(chapterId);
+
+                              if (pdfIsNull) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: Text('Add info first'),
+                                    content: Text('You need to add info before editing the quiz.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => Questiontype(userId: widget.userId, courseId: widget.courseId, chapterId: chapterId)),
+                                );
+                              }
                             },
                             child: Icon(Icons.edit),
                           ),
+
                         ],
                       ),
                     ],
@@ -137,16 +436,44 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
         ],
       ),
     );
+  }*/
+
+
+  Future<int> insertChapter(int courseId, String title) async  {
+    var dbHelper = DatabaseHelper();
+    int chapterId = await dbHelper.newChapter({
+      'title': title,
+    }, courseId);
+
+    print("the chapterId is equal to");
+    print(chapterId);
+    if (chapterId == -1) {
+      print('Failed to insert chapter into the database');
+      return -1;
+    }
+    return chapterId;
   }
 
 
 
+/*
+Future<int> insertChapter(int courseId) async {
+  int chapterId = await DatabaseHelper().newChapter({
+  }, courseId);
+
+  print("the chapterId is equal to");
+  print(chapterId);
+  if (chapterId == -1) {
+    print('Failed to insert chapter into the database');
+    return -1;
+  }
+  return chapterId;
+}*/
 
 
 
 @override
   Widget build(BuildContext context) {
-    var courseProvider = context.watch<CourseInfoProvider>();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -179,15 +506,71 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
               ),
               SizedBox(height: 30),
               ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: existingChapters.length,
+                  itemBuilder: (context, index) => Container(
+                    // Correct placement of width parameter
+                    width: 200,
+                    child: inputChapter('Existing Chapter', TextEditingController(text: existingChapters[index]['title']), context, chapterId: existingChapters[index]['id'] as int),
+                  ),
+                ),
+
+              SizedBox(height: 20),
+              /*AddChapter(
+                onPressed: () {
+                  setState(() {
+                    TextEditingController newController = TextEditingController();
+                    ChapterInfo newChapter = ChapterInfo(controller: newController, title: '');
+                    chapterInputs.add(newChapter);
+                  });
+                },
+                buttonText: '+      Add Chapter',
+              ),*/
+              SizedBox(height: 20),
+              ListView.builder(
                 shrinkWrap: true,
-                itemCount: courseProvider.chapterInputs.length,
+                itemCount: chapterInputs.length,
                 itemBuilder: (context, index) => Container(
                   width: 200,
-                  child: inputChapter('New Chapter', courseProvider.chapterInputs[index].controller, context),
+                  child: inputChapter('New Chapter', chapterInputs[index].controller, context, ),
                 ),
               ),
 
               SizedBox(height: 20),
+              AddChapter(
+                onPressed: () {
+                  setState(() {
+                    TextEditingController newController = TextEditingController();
+                    ChapterInfo newChapter = ChapterInfo(controller: newController, title: '');
+                    chapterInputs.add(newChapter);
+                  });
+                },
+                buttonText: '+      Add Chapter',
+              ),
+              /*ListView.builder(
+                shrinkWrap: true,
+                itemCount: existingChapters.length,
+                itemBuilder: (context, index) => Container(
+                  width: 200,
+                  child: inputChapter('Existing Chapter', TextEditingController(text: existingChapters[index]['title']), context),
+                ),
+              ),*/
+
+              
+              /*AddChapter(
+                onPressed: () async {
+                  TextEditingController newController = TextEditingController();
+                  ChapterInfo newChapter = ChapterInfo(controller: newController, title: '');
+
+                  int chapterId = await insertChapter(widget.courseId);
+                  newChapter.controller.text = existingChapters.firstWhere((chapter) => chapter['id'] == chapterId)['title'];
+
+                  setState(() {
+                    chapterInputs.add(newChapter);
+                  });
+                },
+                buttonText: '+      Add Chapter',
+              ),*/
              /*AddChapter(
                 onPressed: () {
                   setState(() {
@@ -196,20 +579,16 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                   });
                 },
                 buttonText: '+      Add Chapter',
-              ),
-              */
+              ),*/
+              /*
               AddChapter(
                 onPressed: () {
                   setState(() {
                     TextEditingController newController = TextEditingController();
-                    // Remove this line
-                    // chapterInputs.add(ChapterInfo(controller: newController, title: ''));
-                    // Use the CourseInfoProvider to add a new chapter
-                    courseProvider.addChapter(ChapterInfo(controller: newController, title: ''));
                   });
                 },
                 buttonText: '+      Add Chapter',
-              ),
+              ),*/
               SizedBox(height: 20),
               CancelButton(
                 onPressed: () {
@@ -220,6 +599,7 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
               SizedBox(height: 20),
               CancelButton(
                 onPressed: () {
+
                   Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage(userId: widget.userId)));
                 },
                 buttonText: 'Save',
