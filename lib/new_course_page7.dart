@@ -17,8 +17,9 @@ class NewCoursePage7 extends StatefulWidget {
   final int userId;
   final String imagePath;
   final int courseId;
+  final int chapterId;
 
-  NewCoursePage7({required this.userId, required this.courseId, required this.imagePath, Key? key})
+  NewCoursePage7({required this.userId, required this.courseId, required this.chapterId,required this.imagePath, Key? key})
       : super(key: key);
 
   @override
@@ -103,7 +104,7 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
               SizedBox(height: 20),
               InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage6(userId: widget.userId, courseId: widget.courseId)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage6(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)));
                 },
                 child: Icon(
                   Icons.edit,
@@ -114,14 +115,14 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
               SizedBox(height: 70),
               CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, questionType: 'Draw')));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId, questionType: 'Draw')));
                 },
                 buttonText: 'Cancel',
               ),
               SizedBox(height: 20),
               CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, questionType: 'Draw')));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId, questionType: 'Draw')));
                 },
                 buttonText: 'Save',
               ),

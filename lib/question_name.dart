@@ -13,8 +13,9 @@ import 'drawpage.dart';
 class QuestionName extends StatefulWidget {
   final int userId;
   final int courseId;
+  final int chapterId;
 
-  QuestionName({required this.userId, required this.courseId});
+  QuestionName({required this.userId, required this.courseId, required this.chapterId});
 
   @override
   _QuestionName createState() => _QuestionName();
@@ -69,7 +70,7 @@ class _QuestionName extends State<QuestionName> {
             SizedBox(height: 50, width: 150),
             CancelButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Questiontype(userId: widget.userId, courseId: widget.courseId)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Questiontype(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId,)));
                 print(selectedQuestionType);
               },
               buttonText: 'Cancel',
@@ -78,13 +79,13 @@ class _QuestionName extends State<QuestionName> {
             CancelButton(
               onPressed: () {
                 if(selectedQuestionType == "Draw"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage6(userId: widget.userId, courseId: widget.courseId)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage6(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)));
                 }
                 else if(selectedQuestionType == "Select correct answer"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage4(userId: widget.userId, courseId: widget.courseId)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage4(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)));
                 }
                 else if(selectedQuestionType == "Left or Right"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage5(userId: widget.userId, courseId: widget.courseId)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage5(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)));
                 }
                 else {
                     ScaffoldMessenger.of(context).showSnackBar(

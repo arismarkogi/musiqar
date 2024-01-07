@@ -13,8 +13,9 @@ import 'drawpage.dart';
 class NewCoursePage6 extends StatefulWidget {
   final int userId;
   final int courseId;
+  final int chapterId;
 
-  NewCoursePage6({required this.userId, required this.courseId});
+  NewCoursePage6({required this.userId, required this.courseId, required this.chapterId});
 
   @override
   _NewCoursePage6 createState() => _NewCoursePage6();
@@ -106,7 +107,7 @@ class _NewCoursePage6 extends State<NewCoursePage6> {
               SizedBox(height: 20),
               InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Drawpage(userId: widget.userId, courseId: widget.courseId)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Drawpage(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)));
                 },
                 child: Icon(
                   Icons.edit,
@@ -117,7 +118,7 @@ class _NewCoursePage6 extends State<NewCoursePage6> {
               SizedBox(height: 70),
               CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, questionType: 'Draw')));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId, questionType: 'Draw')));
                 },
                 buttonText: 'Cancel',
               ),
