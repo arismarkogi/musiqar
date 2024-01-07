@@ -31,6 +31,8 @@ dependencies:
   arcore_flutter_plugin: ^0.2.0-alpha
   provider:
   open_file:
+  camera:   
+  object_3d: 
   file_picker:
   flutter_colorpicker:
   screenshot:
@@ -40,7 +42,11 @@ dependencies:
   vector_math:
   sqflite: 'any'
   path: 'any'
+  model_viewer_plus:
   sensors_plus: 4.0.2
+  permission_handler:
+  audioplayers:
+  just_audio:
   flutter:
     sdk: flutter
 
@@ -88,3 +94,6 @@ flutter:
     - assets/quiz.png
     - assets/dummy.pdf
     - assets/piano3d.glb
+    - assets/pianoar.png
+    - assets/saxophone.glb
+    - assets/Blue.mp3
