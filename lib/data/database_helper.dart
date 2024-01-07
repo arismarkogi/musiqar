@@ -135,6 +135,14 @@ void _onUpgrade(Database db, int oldVersion, int newVersion) async {
     )
     """);
 
+    await db.execute("""
+    CREATE TABLE has_question (
+      chapter_id INTEGER,
+      question_id INTEGER,
+      PRIMARY KEY(chapter_id, question_id)
+    )
+    """);
+
 
   }
 
@@ -150,9 +158,42 @@ void _onUpgrade(Database db, int oldVersion, int newVersion) async {
   return courseId;
   }
 
+Future<int> newChapter(Map<String, dynamic> chapter, int courseId) async {
+  var dbClient = await db;
+  int chapterId = await dbClient.insert('chapter', chapter);
+
+  await dbClient.rawInsert('''
+    INSERT INTO has_chapter(chapter_id, course_id)
+    VALUES(?, ?)
+  ''', [chapterId, courseId]);
+
+  return chapterId;
+}
+
+  Future<void> newhas_chapter(Map<String, dynamic> has_chapter) async{
+    var dbClient = await db;
+    await dbClient.insert('has_chapter', has_chapter);
+  }
+
   Future<void> deleteAllUsers() async {
     final db = await this.db;
     await db.delete('users');
+  }
+
+
+  Future<void> deleteAllCourses() async {
+    final db = await this.db;
+    await db.delete('course');
+  }
+
+  Future<void> deleteAllhas() async {
+    final db = await this.db;
+    await db.delete('has_chapter');
+  }
+
+  Future<void> deleteallchapt() async {
+    final db = await this.db;
+    await db.delete('chapter');
   }
 
 
@@ -166,10 +207,61 @@ void _onUpgrade(Database db, int oldVersion, int newVersion) async {
     return await dbClient.query('course');
   }
 
+  Future<List<Map<String, dynamic>>> getAllCChapters() async {
+    var dbClient = await db;
+    return await dbClient.query('chapter');
+  }
+
   Future<int> updateUser(Map<String, dynamic> user) async {
     var dbClient = await db;
     return await dbClient.update('users', user,
         where: 'id = ?', whereArgs: [user['id']]);
+  }
+
+  Future<int> updatechapter(Map<String, dynamic> chapter) async {
+    var dbClient = await db;
+    return await dbClient.update('chapter', chapter,
+        where: 'id = ?', whereArgs: [chapter['id']]);
+  }
+
+  Future<void> updateChapterPdf(int chapterId, String filename, String pdfPath) async {
+    var dbClient = await db;
+    await dbClient.rawUpdate('''
+      UPDATE chapter
+      SET pdf = ?,
+      pdf_name = ?
+      WHERE id = ?
+    ''', [pdfPath, filename, chapterId]);
+  }
+
+  Future<bool> isPdfNull(int chapterId) async {
+  var dbClient = await db;
+  var result = await dbClient.query('chapter', where: 'id = ?', whereArgs: [chapterId]);
+
+  if (result != null && result.isNotEmpty) {
+    return result.first['pdf'] == null;
+  } else {
+    return true; 
+  }
+}
+
+
+  Future<void> updateChapterQuestionType(int chapterId, String question_type) async {
+    var dbClient = await db;
+    await dbClient.rawUpdate('''
+      UPDATE chapter
+      SET question_type = ?
+      WHERE id = ?
+    ''', [question_type, chapterId]);
+  }
+
+  Future<void> updatechaptertitle(int chapterId, String title) async {
+    var dbClient = await db;
+    await dbClient.rawUpdate('''
+      UPDATE chapter
+      SET title = ?
+      WHERE id = ?
+    ''', [title, chapterId]);
   }
 
   Future<int> deleteUser(int id) async {
@@ -181,6 +273,7 @@ void _onUpgrade(Database db, int oldVersion, int newVersion) async {
     var dbClient = await db;
     return await dbClient.delete('course', where: 'id = ?', whereArgs: [id]);
   }
+
 
   
   Future<bool> doesTableExist(String tableName) async {
@@ -208,6 +301,18 @@ void _onUpgrade(Database db, int oldVersion, int newVersion) async {
     }
   }
 }
+
+  Future<List<Map<String, dynamic>>> getChaptersForCourse(int courseId) async {
+    var dbClient = await db;
+    return await dbClient.rawQuery('''
+      SELECT c.id, c.title
+      FROM chapter c
+      INNER JOIN has_chapter hc ON c.id = hc.chapter_id
+      WHERE hc.course_id = ?
+    ''', [courseId]);
+  }
+
+
 
 
 Future<void> addchapterr() async{
