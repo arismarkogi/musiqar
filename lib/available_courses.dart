@@ -72,7 +72,7 @@ class AvailableCourses extends StatelessWidget {
                 itemBuilder: (context, index) => AvailableCourse(courseName, instructorName, courseInfo, imageURL,() {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => CoursePage(userId: userId)),
+                    MaterialPageRoute(builder: (context) => CoursePage(userId: userId, courseId: 0,)),
                   );
 
                 }
