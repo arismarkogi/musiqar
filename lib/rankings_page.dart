@@ -18,7 +18,17 @@ class RankingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return GestureDetector(
+      onHorizontalDragUpdate: (details) {
+        if (details.primaryDelta! > 0) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => 
+            MenuPage(userId: userId)),
+          );
+        }
+      },
+      child: Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
@@ -88,6 +98,7 @@ class RankingsPage extends StatelessWidget {
             ),
           ),
         ),
+      ),
       ),
     );
   }

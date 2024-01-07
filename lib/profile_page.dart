@@ -229,7 +229,17 @@ Widget _buildProfilePage(Map<String, dynamic> userData, BuildContext context) {
   }
 
   Widget _buildProfilePage(Map<String, dynamic> userData, BuildContext context) {
-    return Scaffold(
+   return GestureDetector(
+      onHorizontalDragUpdate: (details) {
+        if (details.primaryDelta! > 0) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => 
+            MenuPage(userId: userId)),
+          );
+        }
+      },
+      child: Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
@@ -286,6 +296,7 @@ Widget _buildProfilePage(Map<String, dynamic> userData, BuildContext context) {
         backgroundColor: Colors.white,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      ),
     );
   }
 

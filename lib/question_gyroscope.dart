@@ -47,6 +47,7 @@ class _QuestionGyroscopeState extends State<QuestionGyroscope> {
         // Check if the absolute value of gyroY exceeds the threshold
         if (_gyroY < -threshold) {
           gyroscopeSubscription.cancel();
+          print("left");
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => QuestionMultiple(userId: widget.userId, courseId: widget.courseId,)),
@@ -54,6 +55,7 @@ class _QuestionGyroscopeState extends State<QuestionGyroscope> {
         }
         else if (_gyroY > threshold) {
           gyroscopeSubscription.cancel();
+          print("right");
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => QuestionDraw(userId: widget.userId, courseId: widget.courseId,)),

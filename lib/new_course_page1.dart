@@ -81,7 +81,17 @@ Future<void> _fetchCourseData() async {
     }*/
     _fetchUserData();
     _fetchCourseData();
-    return Scaffold(
+    return GestureDetector(
+      onHorizontalDragUpdate: (details) {
+        if (details.primaryDelta! > 0) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => 
+            MenuPage(userId: widget.userId)),
+          );
+        }
+      },
+      child: Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
@@ -209,6 +219,7 @@ Future<void> _fetchCourseData() async {
             ],
           ),
         ),
+      ),
       ),
     );
   }

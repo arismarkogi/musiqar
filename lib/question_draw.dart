@@ -4,6 +4,7 @@ import 'widgets/quiz_question.dart';
 import 'widgets/purple_button.dart';
 import 'drawpage.dart';
 import 'submit_quiz.dart';
+import 'drawpage_answer.dart';
 
 class QuestionDraw extends StatelessWidget {
 
@@ -54,7 +55,7 @@ class QuestionDraw extends StatelessWidget {
                 SizedBox(height: 40),
                 InkWell(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Drawpage(userId: userId, courseId: courseId,)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => DrawpageAns(userId: userId, courseId: courseId,)));
                   },
                   child: Icon(
                     Icons.edit,

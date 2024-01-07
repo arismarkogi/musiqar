@@ -16,7 +16,7 @@ class CorrectAnswers extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
+          //automaticallyImplyLeading: false,
           centerTitle: true,
           backgroundColor: Color(0xFFFEF7FF),
           title: Center(

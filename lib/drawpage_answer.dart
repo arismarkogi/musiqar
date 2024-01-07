@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/new_course_page7.dart';
+import 'package:flutter_application_1/question_draw.dart';
 import 'package:flutter_drawing_board/flutter_drawing_board.dart';
 import 'package:flutter_drawing_board/paint_contents.dart';
 import 'package:path_provider/path_provider.dart';
@@ -103,19 +104,18 @@ extension PaintExtension on Paint {
   }
 }
 
-class Drawpage extends StatefulWidget {
+class DrawpageAns extends StatefulWidget {
   final int userId;
   final int courseId;
-  final int chapterId;
 
-  Drawpage({required this.userId, required this.courseId, required this.chapterId, Key? key}) : super(key: key);
+  DrawpageAns({required this.userId, required this.courseId, Key? key}) : super(key: key);
 
   @override
-  State<Drawpage> createState() => _Drawpage();
+  State<DrawpageAns> createState() => _DrawpageAns();
 }
 
 
-class _Drawpage extends State<Drawpage> {
+class _DrawpageAns extends State<DrawpageAns> {
   final GlobalKey _repaintKey = GlobalKey();
   final DrawingController _drawingController = DrawingController();
 
@@ -142,7 +142,7 @@ class _Drawpage extends State<Drawpage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => NewCoursePage7(imagePath: filePath, userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId),
+          builder: (context) => QuestionDraw(userId: widget.userId, courseId: widget.courseId),
         ),
       );
     } else {

@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/earth_ar.dart';
 import 'signin_page.dart';
 import 'menu_page.dart';
 import 'swipe_right_page.dart';
@@ -8,6 +7,15 @@ import 'data/database_helper.dart';
 import 'homepage.dart';
 //import 'earth_ar.dart';
 import 'ar2.dart';
+import 'dart:async';
+import 'dart:io';
+import 'camera.dart';
+import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
+import 'extra_page.dart';
+import 'arsaxo.dart';
+import 'earth_ar.dart';
+
 
 
 
@@ -17,10 +25,24 @@ class HomePage extends StatelessWidget {
 
   final DatabaseHelper dbHelper = DatabaseHelper();
 
+   Future<List<CameraDescription>> getCameras() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    return await availableCameras();
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+        return GestureDetector(
+      onHorizontalDragUpdate: (details) {
+        if (details.primaryDelta! > 0) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SwipeRightPage()),
+          );
+        }
+      },
+      child: Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
@@ -70,10 +92,10 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ARScreen()),
+                    MaterialPageRoute(builder: (context) => ARR()),
                   );
                 },
-                child: Text('Menu'),
+                child: Text('Piano'),
               ),
               SizedBox(height: 20),
               ElevatedButton(
@@ -118,17 +140,70 @@ class HomePage extends StatelessWidget {
                 onPressed: () async {
                   //List<Map<String, dynamic>> users = await dbHelper.getAllUsers();
                   //print(users);
-                  await dbHelper.addchapterr();
-                   List<Map<String, dynamic>> courses = await dbHelper.getAllCourses();
-                   print(courses);
+                   //List<Map<String, dynamic>> courses = await dbHelper.getAllCourses();
+                   //print(courses);
+                   List<Map<String, dynamic>> chapters = await dbHelper.getAllCChapters();
+                   print(chapters);
                   //await DatabaseHelper().checkAndCreateTables();
 
                 },
                 child: Text('See data'),
               ),
+              ElevatedButton(
+                  onPressed: () async {
+                    // Get cameras when the button is pressed
+                    List<CameraDescription> cameras = await getCameras();
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TakePictureScreen(
+                          camera: cameras.first,
+                        ),
+
+                      ),
+                    );
+                  },
+                  child: Text('Camera'),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    // Get cameras when the button is pressed
+                    List<CameraDescription> cameras = await getCameras();
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CombinedScreen(
+                          camera: cameras.first,
+                        ),
+
+                      ),
+                    );
+                  },
+                  child: Text('ARR'),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ARS(),
+
+                      ),
+                    );
+                  },
+                  child: Text('Saxophone'),
+                ),
+                
+
+
+
             ],
           ),
         ),
+      ),
       ),
     );
   }
