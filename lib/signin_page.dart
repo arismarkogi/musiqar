@@ -10,6 +10,10 @@ import 'profile_settings.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:vibration/vibration.dart';
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3d15553 (update)
 
 class SignInPage extends StatefulWidget {
   @override
@@ -27,6 +31,7 @@ class _SignInPageState extends State<SignInPage> {
   var userID = 0;
 
   bool validateInputs(BuildContext context) {
+<<<<<<< HEAD
     if (signInEmailController.text.isEmpty ||
         signInPasswordController.text.isEmpty) {
       Vibration.vibrate(duration: 500);
@@ -50,6 +55,14 @@ class _SignInPageState extends State<SignInPage> {
         SnackBar(
           content: Text('Please fill in all fields'),
           duration: Duration(seconds: 1),
+=======
+    if (signInEmailController.text.isEmpty || signInPasswordController.text.isEmpty) {
+      Vibration.vibrate(duration: 1000); 
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please fill in all fields'),
+          duration: Duration(seconds: 2),
+>>>>>>> 3d15553 (update)
         ),
       );
       return false;
@@ -140,6 +153,7 @@ class _SignInPageState extends State<SignInPage> {
         ),
       ),
       body: SingleChildScrollView(
+<<<<<<< HEAD
         child: GestureDetector(
           onHorizontalDragEnd: (details) {
             if (details.primaryVelocity! > 0) {
@@ -165,6 +179,59 @@ class _SignInPageState extends State<SignInPage> {
                       fontWeight: FontWeight.w700,
                       height: 0.04,
                       letterSpacing: 0.50,
+=======
+      child:GestureDetector(
+        onHorizontalDragEnd: (details) {
+          if (details.primaryVelocity! > 0) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage(userId: userID)));
+          }
+        },
+        child:Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'SIGN IN',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w700,
+                    height: 0.04,
+                    letterSpacing: 0.50,
+                  ),
+                ),
+                SizedBox(height: 30),
+                customInput('Email', signInEmailController, context: context),
+                SizedBox(height: 16),
+                customInput('Password', signInPasswordController, isPassword: true, context: context),
+                SizedBox(height: 16),
+                singinbutton(
+                  onPressed: () {
+                    if (validateInputs(context)) {
+                      signIn(context); 
+                    }
+                  },
+                  buttonText: 'Sign in',
+                ),
+                SizedBox(height: 16),
+                sline(),
+                const SizedBox(height: 25),
+
+                Text(
+                  'SIGN UP',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w700,
+                    height: 0.04,
+                    letterSpacing: 0.50,                
+>>>>>>> 3d15553 (update)
                     ),
                   ),
                   SizedBox(height: 30),

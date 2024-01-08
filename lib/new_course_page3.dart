@@ -16,13 +16,21 @@ class QuestionInfo {
 
   QuestionInfo({required this.controller, required this.title});
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3d15553 (update)
 
 class _NewCoursePage3State extends State<NewCoursePage3> {
   List<QuestionInfo> questionInputs = [];
   List<Map<String, dynamic>> existingQuestions = [];
   var questionId;
 
+<<<<<<< HEAD
   @override
+=======
+   @override
+>>>>>>> 3d15553 (update)
   void initState() {
     super.initState();
     loadExistingQuestions();
@@ -36,7 +44,11 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
 
   TextEditingController Questions = TextEditingController();
 
+<<<<<<< HEAD
   Future<int> insertQuestion(int courseId, String title) async {
+=======
+Future<int> insertQuestion(int courseId, String title) async  {
+>>>>>>> 3d15553 (update)
     var dbHelper = DatabaseHelper();
     int questionId = await dbHelper.newQuestion({
       'title': title,
@@ -52,6 +64,7 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
     }
     return questionId;
   }
+<<<<<<< HEAD
 
   Future<void> deleteAllQuestionsForChapter() async {
     var dbHelper = DatabaseHelper();
@@ -152,6 +165,112 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
                         border: OutlineInputBorder(),
                         labelText: labelText,
                       ),
+=======
+  
+Widget inputQuestion(String labelText, TextEditingController controller, BuildContext context, {bool isPassword = false, int? questionId}) {
+  //TextEditingController controller = TextEditingController(); 
+  return Container(
+    width: 390,
+    height: 58,
+    child: Row(
+      children: [
+        Expanded(
+          child: Container(
+            width: double.infinity,
+            decoration: ShapeDecoration(
+              color: Color(0xFFE0E0E0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(4),
+                  topRight: Radius.circular(4),
+                ),
+              ),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: TextField(
+                    obscureText: isPassword,
+                    controller: controller,
+                    onChanged: (text) {
+                      var existingInfo = questionInputs.firstWhere(
+                        (info) => info.controller == controller,
+                        orElse: () => QuestionInfo(controller: controller, title: ''),
+                      );
+
+                      existingInfo.title = text.trim();
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: labelText,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      children: [
+                        SizedBox(height: 8),
+                        Text(
+                          'Edit question',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFF6750A4),
+                            fontSize: 16,
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w700,
+                            height: 0.16,
+                            letterSpacing: 0.10,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        GestureDetector(
+                          onTap: () {
+                            if(widget.questionType == "Draw"){
+                              insertQuestion(widget.chapterId, controller.text).then((result) {
+                                setState(() {
+                                  questionId = result;
+                                });
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => NewCoursePage6(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)),
+                              );
+                              });
+                            }
+                            else if(widget.questionType == "Select"){
+                              insertQuestion(widget.chapterId, controller.text).then((result) {
+                                setState(() {
+                                  questionId = result;
+                                });
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => NewCoursePage4(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)),
+                            );
+                              });
+                            }
+                            else if(widget.questionType == "LorR"){
+                              insertQuestion(widget.chapterId, controller.text).then((result) {
+                                setState(() {
+                                  questionId = result;
+                                });
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => NewCoursePage5(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)),
+                            );
+                              });
+                            }
+                            /*Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Questiontype(userId: widget.userId, courseId: widget.courseId)),
+                            );*/
+                          },
+                          child: Icon(Icons.edit),
+                        ),
+                      ],
+>>>>>>> 3d15553 (update)
                     ),
                   ),
                   SizedBox(width: 8),
@@ -359,6 +478,7 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
                   letterSpacing: 0.10,
                 ),
               ),
+<<<<<<< HEAD
               SizedBox(height: 30),
               ListView.builder(
                 shrinkWrap: true,
@@ -445,6 +565,55 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
               ),
             ],
           ),
+=======
+            ),
+            SizedBox(height: 30),
+            ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: existingQuestions.length,
+                  itemBuilder: (context, index) => Container(
+                    width: 200,
+                    child: inputQuestion('Existing Chapter', TextEditingController(text: existingQuestions[index]['title']), context, questionId: existingQuestions[index]['id'] as int),
+                  ),
+                ),
+
+            SizedBox(height: 20),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: questionInputs.length,
+              itemBuilder: (context, index) => Container(
+                width: 200, 
+                child: inputQuestion('New Question', questionInputs[index].controller, context, ),
+              ),
+            ),
+            SizedBox(height: 20),
+            AddQuestion(
+              onPressed: () {
+                setState(() {
+                  TextEditingController newController = TextEditingController();
+                  QuestionInfo newQuestion = QuestionInfo(controller: newController, title: '');
+                  questionInputs.add(newQuestion);
+                });
+              },
+              buttonText: '+ Add Question',
+            ),
+
+            SizedBox(height: 20),
+            CancelButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2(userId: widget.userId, courseId: widget.courseId)));
+              },
+              buttonText: 'Cancel',
+            ),
+            SizedBox(height: 20),
+            CancelButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2(userId: widget.userId, courseId: widget.courseId)));
+              },
+              buttonText: 'Save',
+            ),
+          ],
+>>>>>>> 3d15553 (update)
         ),
       ),
     );

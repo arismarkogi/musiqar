@@ -308,7 +308,11 @@ class _CustomBoxState extends State<CustomBox> {
       ),
       child: Row(
         children: [
+<<<<<<< HEAD
           SizedBox(width: 8),
+=======
+          SizedBox(width: 8), 
+>>>>>>> 3d15553 (update)
           Expanded(
             child: TextField(
               controller: widget.textController,
