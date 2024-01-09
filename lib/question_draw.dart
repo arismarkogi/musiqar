@@ -7,11 +7,11 @@ import 'submit_quiz.dart';
 import 'drawpage_answer.dart';
 
 class QuestionDraw extends StatelessWidget {
-
   final int userId;
   final int courseId;
 
-  QuestionDraw({required this.userId, required this.courseId, Key? key}) : super(key: key);
+  QuestionDraw({required this.userId, required this.courseId, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,17 +52,23 @@ class QuestionDraw extends StatelessWidget {
                 letterSpacing: 0.10,
               ),
             ),
-                SizedBox(height: 40),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => DrawpageAns(userId: userId, courseId: courseId,)));
-                  },
-                  child: Icon(
-                    Icons.edit,
-                    size: 30,
-                    color: Colors.blue,
-                  ),
-                ),
+            SizedBox(height: 40),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DrawpageAns(
+                              userId: userId,
+                              courseId: courseId,
+                            )));
+              },
+              child: Icon(
+                Icons.edit,
+                size: 30,
+                color: Colors.blue,
+              ),
+            ),
           ])),
           SizedBox(height: 240),
           SizedBox(
@@ -79,7 +85,8 @@ class QuestionDraw extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => QuestionGyroscope(userId: userId, courseId: courseId)),
+                              builder: (context) => QuestionGyroscope(
+                                  userId: userId, courseId: courseId)),
                         );
                       },
                     ),
@@ -92,7 +99,9 @@ class QuestionDraw extends StatelessWidget {
                       () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => SubmitQuiz(userId: userId, courseId: courseId)),
+                          MaterialPageRoute(
+                              builder: (context) => SubmitQuiz(
+                                  userId: userId, courseId: courseId)),
                         );
                       },
                     ),

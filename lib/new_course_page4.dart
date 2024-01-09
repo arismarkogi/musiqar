@@ -11,23 +11,44 @@ import 'widgets/cancel_button.dart';
 import 'widgets/add_answer.dart';
 import 'new_course_page2.dart';
 import 'new_course_page3.dart';
+import 'widgets/input_unchangeable.dart';
+import 'data/database_helper.dart';
 
 class NewCoursePage4 extends StatefulWidget {
   final int userId;
   final int courseId;
   final int chapterId;
+  final int questionId;
 
-  NewCoursePage4({required this.userId, required this.courseId, required this.chapterId});
+  NewCoursePage4(
+      {required this.userId,
+      required this.courseId,
+      required this.chapterId,
+      required this.questionId});
 
   @override
   _NewCoursePage4State createState() => _NewCoursePage4State();
 }
 
 class _NewCoursePage4State extends State<NewCoursePage4> {
-  List<Widget> textInputs = []; 
+  List<Widget> textInputs = [];
 
   List<TextEditingController> answerscontroller = [];
   List<TextEditingController> newanswerscontroller = [];
+
+  Future<Map<String, dynamic>> _fetchQuestion() async {
+    List<Map<String, dynamic>> questions =
+        await DatabaseHelper().getAllQuestions();
+    return questions
+            .firstWhere((question) => question['id'] == widget.questionId) ??
+        {};
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchQuestion();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +70,39 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
           child: Column(
             children: <Widget>[
               SizedBox(height: 20),
+              Text(
+                'Question',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFF6750A4),
+                  fontSize: 20,
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.w700,
+                  height: 0.10,
+                  letterSpacing: 0.10,
+                ),
+              ),
+              SizedBox(height: 30),
+              FutureBuilder<Map<String, dynamic>>(
+                future: _fetchQuestion(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error loading question.');
+                  } else if (!snapshot.hasData || snapshot.data == null) {
+                    return Text('No question found.');
+                  } else {
+                    String questionText = snapshot.data?['title'] ?? '';
+                    TextEditingController myController =
+                        TextEditingController();
+                    myController.text = questionText;
+                    return customInput_un(questionText, myController,
+                        context: context);
+                  }
+                },
+              ),
+              SizedBox(height: 40),
               Text(
                 'Add Answers',
                 textAlign: TextAlign.center,
@@ -75,7 +129,8 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
                 onPressed: () {
                   TextEditingController newController = TextEditingController();
                   answerscontroller.add(newController);
-                  TextEditingController newansController = TextEditingController();
+                  TextEditingController newansController =
+                      TextEditingController();
                   newanswerscontroller.add(newansController);
                   setState(() {
                     textInputs.add(CustomBox(
@@ -95,14 +150,28 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
               SizedBox(height: 20),
               CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId, questionType: 'Select')));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewCoursePage3(
+                              userId: widget.userId,
+                              courseId: widget.courseId,
+                              chapterId: widget.chapterId,
+                              questionType: 'Select')));
                 },
                 buttonText: 'Cancel',
               ),
               SizedBox(height: 20),
               CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId, questionType: 'Select')));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewCoursePage3(
+                              userId: widget.userId,
+                              courseId: widget.courseId,
+                              chapterId: widget.chapterId,
+                              questionType: 'Select')));
                 },
                 buttonText: 'Save',
               ),
@@ -113,7 +182,6 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
     );
   }
 }
-
 
 class CustomBox extends StatefulWidget {
   final TextEditingController textController;
@@ -133,7 +201,8 @@ class _CustomBoxState extends State<CustomBox> {
   String? imagePath;
 
   Future<void> _pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       setState(() {
@@ -154,7 +223,7 @@ class _CustomBoxState extends State<CustomBox> {
       ),
       child: Row(
         children: [
-          SizedBox(width: 8), 
+          SizedBox(width: 8),
           Expanded(
             child: TextField(
               controller: widget.textController,
@@ -164,9 +233,10 @@ class _CustomBoxState extends State<CustomBox> {
               ),
             ),
           ),
-          SizedBox(width: 8), 
+          SizedBox(width: 8),
           IconButton(
-            icon: Icon(isSelected ? Icons.check_circle : Icons.radio_button_unchecked),
+            icon: Icon(
+                isSelected ? Icons.check_circle : Icons.radio_button_unchecked),
             onPressed: () {
               setState(() {
                 isSelected = !isSelected;

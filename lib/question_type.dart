@@ -8,7 +8,6 @@ import 'widgets/custom_input.dart';
 import 'widgets/cancel_button.dart';
 import 'data/database_helper.dart';
 
-
 import 'drawpage.dart';
 
 class Questiontype extends StatefulWidget {
@@ -16,19 +15,15 @@ class Questiontype extends StatefulWidget {
   final int courseId;
   final int chapterId;
 
-  Questiontype({required this.userId, required this.courseId, required this.chapterId});
+  Questiontype(
+      {required this.userId, required this.courseId, required this.chapterId});
 
   @override
   _Questiontype createState() => _Questiontype();
 }
 
 class _Questiontype extends State<Questiontype> {
-
-
   TextEditingController Questions = TextEditingController();
-
-
-
 
   String selectedQuestionType = 'Select question type';
   TextEditingController question = TextEditingController();
@@ -100,18 +95,18 @@ class _Questiontype extends State<Questiontype> {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Container(
-                    padding: EdgeInsets.all(12.0), 
+                    padding: EdgeInsets.all(12.0),
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade200, 
-                      borderRadius: BorderRadius.circular(8.0),  
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: Text(
                       value,
                       style: TextStyle(
-                        color: Colors.black, 
-                        fontSize: 16.0,  
+                        color: Colors.black,
+                        fontSize: 16.0,
                         fontWeight: FontWeight.w400,
-                        fontFamily: 'Roboto', 
+                        fontFamily: 'Roboto',
                       ),
                     ),
                   ),
@@ -128,7 +123,11 @@ class _Questiontype extends State<Questiontype> {
             ),*/
             CancelButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2(userId: widget.userId, courseId: widget.courseId)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NewCoursePage2(
+                            userId: widget.userId, courseId: widget.courseId)));
                 print(selectedQuestionType);
               },
               buttonText: 'Cancel',
@@ -158,24 +157,44 @@ class _Questiontype extends State<Questiontype> {
             ),*/
             CancelButton(
               onPressed: () {
-                if(selectedQuestionType == "Draw"){
+                if (selectedQuestionType == "Draw") {
                   updateChapter("Draw");
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId, questionType: "Draw",)));
-                }
-                else if(selectedQuestionType == "Select correct answer"){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewCoursePage3(
+                                userId: widget.userId,
+                                courseId: widget.courseId,
+                                chapterId: widget.chapterId,
+                                questionType: "Draw",
+                              )));
+                } else if (selectedQuestionType == "Select correct answer") {
                   updateChapter("Select");
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId, questionType: "Select")));
-                }
-                else if(selectedQuestionType == "Left or Right"){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewCoursePage3(
+                              userId: widget.userId,
+                              courseId: widget.courseId,
+                              chapterId: widget.chapterId,
+                              questionType: "Select")));
+                } else if (selectedQuestionType == "Left or Right") {
                   updateChapter("LorR");
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId, questionType: "LorR",)));
-                }
-                else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Select question type.'),
-                      ),
-                    );
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewCoursePage3(
+                                userId: widget.userId,
+                                courseId: widget.courseId,
+                                chapterId: widget.chapterId,
+                                questionType: "LorR",
+                              )));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Select question type.'),
+                    ),
+                  );
                 }
                 print(selectedQuestionType);
               },
@@ -187,15 +206,14 @@ class _Questiontype extends State<Questiontype> {
     );
   }
 
-Future<void> updateChapter(String question_type) async {
-  await DatabaseHelper().updateChapterQuestionType(widget.chapterId, question_type);
+  Future<void> updateChapter(String question_type) async {
+    await DatabaseHelper()
+        .updateChapterQuestionType(widget.chapterId, question_type);
 
-  print("the chapterId is equal to");
-  print(widget.chapterId);
-  if (widget.chapterId == -1) {
-    print('Failed to insert chapter into the database');
+    print("the chapterId is equal to");
+    print(widget.chapterId);
+    if (widget.chapterId == -1) {
+      print('Failed to insert chapter into the database');
+    }
   }
 }
-}
-
-

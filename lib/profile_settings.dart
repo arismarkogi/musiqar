@@ -214,7 +214,6 @@ class EditIconContainer extends StatelessWidget {
 }
 */
 
-
 import 'package:flutter/material.dart';
 import 'profile_page.dart';
 import 'menu_page.dart';
@@ -254,7 +253,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   Future<void> _fetchUserData() async {
     List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
-    Map<String, dynamic> userData = users.firstWhere((user) => user['id'] == widget.userId);
+    Map<String, dynamic> userData =
+        users.firstWhere((user) => user['id'] == widget.userId);
 
     setState(() {
       nameController.text = userData['name'] ?? '';
@@ -266,18 +266,16 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     });
   }
 
-
   Future<void> _pickImage() async {
-  final picker = ImagePicker();
-  final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-  if (pickedFile != null) {
-    setState(() {
-      selectedImage = File(pickedFile.path);
-    });
+    if (pickedFile != null) {
+      setState(() {
+        selectedImage = File(pickedFile.path);
+      });
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -293,9 +291,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             height: 50,
           ),
         ),
-
       ),
-    body: Stack(
+      body: Stack(
         children: [
           Positioned(
             left: 10,
@@ -337,12 +334,14 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           Positioned(
             top: 330,
             left: 150,
-            child: customInput('New Password', passwordController, isPassword: true, context: context),
+            child: customInput('New Password', passwordController,
+                isPassword: true, context: context),
           ),
           Positioned(
             top: 390,
             left: 150,
-            child: customInput('Date of Birth', dobController, isDate: true, context: context),
+            child: customInput('Date of Birth', dobController,
+                isDate: true, context: context),
           ),
           Positioned(
             top: 450,
@@ -384,12 +383,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
                   print('Changes saved');
 
-                  // Fetch the latest user data after the update
                   await _fetchUserData();
 
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ProfilePage(userId: widget.userId)),
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ProfilePage(userId: widget.userId)),
                   );
                 } catch (e) {
                   print('Error during user data update: $e');
@@ -403,8 +403,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     );
   }
 }
-
-
 
 Widget Save_button({
   required VoidCallback onPressed,
@@ -449,7 +447,6 @@ Widget Save_button({
     ),
   );
 }
-
 
 class EditIconContainer extends StatelessWidget {
   final VoidCallback onEditPressed;

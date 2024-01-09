@@ -294,6 +294,11 @@ Future<int> newQuestion(Map<String, dynamic> question) async {
     return await dbClient.query('chapter');
   }
 
+  Future<List<Map<String, dynamic>>> getAllQuestions() async {
+    var dbClient = await db;
+    return await dbClient.query('Question');
+  }
+
   Future<int> updateUser(Map<String, dynamic> user) async {
     var dbClient = await db;
     return await dbClient.update('users', user,
@@ -502,7 +507,7 @@ Future<void> _createTable(String tableName) async {
       )
       """);
       break;
-    case 'question':
+    case 'Question':
       await dbClient.execute("""
       CREATE TABLE Question (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -513,7 +518,7 @@ Future<void> _createTable(String tableName) async {
       )
       """);
       break;
-    case 'has_question':
+    case 'Answer':
       await dbClient.execute("""
       CREATE TABLE Answer (
         id INTEGER PRIMARY KEY AUTOINCREMENT,

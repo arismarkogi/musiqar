@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/select_music.dart';
 import 'signin_page.dart';
@@ -18,24 +17,17 @@ import 'arsaxo.dart';
 import 'earth_ar.dart';
 import 'music.dart';
 
-
-
-
-
 class HomePage extends StatelessWidget {
-
-
   final DatabaseHelper dbHelper = DatabaseHelper();
 
-   Future<List<CameraDescription>> getCameras() async {
+  Future<List<CameraDescription>> getCameras() async {
     WidgetsFlutterBinding.ensureInitialized();
     return await availableCameras();
   }
 
-
   @override
   Widget build(BuildContext context) {
-        return GestureDetector(
+    return GestureDetector(
       onHorizontalDragUpdate: (details) {
         if (details.primaryDelta! > 0) {
           Navigator.push(
@@ -45,42 +37,42 @@ class HomePage extends StatelessWidget {
         }
       },
       child: Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        title: Center(
-          child: Image.asset(
-            'assets/logo.png',
-            width: 120,
-            height: 40,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          title: Center(
+            child: Image.asset(
+              'assets/logo.png',
+              width: 120,
+              height: 40,
+            ),
           ),
         ),
-      ),
-      body: GestureDetector(
-        onHorizontalDragUpdate: (details) {
-          if (details.primaryDelta! > 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SwipeRightPage()),
-            );
-          }
-        },
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignInPage()),
-                  );
-                },
-                child: Text('Sign in'),
-              ),
-              SizedBox(height: 20),
-              /*ElevatedButton(
+        body: GestureDetector(
+          onHorizontalDragUpdate: (details) {
+            if (details.primaryDelta! > 0) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SwipeRightPage()),
+              );
+            }
+          },
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignInPage()),
+                    );
+                  },
+                  child: Text('Sign in'),
+                ),
+                SizedBox(height: 20),
+                /*ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -90,16 +82,16 @@ class HomePage extends StatelessWidget {
                 child: Text('Menu'),
               ),
               */
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ARR()),
-                  );
-                },
-                child: Text('Piano'),
-              ),
-              /*SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ARR()),
+                    );
+                  },
+                  child: Text('Piano'),
+                ),
+                /*SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
                   dbHelper.deleteAllUsers();
@@ -138,28 +130,28 @@ class HomePage extends StatelessWidget {
                 },
                 child: Text('Add data'),
               ),*/
-                /*ElevatedButton(
+                ElevatedButton(
                 onPressed: () async {
-                  //List<Map<String, dynamic>> users = await dbHelper.getAllUsers();
-                  //print(users);
+                  List<Map<String, dynamic>> users = await dbHelper.getAllQuestions();
+                  print(users);
                    //List<Map<String, dynamic>> courses = await dbHelper.getAllCourses();
                    //print(courses);
                    //List<Map<String, dynamic>> chapters = await dbHelper.getAllCChapters();
                    //print(chapters);
                   // await dbHelper.createQuestionTable();
-                  await dbHelper.createQuestionTable();
-                  await dbHelper.addTestData();
-                  List<String> tables = await dbHelper.getTables();
+                  //await dbHelper.createQuestionTable();
+                  //await dbHelper.addTestData();
+                 // List<String> tables = await dbHelper.getTables();
 
                   // Print the list of tables
-                  print('Tables in the database: $tables');
+                  //print('Tables in the database: $tables');
 
                   //await DatabaseHelper().checkAndCreateTables();
 
                 },
-                child: Text('See tables'),
-              ),*/
-              /*ElevatedButton(
+                child: Text('See data'),
+              ),
+                /*ElevatedButton(
                 onPressed: () async {
                   await dbHelper.dropAndRecreateTables();
 
@@ -207,7 +199,7 @@ class HomePage extends StatelessWidget {
                 },
                 child: Text('Drop DB'),
               ),*/
-              ElevatedButton(
+                ElevatedButton(
                   onPressed: () async {
                     List<CameraDescription> cameras = await getCameras();
 
@@ -217,7 +209,6 @@ class HomePage extends StatelessWidget {
                         builder: (context) => TakePictureScreen(
                           camera: cameras.first,
                         ),
-
                       ),
                     );
                   },
@@ -244,9 +235,7 @@ class HomePage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => MusicSelectionScreen(
-                        ),
-
+                        builder: (context) => MusicSelectionScreen(),
                       ),
                     );
                   },
@@ -254,12 +243,10 @@ class HomePage extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => ARS(),
-
                       ),
                     );
                   },
@@ -267,7 +254,6 @@ class HomePage extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -277,10 +263,10 @@ class HomePage extends StatelessWidget {
                   },
                   child: Text('Music'),
                 ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
       ),
     );
   }

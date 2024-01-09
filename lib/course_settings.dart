@@ -18,7 +18,8 @@ class FileUploadPage extends StatefulWidget {
   final int courseId;
   final int chapterId;
 
-  FileUploadPage({required this.userId, required this.courseId, required this.chapterId});
+  FileUploadPage(
+      {required this.userId, required this.courseId, required this.chapterId});
 
   @override
   _FileUploadPageState createState() => _FileUploadPageState();
@@ -43,8 +44,10 @@ class _FileUploadPageState extends State<FileUploadPage> {
 
                 if (result != null) {
                   final file = File(result.files.single.path!);
-                  final appDocumentDir = await getApplicationDocumentsDirectory();
-                  final localFilePath = '${appDocumentDir.path}/${result.files.single.name}';
+                  final appDocumentDir =
+                      await getApplicationDocumentsDirectory();
+                  final localFilePath =
+                      '${appDocumentDir.path}/${result.files.single.name}';
                   await file.copy(localFilePath);
 
                   // Store the file path in the database
@@ -59,7 +62,11 @@ class _FileUploadPageState extends State<FileUploadPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => FileOpenPage(filePath: filePath, userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId),
+                      builder: (context) => FileOpenPage(
+                          filePath: filePath,
+                          userId: widget.userId,
+                          courseId: widget.courseId,
+                          chapterId: widget.chapterId),
                     ),
                   );
                 }

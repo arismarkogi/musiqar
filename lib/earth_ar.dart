@@ -58,7 +58,6 @@ Future<void> earthMap(ArCoreController coreController) async {
 
 */
 
-
 /*
 import 'dart:async';
 import 'dart:io';
@@ -170,9 +169,6 @@ import 'package:flutter/material.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-
-
-
 class BackgroundMusicPlayer {
   static AudioPlayer _audioPlayer = AudioPlayer();
 
@@ -201,7 +197,6 @@ class CombinedScreen extends StatefulWidget {
     required this.modelAsset,
   }) : super(key: key);
 
-
   @override
   _CombinedScreenState createState() => _CombinedScreenState();
 }
@@ -218,13 +213,13 @@ class _CombinedScreenState extends State<CombinedScreen> {
       ResolutionPreset.medium,
     );
     _initializeControllerFuture = _controller.initialize();
-    BackgroundMusicPlayer.play(widget.musicAsset); 
+    BackgroundMusicPlayer.play(widget.musicAsset);
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    BackgroundMusicPlayer.stop(); 
+    BackgroundMusicPlayer.stop();
     super.dispose();
   }
 
@@ -246,7 +241,8 @@ class _CombinedScreenState extends State<CombinedScreen> {
                   alt: 'A 3D model of a piano',
                   ar: true,
                   autoRotate: true,
-                  iosSrc: 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz',
+                  iosSrc:
+                      'https://modelviewer.dev/shared-assets/models/Astronaut.usdz',
                   disableZoom: true,
                 ),
               ],
@@ -264,7 +260,8 @@ class _CombinedScreenState extends State<CombinedScreen> {
             if (!mounted) return;
             await Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => DisplayPictureScreen1(imagePath: image.path),
+                builder: (context) =>
+                    DisplayPictureScreen1(imagePath: image.path),
               ),
             );
           } catch (e) {
@@ -280,7 +277,8 @@ class _CombinedScreenState extends State<CombinedScreen> {
 class DisplayPictureScreen1 extends StatelessWidget {
   final String imagePath;
 
-  const DisplayPictureScreen1({Key? key, required this.imagePath}) : super(key: key);
+  const DisplayPictureScreen1({Key? key, required this.imagePath})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

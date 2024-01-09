@@ -6,16 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-
-
-
 class MusicSelectionScreen extends StatelessWidget {
-
   Future<List<CameraDescription>> getCameras() async {
     WidgetsFlutterBinding.ensureInitialized();
     return await availableCameras();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +31,8 @@ class MusicSelectionScreen extends StatelessWidget {
                     builder: (context) => CombinedScreen(
                       camera: cameras.first,
                       musicAsset: 'Blue.mp3', // Default music for piano
-                      modelAsset: 'assets/piano3d.glb', // Default 3D model for piano
+                      modelAsset:
+                          'assets/piano3d.glb', // Default 3D model for piano
                     ),
                   ),
                 );
@@ -52,7 +49,7 @@ class MusicSelectionScreen extends StatelessWidget {
                     builder: (context) => CombinedScreen(
                       camera: cameras.first,
                       musicAsset: 'saxophone.m4a',
-                      modelAsset: 'assets/saxophone.glb', 
+                      modelAsset: 'assets/saxophone.glb',
                     ),
                   ),
                 );

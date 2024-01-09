@@ -15,7 +15,6 @@ import 'package:flutter/rendering.dart';
 import 'homepage.dart';
 import 'package:provider/provider.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
@@ -25,7 +24,6 @@ void main() async {
     ),
   );
 }
-
 
 class MyApp extends StatelessWidget {
   @override

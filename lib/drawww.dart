@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
-
 class DrawingPage extends StatefulWidget {
   @override
   _DrawingPageState createState() => _DrawingPageState();
@@ -128,9 +127,11 @@ class DrawingPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     for (int i = 0; i < points.length - 1; i++) {
       if (points[i] != null && points[i + 1] != null) {
-        canvas.drawLine(points[i]!.points, points[i + 1]!.points, points[i]!.paint);
+        canvas.drawLine(
+            points[i]!.points, points[i + 1]!.points, points[i]!.paint);
       } else if (points[i] != null && points[i + 1] == null) {
-        canvas.drawPoints(ui.PointMode.points, [points[i]!.points], points[i]!.paint);
+        canvas.drawPoints(
+            ui.PointMode.points, [points[i]!.points], points[i]!.paint);
       }
     }
   }

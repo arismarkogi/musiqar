@@ -7,14 +7,11 @@ import 'widgets/category.dart';
 
 String courseName = "Course Name";
 String instructorName = "Instructor Name";
-String courseInfo = "Short description of the course, probably mentions the prerequisites, if exist, and define the learning outcome";
+String courseInfo =
+    "Short description of the course, probably mentions the prerequisites, if exist, and define the learning outcome";
 String imageURL = "assets/course.jpg";
 
-
-
-
 class AvailableCourses extends StatelessWidget {
-
   final int userId;
 
   AvailableCourses({required this.userId});
@@ -36,47 +33,54 @@ class AvailableCourses extends StatelessWidget {
           leading: IconButton(
             icon: Icon(Icons.menu),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage(userId: userId)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MenuPage(userId: userId)));
             },
           ),
           actions: [
             IconButton(
               icon: Icon(Icons.account_circle),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage(userId: userId)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProfilePage(userId: userId)));
               },
             ),
           ],
         ),
-    body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Text(
               'Available Courses',
               style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
             ),
-         ),
+          ),
           Padding(
-            padding: EdgeInsets.only(left: 16.0), 
+            padding: EdgeInsets.only(left: 16.0),
             child: Container(
               height: 460,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: 10,
                 separatorBuilder: (context, _) => SizedBox(width: 8),
-                itemBuilder: (context, index) => AvailableCourse(courseName, instructorName, courseInfo, imageURL,() {
+                itemBuilder: (context, index) => AvailableCourse(
+                    courseName, instructorName, courseInfo, imageURL, () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => CoursePage(userId: userId, courseId: 0,)),
+                    MaterialPageRoute(
+                        builder: (context) => CoursePage(
+                              userId: userId,
+                              courseId: 0,
+                            )),
                   );
-
-                }
-                ),
+                }),
               ),
             ),
           ),
@@ -107,11 +111,7 @@ class AvailableCourses extends StatelessWidget {
                 },
               ),
             ),
-
-
           ),
-        ]
-      )
-    );
+        ]));
   }
 }

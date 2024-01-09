@@ -7,7 +7,6 @@ class BackgroundMusicPlayer {
   static Future<void> play() async {
     //await _audioPlayer.play('assets/Blue.mp3', isLocal: true);
     await _audioPlayer.play(AssetSource('Blue.mp3'));
-
   }
 
   static Future<void> pause() async {
