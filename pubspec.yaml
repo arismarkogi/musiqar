@@ -36,6 +36,7 @@ dependencies:
   file_picker:
   flutter_colorpicker:
   screenshot:
+  vibration:
   path_provider:
   image_picker:
   syncfusion_flutter_pdfviewer:
@@ -96,4 +97,7 @@ flutter:
     - assets/piano3d.glb
     - assets/pianoar.png
     - assets/saxophone.glb
+    - assets/tuba.glb
+    - assets/violin.glb
     - assets/Blue.mp3
+    - assets/saxophone.m4a
