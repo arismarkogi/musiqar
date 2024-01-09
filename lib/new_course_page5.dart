@@ -95,7 +95,7 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
               SizedBox(height: 40),
               SizedBox(height: 50),
               Text(
-                'Select type of question',
+                'Select correct answer',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF6750A4),

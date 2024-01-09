@@ -23,7 +23,7 @@ class DatabaseHelper {
   String path = join(databasesPath, 'musiqar.db');
 
   try {
-    var db = await openDatabase(path, version: 2, onCreate: _onCreate, onUpgrade: _onUpgrade);
+    var db = await openDatabase(path, version: 2, onCreate: _onCreate, );
     return db;
   } catch (e) {
     print('Error initializing database: $e');
@@ -31,7 +31,7 @@ class DatabaseHelper {
   }
 }
 
-void _onUpgrade(Database db, int oldVersion, int newVersion) async {
+/*void _onUpgrade(Database db, int oldVersion, int newVersion) async {
   if (oldVersion < 3) {
     await db.execute('''
       CREATE TABLE course (
@@ -74,7 +74,7 @@ void _onUpgrade(Database db, int oldVersion, int newVersion) async {
     )
     """);
   }
-}
+}*/
 
   void _onCreate(Database db, int version) async {
     await db.execute('''
@@ -119,32 +119,106 @@ void _onUpgrade(Database db, int oldVersion, int newVersion) async {
     )
     """);
 
-    await db.execute("""
-    CREATE TABLE question (
+
+  await db.execute("""
+    CREATE TABLE Question (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      chapter_id INTEGER,
       type TEXT,
-      title TEXT
+      title TEXT,
+      FOREIGN KEY(chapter_id) REFERENCES Chapter(id)
     )
     """);
 
     await db.execute("""
-    CREATE TABLE has_question (
-      chapter_id INTEGER,
+    CREATE TABLE Answer (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
       question_id INTEGER,
-      PRIMARY KEY(chapter_id, question_id)
+      text TEXT,
+      is_correct BOOLEAN,
+      FOREIGN KEY(question_id) REFERENCES Question(id)
     )
     """);
 
-    await db.execute("""
-    CREATE TABLE has_question (
-      chapter_id INTEGER,
-      question_id INTEGER,
-      PRIMARY KEY(chapter_id, question_id)
-    )
-    """);
+    int insertedId0 = await insertUser({
+      'email': '1@1.1',
+      'password': '1',
+      'name': 'Admin',
+      'surname': 'Admin',
+      'dateofbirth': '2002-01-01',
+      'bio': 'Bio',
+      'points': 100
+    });
 
+    int insertedId1 = await insertUser({
+      'email': 'user2@example.com',
+      'password': 'password',
+      'name': 'Name2',
+      'surname': 'Surname2',
+      'dateofbirth': '2002-01-10',
+      'bio': 'My short nbbbio',
+      'points': 20
+    });
 
+    int insertedId2 = await insertUser({
+      'email': 'user2@example.com',
+      'password': 'password',
+      'name': 'Name2',
+      'surname': 'Surname3',
+      'dateofbirth': '2002-01-10',
+      'bio': 'My short bio',
+      'points': 25
+    });
+
+    int insertedId3 = await insertUser({
+      'email': 'user3@example.com',
+      'password': 'password',
+      'name': 'Name3',
+      'surname': 'Surname3',
+      'dateofbirth': '2002-01-10',
+      'bio': 'My bio-3',
+      'points': 15
+    });
+
+    print('Inserted ID: $insertedId1');
   }
+
+
+Future<void> dropAndRecreateTables() async {
+  final databasesPath = await getDatabasesPath();
+  final path = join(databasesPath, 'musiqar.db');
+
+  var db = await openDatabase(path);
+
+
+  await db.execute('DROP TABLE IF EXISTS question');
+  await db.execute('DROP TABLE IF EXISTS has_question');
+
+  db = await openDatabase(path, version: 1, onCreate: (db, version) async {
+    await db.execute('''
+      CREATE TABLE Question (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        chapter_id INTEGER,
+        type TEXT,
+        title TEXT,
+        FOREIGN KEY(chapter_id) REFERENCES Chapter(id)
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE Answer (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        question_id INTEGER,
+        text TEXT,
+        is_correct BOOLEAN,
+        FOREIGN KEY(question_id) REFERENCES Question(id)
+      )
+    ''');
+  });
+
+}
+
+
 
   Future<int> insertUser(Map<String, dynamic> user) async {
   var dbClient = await db;
@@ -169,6 +243,14 @@ Future<int> newChapter(Map<String, dynamic> chapter, int courseId) async {
 
   return chapterId;
 }
+
+Future<int> newQuestion(Map<String, dynamic> question) async {
+  var dbClient = await db;
+  int questionId = await dbClient.insert('question', question);
+
+  return questionId;
+}
+
 
   Future<void> newhas_chapter(Map<String, dynamic> has_chapter) async{
     var dbClient = await db;
@@ -274,6 +356,22 @@ Future<int> newChapter(Map<String, dynamic> chapter, int courseId) async {
     return await dbClient.delete('course', where: 'id = ?', whereArgs: [id]);
   }
 
+Future<List<String>> getTables() async {
+  Database database = await openDatabase(
+    join(await getDatabasesPath(), 'musiqar.db'),
+  );
+
+  List<Map<String, dynamic>> tables = await database.rawQuery(
+    "SELECT name FROM sqlite_master WHERE type='table';",
+  );
+
+  List<String> tableNames =
+      tables.map((table) => table['name'] as String).toList();
+
+  await database.close();
+
+  return tableNames;
+}
 
   
   Future<bool> doesTableExist(String tableName) async {
@@ -311,6 +409,37 @@ Future<int> newChapter(Map<String, dynamic> chapter, int courseId) async {
       WHERE hc.course_id = ?
     ''', [courseId]);
   }
+
+  Future<List<Map<String, dynamic>>> getQuestionsForChapter(int chapterId) async {
+    var dbClient = await db;
+    return await dbClient.rawQuery('''
+      SELECT id, title, type
+      FROM question 
+      WHERE chapter_id = ?
+    ''', [chapterId]);
+  }
+
+final String createQuestionTableQuery = '''
+  CREATE TABLE IF NOT EXISTS Question (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    chapter_id INTEGER,
+    type TEXT,
+    title TEXT,
+    FOREIGN KEY(chapter_id) REFERENCES Chapter(id)
+  )
+''';
+
+
+
+Future<void> createQuestionTable() async {
+  Database database = await openDatabase(
+    join(await getDatabasesPath(), 'musiqar.db'),
+  );
+
+  await database.execute(createQuestionTableQuery);
+
+  await database.close();
+}
 
 
 
@@ -375,19 +504,23 @@ Future<void> _createTable(String tableName) async {
       break;
     case 'question':
       await dbClient.execute("""
-        CREATE TABLE question (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          type TEXT,
-          title TEXT
-        )
+      CREATE TABLE Question (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        chapter_id INTEGER,
+        type TEXT,
+        title TEXT,
+        FOREIGN KEY(chapter_id) REFERENCES Chapter(id)
+      )
       """);
       break;
     case 'has_question':
       await dbClient.execute("""
-      CREATE TABLE has_question (
-        chapter_id INTEGER ,
+      CREATE TABLE Answer (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         question_id INTEGER,
-        PRIMARY KEY (chapter_id, question_id)
+        text TEXT,
+        is_correct BOOLEAN,
+        FOREIGN KEY(question_id) REFERENCES Question(id)
       )
       """);
       break;
@@ -395,6 +528,40 @@ Future<void> _createTable(String tableName) async {
     default:
       print('Unsupported table name: $tableName');
   }
+}
+
+
+Future<void> addTestData() async {
+  Database database = await openDatabase(
+    join(await getDatabasesPath(), 'musiqar.db'),
+  );
+
+  await database.rawInsert('''
+    INSERT INTO users (email, password, name, surname, dateofbirth, bio, points)
+    VALUES ('test@email.com', 'testpassword', 'John', 'Doe', '2000-01-01', 'Bio text', 10)
+  ''');
+
+  int courseId = await database.rawInsert('''
+    INSERT INTO course (title, description, category, instructor)
+    VALUES ('Test Course', 'Course description', 'Test Category', 1)
+  ''');
+
+  int chapterId = await database.rawInsert('''
+    INSERT INTO chapter (title, question_type, pdf_name)
+    VALUES ('Chapter 1', 'LorR', 'chapter1.pdf')
+  ''');
+
+  await database.rawInsert('''
+    INSERT INTO has_chapter (chapter_id, course_id)
+    VALUES (?, ?)
+  ''', [chapterId, courseId]);
+
+  await database.rawInsert('''
+    INSERT INTO Question (chapter_id, type, title)
+    VALUES (?, 'LorR', 'What is the answer?')
+  ''', [chapterId]);
+
+  await database.close();
 }
 
 }

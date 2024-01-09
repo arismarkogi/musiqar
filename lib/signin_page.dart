@@ -9,7 +9,7 @@ import 'widgets/signin_button.dart';
 import 'profile_settings.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-
+import 'package:vibration/vibration.dart';
 
 
 class SignInPage extends StatefulWidget {
@@ -26,6 +26,19 @@ class _SignInPageState extends State<SignInPage> {
 
   var userID = 0;
 
+  bool validateInputs(BuildContext context) {
+    if (signInEmailController.text.isEmpty || signInPasswordController.text.isEmpty) {
+      Vibration.vibrate(duration: 1000); 
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please fill in all fields'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return false;
+    }
+    return true;
+  }
 
   void signIn(BuildContext context) async {
     String email = signInEmailController.text;
@@ -158,7 +171,11 @@ void signUp(BuildContext context) async {
                 customInput('Password', signInPasswordController, isPassword: true, context: context),
                 SizedBox(height: 16),
                 singinbutton(
-                  onPressed: () => signIn(context),
+                  onPressed: () {
+                    if (validateInputs(context)) {
+                      signIn(context); 
+                    }
+                  },
                   buttonText: 'Sign in',
                 ),
                 SizedBox(height: 16),

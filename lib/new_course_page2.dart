@@ -191,7 +191,7 @@ Widget inputChapter(String labelText, TextEditingController controller, BuildCon
                 ),
               ),
             ),
-                        child: Row(
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
@@ -514,7 +514,6 @@ Future<int> insertChapter(int courseId) async {
                   ),
                 ),
 
-              SizedBox(height: 20),
               /*AddChapter(
                 onPressed: () {
                   setState(() {

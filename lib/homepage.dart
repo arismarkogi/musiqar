@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/select_music.dart';
 import 'signin_page.dart';
 import 'menu_page.dart';
 import 'swipe_right_page.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'extra_page.dart';
 import 'arsaxo.dart';
 import 'earth_ar.dart';
+import 'music.dart';
 
 
 
@@ -97,7 +99,7 @@ class HomePage extends StatelessWidget {
                 },
                 child: Text('Piano'),
               ),
-              SizedBox(height: 20),
+              /*SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
                   dbHelper.deleteAllUsers();
@@ -135,23 +137,78 @@ class HomePage extends StatelessWidget {
                   print('Inserted ID: $insertedId1');
                 },
                 child: Text('Add data'),
-              ),
-                ElevatedButton(
+              ),*/
+                /*ElevatedButton(
                 onPressed: () async {
                   //List<Map<String, dynamic>> users = await dbHelper.getAllUsers();
                   //print(users);
                    //List<Map<String, dynamic>> courses = await dbHelper.getAllCourses();
                    //print(courses);
-                   List<Map<String, dynamic>> chapters = await dbHelper.getAllCChapters();
-                   print(chapters);
+                   //List<Map<String, dynamic>> chapters = await dbHelper.getAllCChapters();
+                   //print(chapters);
+                  // await dbHelper.createQuestionTable();
+                  await dbHelper.createQuestionTable();
+                  await dbHelper.addTestData();
+                  List<String> tables = await dbHelper.getTables();
+
+                  // Print the list of tables
+                  print('Tables in the database: $tables');
+
                   //await DatabaseHelper().checkAndCreateTables();
 
                 },
-                child: Text('See data'),
-              ),
+                child: Text('See tables'),
+              ),*/
+              /*ElevatedButton(
+                onPressed: () async {
+                  await dbHelper.dropAndRecreateTables();
+
+                  int insertedId0 = await dbHelper.insertUser({
+                  'email': '1@1.1',
+                  'password': '1',
+                  'name': 'Admin',
+                  'surname': 'Admin',
+                  'dateofbirth': '2002-01-01',
+                  'bio': 'Bio',
+                  'points': 100
+                });
+
+                int insertedId1 = await dbHelper.insertUser({
+                  'email': 'user2@example.com',
+                  'password': 'password',
+                  'name': 'Name2',
+                  'surname': 'Surname2',
+                  'dateofbirth': '2002-01-10',
+                  'bio': 'My short nbbbio',
+                  'points': 20
+                });
+
+                int insertedId2 = await dbHelper.insertUser({
+                  'email': 'user2@example.com',
+                  'password': 'password',
+                  'name': 'Name2',
+                  'surname': 'Surname3',
+                  'dateofbirth': '2002-01-10',
+                  'bio': 'My short bio',
+                  'points': 25
+                });
+
+                int insertedId3 = await dbHelper.insertUser({
+                  'email': 'user3@example.com',
+                  'password': 'password',
+                  'name': 'Name3',
+                  'surname': 'Surname3',
+                  'dateofbirth': '2002-01-10',
+                  'bio': 'My bio-3',
+                  'points': 15
+                });
+
+                print('Inserted ID: $insertedId1');
+                },
+                child: Text('Drop DB'),
+              ),*/
               ElevatedButton(
                   onPressed: () async {
-                    // Get cameras when the button is pressed
                     List<CameraDescription> cameras = await getCameras();
 
                     Navigator.push(
@@ -166,9 +223,8 @@ class HomePage extends StatelessWidget {
                   },
                   child: Text('Camera'),
                 ),
-                ElevatedButton(
+                /*ElevatedButton(
                   onPressed: () async {
-                    // Get cameras when the button is pressed
                     List<CameraDescription> cameras = await getCameras();
 
                     Navigator.push(
@@ -182,6 +238,19 @@ class HomePage extends StatelessWidget {
                     );
                   },
                   child: Text('ARR'),
+                ),*/
+                ElevatedButton(
+                  onPressed: () async {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MusicSelectionScreen(
+                        ),
+
+                      ),
+                    );
+                  },
+                  child: Text('Select Music and AR'),
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -196,10 +265,18 @@ class HomePage extends StatelessWidget {
                   },
                   child: Text('Saxophone'),
                 ),
-                
+                ElevatedButton(
+                  onPressed: () async {
 
-
-
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MusicPage(),
+                      ),
+                    );
+                  },
+                  child: Text('Music'),
+                ),
             ],
           ),
         ),
