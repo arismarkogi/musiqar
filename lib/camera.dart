@@ -4,9 +4,6 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
-
-
-
 class TakePictureScreen extends StatefulWidget {
   final CameraDescription camera;
 
@@ -49,7 +46,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
               children: [
                 CameraPreview(_controller),
                 Image.asset(
-                  'assets/pianoar.png', 
+                  'assets/pianoar.png',
                   fit: BoxFit.cover,
                 ),
               ],
@@ -67,7 +64,8 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             if (!mounted) return;
             await Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => DisplayPictureScreen(imagePath: image.path),
+                builder: (context) =>
+                    DisplayPictureScreen(imagePath: image.path),
               ),
             );
           } catch (e) {

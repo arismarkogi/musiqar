@@ -15,9 +15,7 @@ import 'data/database_helper.dart';
 import 'available_courses.dart';
 import 'mycourses.dart';
 
-
 class MenuPage extends StatefulWidget {
-
   final int userId;
 
   MenuPage({required this.userId});
@@ -46,27 +44,37 @@ class _MenuPageState extends State<MenuPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: 45),
-          buildMenuItem(context, 'My Courses', MyCourses(userId : widget.userId)),
+          buildMenuItem(
+              context, 'My Courses', MyCourses(userId: widget.userId)),
           const SizedBox(height: 25),
           sline(),
           const SizedBox(height: 45),
-          buildMenuItem(context, 'Available Courses', AvailableCourses(userId : widget.userId)),
+          buildMenuItem(context, 'Available Courses',
+              AvailableCourses(userId: widget.userId)),
           const SizedBox(height: 25),
           sline(),
           const SizedBox(height: 45),
-          buildMenuItem(context, 'Rankings', RankingsPage(userId: widget.userId)), 
+          buildMenuItem(
+              context, 'Rankings', RankingsPage(userId: widget.userId)),
           const SizedBox(height: 25),
           sline(),
           const SizedBox(height: 45),
-          buildMenuItem(context, 'User profile', ProfilePage(userId: widget.userId,)), 
+          buildMenuItem(
+              context,
+              'User profile',
+              ProfilePage(
+                userId: widget.userId,
+              )),
           const SizedBox(height: 25),
           sline(),
           const SizedBox(height: 45),
-          buildMenuItem(context, 'New course', NewCoursePage1(userId: widget.userId, courseId: -1)),
+          buildMenuItem(context, 'New course',
+              NewCoursePage1(userId: widget.userId, courseId: -1)),
           const SizedBox(height: 25),
           sline(),
           const SizedBox(height: 45),
-          buildMenuItem(context, 'Admin page', AdminPage(userId: widget.userId)),
+          buildMenuItem(
+              context, 'Admin page', AdminPage(userId: widget.userId)),
           const SizedBox(height: 25),
           sline(),
           Expanded(
@@ -86,5 +94,4 @@ class _MenuPageState extends State<MenuPage> {
       ),
     );
   }
-
 }

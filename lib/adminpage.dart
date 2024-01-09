@@ -1,12 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'signin_page.dart';
 import 'menu_page.dart';
 import 'swipe_right_page.dart';
 import 'data/database_helper.dart';
-
-
-
 
 class AdminPage extends StatelessWidget {
   final int userId;
@@ -14,7 +10,6 @@ class AdminPage extends StatelessWidget {
   AdminPage({required this.userId});
 
   final DatabaseHelper dbHelper = DatabaseHelper();
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,16 +53,18 @@ class AdminPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MenuPage(userId: userId)),
+                    MaterialPageRoute(
+                        builder: (context) => MenuPage(userId: userId)),
                   );
                 },
                 child: Text('Menu'),
               ),
               SizedBox(height: 20),
-                ElevatedButton(
+              ElevatedButton(
                 onPressed: () async {
                   // Inside a button's onPressed handler or another relevant part of your app
-                  List<Map<String, dynamic>> users = await dbHelper.getAllUsers();
+                  List<Map<String, dynamic>> users =
+                      await dbHelper.getAllUsers();
                   print(users);
                 },
                 child: Text('See data'),

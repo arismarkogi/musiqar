@@ -23,11 +23,13 @@ class Triangle extends PaintContent {
 
   factory Triangle.fromJson(Map<String, dynamic> data) {
     return Triangle.data(
-      startPoint: Offset(data['startPoint']['dx'] as double, data['startPoint']['dy'] as double),
+      startPoint: Offset(data['startPoint']['dx'] as double,
+          data['startPoint']['dy'] as double),
       A: Offset(data['A']['dx'] as double, data['A']['dy'] as double),
       B: Offset(data['B']['dx'] as double, data['B']['dy'] as double),
       C: Offset(data['C']['dx'] as double, data['C']['dy'] as double),
-      paint: Paint()..color = Color(int.parse(data['paint']['color'] as String)),
+      paint: Paint()
+        ..color = Color(int.parse(data['paint']['color'] as String)),
     );
   }
 
@@ -107,55 +109,60 @@ class Drawpage extends StatefulWidget {
   final int userId;
   final int courseId;
   final int chapterId;
+  final int questionId;
 
-  Drawpage({required this.userId, required this.courseId, required this.chapterId, Key? key}) : super(key: key);
+  Drawpage(
+      {required this.userId,
+      required this.courseId,
+      required this.chapterId,
+      required this.questionId,
+      Key? key})
+      : super(key: key);
 
   @override
   State<Drawpage> createState() => _Drawpage();
 }
 
-
 class _Drawpage extends State<Drawpage> {
   final GlobalKey _repaintKey = GlobalKey();
   final DrawingController _drawingController = DrawingController();
 
-
- final ScreenshotController _screenshotController = ScreenshotController();
-
+  final ScreenshotController _screenshotController = ScreenshotController();
 
   Future<void> _getImageData(BuildContext context) async {
-  print('Calling _getImageData');
-  try {
-    setState(() {});
+    print('Calling _getImageData');
+    try {
+      setState(() {});
 
-    await Future.delayed(const Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 300));
 
-    Uint8List? data = await _screenshotController.capture();
+      Uint8List? data = await _screenshotController.capture();
 
-    if (data != null) {
-      final Directory directory = await getApplicationDocumentsDirectory();
-      final String filePath = '${directory.path}/drawing_image.png';
+      if (data != null) {
+        final Directory directory = await getApplicationDocumentsDirectory();
+        final String filePath = '${directory.path}/drawing_image.png';
 
-      await File(filePath).writeAsBytes(data);
-      debugPrint('Image saved at: $filePath');
+        await File(filePath).writeAsBytes(data);
+        debugPrint('Image saved at: $filePath');
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => NewCoursePage7(imagePath: filePath, userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId),
-        ),
-      );
-    } else {
-      debugPrint('Error capturing image');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NewCoursePage7(
+                imagePath: filePath,
+                userId: widget.userId,
+                courseId: widget.courseId,
+                chapterId: widget.chapterId,
+                questionId: widget.questionId),
+          ),
+        );
+      } else {
+        debugPrint('Error capturing image');
+      }
+    } catch (e) {
+      debugPrint('Error in _getImageData: $e');
     }
-  } catch (e) {
-    debugPrint('Error in _getImageData: $e');
   }
-}
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -181,41 +188,40 @@ class _Drawpage extends State<Drawpage> {
           ),
         ],
       ),
-      body: 
-      Screenshot(
+      body: Screenshot(
         controller: _screenshotController,
         child: Column(
-        children: <Widget>[
-          Expanded(
-            child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                return DrawingBoard(
-                  controller: _drawingController,
-                  background: Container(
-                    width: constraints.maxWidth,
-                    height: constraints.maxHeight,
-                    color: Colors.white,
-                  ),
-                  showDefaultActions: true,
-                  showDefaultTools: true,
-                  defaultToolsBuilder: (Type t, _) {
-                    return DrawingBoard.defaultTools(t, _drawingController)
-                      ..insert(
-                        1,
-                        DefToolItem(
-                          icon: Icons.change_history_rounded,
-                          isActive: t == Triangle,
-                          onTap: () =>
-                              _drawingController.setPaintContent(Triangle()),
-                        ),
-                      );
-                  },
-                );
-              },
+          children: <Widget>[
+            Expanded(
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  return DrawingBoard(
+                    controller: _drawingController,
+                    background: Container(
+                      width: constraints.maxWidth,
+                      height: constraints.maxHeight,
+                      color: Colors.white,
+                    ),
+                    showDefaultActions: true,
+                    showDefaultTools: true,
+                    defaultToolsBuilder: (Type t, _) {
+                      return DrawingBoard.defaultTools(t, _drawingController)
+                        ..insert(
+                          1,
+                          DefToolItem(
+                            icon: Icons.change_history_rounded,
+                            isActive: t == Triangle,
+                            onTap: () =>
+                                _drawingController.setPaintContent(Triangle()),
+                          ),
+                        );
+                    },
+                  );
+                },
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
       ),
     );
   }
