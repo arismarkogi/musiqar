@@ -9,7 +9,7 @@ import 'profile_page.dart';
 import 'course_info_provider.dart';
 import 'package:provider/provider.dart';
 import 'data/database_helper.dart';
-
+import 'package:vibration/vibration.dart';
 
 class NewCoursePage1 extends StatefulWidget {
   final int userId;
@@ -32,6 +32,20 @@ class _NewCoursePage1State extends State<NewCoursePage1> {
   TextEditingController description = TextEditingController();
   TextEditingController instructor = TextEditingController();
 
+  bool validateInputs() {
+    if (coursename.text.isEmpty || category.text.isEmpty || description.text.isEmpty) {
+      Vibration.vibrate(duration: 1000); 
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please fill in all fields'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return false;
+    }
+    return true;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -44,7 +58,6 @@ class _NewCoursePage1State extends State<NewCoursePage1> {
 }
 
 Future<void> _fetchCourseData() async {
-  print("to prospatho");
   if (widget.courseId == -1){
     setState((){
       coursename.text = "";
@@ -211,8 +224,13 @@ Future<void> _fetchCourseData() async {
               ),*/
               CancelButton(
                 onPressed: () async {
-                  int newcourseid = await insertcourse(); 
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2(userId: widget.userId, courseId: newcourseid)));
+                  if (validateInputs()) {
+                    int newcourseid = await insertcourse();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NewCoursePage2(userId: widget.userId, courseId: newcourseid)),
+                    );
+                  }
                 },
                 buttonText: 'Continue',
               ),

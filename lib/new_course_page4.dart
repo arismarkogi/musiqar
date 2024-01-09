@@ -154,26 +154,6 @@ class _CustomBoxState extends State<CustomBox> {
       ),
       child: Row(
         children: [
-          GestureDetector(
-            onTap: _pickImage,
-            child: Container(
-              width: 114,
-              height: 64,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.grey[200],
-                image: imagePath != null
-                    ? DecorationImage(
-                        image: FileImage(File(imagePath!)),
-                        fit: BoxFit.cover,
-                      )
-                    : null,
-              ),
-              child: imagePath == null
-                  ? Icon(Icons.add_a_photo)
-                  : null,
-            ),
-          ),
           SizedBox(width: 8), 
           Expanded(
             child: TextField(
