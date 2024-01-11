@@ -1,5 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'insertions.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper.internal();
@@ -13,23 +14,105 @@ class DatabaseHelper {
   }
   _db = await initDb();
   return _db!;
-}
+  }
+
+  String courseTable =  '''
+      CREATE TABLE course (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT,
+      description TEXT, 
+      category TEXT,
+      instructor INTEGER,
+      image_url TEXT
+    );
+    ''';
+
+  String chapterTable = '''
+      CREATE TABLE chapter (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT,
+      pdf_url TEXT,
+      pdf_name TEXT
+    );
+    ''';
+
+  String hasChapter = """
+    CREATE TABLE has_chapter (
+    chapter_id INTEGER,
+    course_id INTEGER,
+    PRIMARY KEY (chapter_id, course_id),
+  
+    );
+    """;
+
+  String usersTable = '''
+      CREATE TABLE users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT,
+      password TEXT, 
+      name TEXT,
+      surname TEXT,
+      dateofbirth TEXT,
+      bio TEXT,
+      image_url TEXT,
+      points INTEGER DEFAULT 0
+    );
+    ''';
+
+  String hasEnrolled = '''
+    CREATE TABLE has_enrolled (
+      course_id INTEGER,
+      user_id INTEGER,
+      PRIMARY KEY (user_id, course_id)
+  );
+  ''';
+
+  String hasCompleted = '''
+    CREATE TABLE has_completed (
+      chapter_id INTEGER,
+      user_id INTEGER,
+      PRIMARY KEY (user_id, chapter_id)
+    );
+    ''';
+
+    String question = """
+    CREATE TABLE Question (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      chapter_id INTEGER,
+      type TEXT,
+      title TEXT,
+    );
+    """;
+
+    String answer = """
+    CREATE TABLE Answer (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      question_id INTEGER,
+      text TEXT,
+      is_correct BOOLEAN,
+    );
+    """;
+
+
 
 
   DatabaseHelper.internal();
 
   Future<Database> initDb() async {
-  String databasesPath = await getDatabasesPath();
-  String path = join(databasesPath, 'musiqar.db');
+    String databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'musiqar.db');
 
-  try {
-    var db = await openDatabase(path, version: 2, onCreate: _onCreate, );
-    return db;
-  } catch (e) {
-    print('Error initializing database: $e');
-    rethrow; 
+    try {
+      _db = await openDatabase(path, version: 2, onCreate: _onCreate, );
+      await checkAndCreateTables();  // Check and create tables explicitly
+      await _executeInsertStatements(); // Insert data
+      return _db!;
+    } catch (e) {
+      print('Error initializing database: $e');
+      rethrow;
+    }
   }
-}
+
 
 /*void _onUpgrade(Database db, int oldVersion, int newVersion) async {
   if (oldVersion < 3) {
@@ -77,112 +160,16 @@ class DatabaseHelper {
 }*/
 
   void _onCreate(Database db, int version) async {
-    await db.execute('''
-      CREATE TABLE users (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      email TEXT,
-      password TEXT, 
-      name TEXT,
-      surname TEXT,
-      dateofbirth TEXT,
-      bio TEXT,
-      image BLOB,
-      points INTEGER DEFAULT 0
-    )
-    ''');
-
-    await db.execute('''
-      CREATE TABLE course (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      title TEXT,
-      description TEXT, 
-      category TEXT,
-      instructor INTEGER
-    )
-    ''');
-
-    await db.execute('''
-      CREATE TABLE chapter (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      title TEXT,
-      question_type TEXT,
-      pdf TEXT,
-      pdf_name TEXT
-    )
-    ''');
-
-    await db.execute("""
-    CREATE TABLE has_chapter (
-      chapter_id INTEGER,
-      course_id INTEGER,
-      PRIMARY KEY (chapter_id, course_id)
-    )
-    """);
-
-
-  await db.execute("""
-    CREATE TABLE Question (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      chapter_id INTEGER,
-      type TEXT,
-      title TEXT,
-      FOREIGN KEY(chapter_id) REFERENCES Chapter(id)
-    )
-    """);
-
-    await db.execute("""
-    CREATE TABLE Answer (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      question_id INTEGER,
-      text TEXT,
-      is_correct BOOLEAN,
-      FOREIGN KEY(question_id) REFERENCES Question(id)
-    )
-    """);
-
-    int insertedId0 = await insertUser({
-      'email': '1@1.1',
-      'password': '1',
-      'name': 'Admin',
-      'surname': 'Admin',
-      'dateofbirth': '2002-01-01',
-      'bio': 'Bio',
-      'points': 100
-    });
-
-    int insertedId1 = await insertUser({
-      'email': 'user2@example.com',
-      'password': 'password',
-      'name': 'Name2',
-      'surname': 'Surname2',
-      'dateofbirth': '2002-01-10',
-      'bio': 'My short nbbbio',
-      'points': 20
-    });
-
-    int insertedId2 = await insertUser({
-      'email': 'user2@example.com',
-      'password': 'password',
-      'name': 'Name2',
-      'surname': 'Surname3',
-      'dateofbirth': '2002-01-10',
-      'bio': 'My short bio',
-      'points': 25
-    });
-
-    int insertedId3 = await insertUser({
-      'email': 'user3@example.com',
-      'password': 'password',
-      'name': 'Name3',
-      'surname': 'Surname3',
-      'dateofbirth': '2002-01-10',
-      'bio': 'My bio-3',
-      'points': 15
-    });
-
-    print('Inserted ID: $insertedId1');
+    await db.execute(courseTable);
+    await db.execute(chapterTable);
+    await db.execute(usersTable);
+    await db.execute(hasChapter);
+    await db.execute(question);
+    await db.execute(answer);
+    await db.execute(hasEnrolled);
+    await db.execute(hasCompleted);
+    await _executeInsertStatements();  // Move this line here
   }
-
 
 Future<void> dropAndRecreateTables() async {
   final databasesPath = await getDatabasesPath();
@@ -195,25 +182,9 @@ Future<void> dropAndRecreateTables() async {
   await db.execute('DROP TABLE IF EXISTS has_question');
 
   db = await openDatabase(path, version: 1, onCreate: (db, version) async {
-    await db.execute('''
-      CREATE TABLE Question (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        chapter_id INTEGER,
-        type TEXT,
-        title TEXT,
-        FOREIGN KEY(chapter_id) REFERENCES Chapter(id)
-      )
-    ''');
+    await db.execute(question);
 
-    await db.execute('''
-      CREATE TABLE Answer (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        question_id INTEGER,
-        text TEXT,
-        is_correct BOOLEAN,
-        FOREIGN KEY(question_id) REFERENCES Question(id)
-      )
-    ''');
+    await db.execute(answer);
   });
 
 }
@@ -250,6 +221,7 @@ Future<int> newQuestion(Map<String, dynamic> question) async {
 
   return questionId;
 }
+
 
 
   Future<void> newhas_chapter(Map<String, dynamic> has_chapter) async{
@@ -299,6 +271,16 @@ Future<int> newQuestion(Map<String, dynamic> question) async {
     return await dbClient.query('Question');
   }
 
+  Future<List<Map<String, dynamic>>> getEnrolledCourses(int userId) async {
+    var dbClient = await db;
+    return await dbClient.rawQuery('''
+    SELECT c.title, u.name,c.image_url FROM course c
+    INNER JOIN has_enrolled he ON c.id = he.course_id
+    INNer JOIN users u ON u.id = c.instructor
+    WHERE he.user_id = ?
+  ''', [userId]);
+  }
+
   Future<int> updateUser(Map<String, dynamic> user) async {
     var dbClient = await db;
     return await dbClient.update('users', user,
@@ -315,7 +297,7 @@ Future<int> newQuestion(Map<String, dynamic> question) async {
     var dbClient = await db;
     await dbClient.rawUpdate('''
       UPDATE chapter
-      SET pdf = ?,
+      SET pdf_url = ?,
       pdf_name = ?
       WHERE id = ?
     ''', [pdfPath, filename, chapterId]);
@@ -326,7 +308,7 @@ Future<int> newQuestion(Map<String, dynamic> question) async {
   var result = await dbClient.query('chapter', where: 'id = ?', whereArgs: [chapterId]);
 
   if (result != null && result.isNotEmpty) {
-    return result.first['pdf'] == null;
+    return result.first['pdf_url'] == null;
   } else {
     return true; 
   }
@@ -391,7 +373,7 @@ Future<List<String>> getTables() async {
   }
 
   Future<void> checkAndCreateTables() async {
-  List<String> tableNames = ['users', 'course', 'chapter', 'has_chapter', 'question', 'has_question'];
+  List<String> tableNames = ['users', 'course', 'chapter', 'has_chapter', 'question', 'has_question', 'has_completed', 'has_enrolled'];
 
   for (String tableName in tableNames) {
     bool tableExists = await doesTableExist(tableName);
@@ -462,72 +444,28 @@ Future<void> _createTable(String tableName) async {
 
   switch (tableName) {
     case 'users':
-      await dbClient.execute('''
-        CREATE TABLE users (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          email TEXT,
-          password TEXT, 
-          name TEXT,
-          surname TEXT,
-          dateofbirth TEXT,
-          bio TEXT,
-          image BLOB,
-          points INTEGER DEFAULT 0
-        )
-      ''');
+      await dbClient.execute(usersTable);
       break;
     case 'course':
-      await dbClient.execute('''
-        CREATE TABLE course (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          title TEXT,
-          description TEXT, 
-          category TEXT,
-          instructor INTEGER
-        )
-      ''');
+      await dbClient.execute(courseTable);
       break;
     case 'chapter':
-      await dbClient.execute('''
-        CREATE TABLE chapter (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT,
-        question_type TEXT,
-        pdf TEXT,
-        pdf_name TEXT
-      )
-      ''');
+      await dbClient.execute(chapterTable);
       break;
     case 'has_chapter':
-      await dbClient.execute("""
-      CREATE TABLE has_chapter (
-        chapter_id INTEGER,
-        course_id INTEGER,
-        PRIMARY KEY (chapter_id, course_id)
-      )
-      """);
+      await dbClient.execute(hasChapter);
+      break;
+    case 'has_enrolled':
+      await dbClient.execute(hasEnrolled);
+      break;
+    case 'has_completed':
+      await dbClient.execute(hasCompleted);
       break;
     case 'Question':
-      await dbClient.execute("""
-      CREATE TABLE Question (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        chapter_id INTEGER,
-        type TEXT,
-        title TEXT,
-        FOREIGN KEY(chapter_id) REFERENCES Chapter(id)
-      )
-      """);
+      await dbClient.execute(question);
       break;
     case 'Answer':
-      await dbClient.execute("""
-      CREATE TABLE Answer (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        question_id INTEGER,
-        text TEXT,
-        is_correct BOOLEAN,
-        FOREIGN KEY(question_id) REFERENCES Question(id)
-      )
-      """);
+      await dbClient.execute(answer);
       break;
 
     default:
@@ -536,38 +474,28 @@ Future<void> _createTable(String tableName) async {
 }
 
 
-Future<void> addTestData() async {
-  Database database = await openDatabase(
-    join(await getDatabasesPath(), 'musiqar.db'),
-  );
+  Future<void> _executeInsertStatements() async {
+    List<String> insertStatements = Insertions.generateInserts(Insertions().insertions);
 
-  await database.rawInsert('''
-    INSERT INTO users (email, password, name, surname, dateofbirth, bio, points)
-    VALUES ('test@email.com', 'testpassword', 'John', 'Doe', '2000-01-01', 'Bio text', 10)
-  ''');
+    if (insertStatements.isNotEmpty) {
 
-  int courseId = await database.rawInsert('''
-    INSERT INTO course (title, description, category, instructor)
-    VALUES ('Test Course', 'Course description', 'Test Category', 1)
-  ''');
+      final Batch batch = _db!.batch();
+      try {
+        for (String insertion in insertStatements) {
+          print('Adding to batch: $insertion');
+          batch.rawInsert(insertion);
+        }
+      } catch (e) {
+        print('Error during insert: $e');
+      }
+      await batch.commit();
+      print('Batch committed successfully');
+    } else {
+      print('No insert statements to process');
+    }
+  }
 
-  int chapterId = await database.rawInsert('''
-    INSERT INTO chapter (title, question_type, pdf_name)
-    VALUES ('Chapter 1', 'LorR', 'chapter1.pdf')
-  ''');
 
-  await database.rawInsert('''
-    INSERT INTO has_chapter (chapter_id, course_id)
-    VALUES (?, ?)
-  ''', [chapterId, courseId]);
-
-  await database.rawInsert('''
-    INSERT INTO Question (chapter_id, type, title)
-    VALUES (?, 'LorR', 'What is the answer?')
-  ''', [chapterId]);
-
-  await database.close();
-}
 
 }
 
