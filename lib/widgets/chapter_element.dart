@@ -21,7 +21,7 @@ Widget chapterElement(String descText, String imageURL, VoidCallback onTap) {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: 220, // Adjust width here as needed
+                  width: 220, 
                   child: Text(
                     descText,
                     style: TextStyle(
@@ -32,8 +32,8 @@ Widget chapterElement(String descText, String imageURL, VoidCallback onTap) {
                       height: 1.2,
                       letterSpacing: 0.15,
                     ),
-                    softWrap: true, // Allow text to wrap
-                    overflow: TextOverflow.visible, // Handle overflow
+                    softWrap: true, 
+                    overflow: TextOverflow.visible, 
                   ),
                 ),
 
