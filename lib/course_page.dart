@@ -5,7 +5,6 @@ import 'profile_page.dart';
 import 'menu_page.dart';
 import 'chapter_page.dart';
 
-// Default values for AvailableCourse
 String courseName = "Course Name";
 String instructorName = "Instructor Name";
 String imageURL = "assets/course.jpg";
@@ -14,6 +13,11 @@ String chapterName = "chapterName";
 
 
 class CoursePage extends StatelessWidget {
+
+  final int userId;
+  final int courseId;
+
+  CoursePage({required this.userId, required this.courseId, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +36,14 @@ class CoursePage extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.menu),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage(userId : userId)));
           },
           ),
         actions: [
           IconButton(
             icon: Icon(Icons.account_circle),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage(userId : userId)));
             },
           ),
         ],
@@ -59,11 +63,11 @@ class CoursePage extends StatelessWidget {
                 itemCount: 20,
                 separatorBuilder: (context, _) => SizedBox(height: 8),
                 itemBuilder: (context, index) => SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.8, // Or any desired width
+                  width: MediaQuery.of(context).size.width * 0.8, 
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20), // Adjust horizontal padding if needed
+                    padding: const EdgeInsets.symmetric(horizontal: 20), 
                       child: chapter(chapterName, () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ChapterPage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ChapterPage(userId : userId, courseId: courseId,)));
                       } )
                   ),
                 ),

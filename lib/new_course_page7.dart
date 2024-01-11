@@ -10,12 +10,24 @@ import 'drawpage.dart';
 import 'package:path/path.dart';
 import 'dart:convert';
 import 'dart:io';
-
-
+import 'new_course_page6.dart';
+import 'data/database_helper.dart';
 
 class NewCoursePage7 extends StatefulWidget {
-  const NewCoursePage7({Key? key, required this.imagePath}) : super(key: key);
+  final int userId;
   final String imagePath;
+  final int courseId;
+  final int chapterId;
+  final int questionId;
+
+  NewCoursePage7(
+      {required this.userId,
+      required this.courseId,
+      required this.chapterId,
+      required this.imagePath,
+      required this.questionId,
+      Key? key})
+      : super(key: key);
 
   @override
   _NewCoursePage7State createState() => _NewCoursePage7State();
@@ -26,6 +38,49 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
   TextEditingController category = TextEditingController();
   TextEditingController description = TextEditingController();
   String selectedAnswer = 'Select correct answer';
+
+  Future<Map<String, dynamic>> _fetchQuestion() async {
+    List<Map<String, dynamic>> questions =
+        await DatabaseHelper().getAllQuestions();
+    return questions
+            .firstWhere((question) => question['id'] == widget.questionId) ??
+        {};
+  }
+
+  Future<Map<String, dynamic>> _getQuestionData() async {
+    List<Map<String, dynamic>> questions =
+        await DatabaseHelper().getAllQuestions();
+    return questions
+            .firstWhere((question) => question['id'] == widget.questionId) ??
+        {};
+  }
+
+  String imagePathFromDB = '';
+
+  Future<void> _fetchDrawing() async {
+    try {
+      Map<String, dynamic> questionData = await _getQuestionData();
+
+      setState(() {
+        imagePathFromDB = questionData['answers'] ?? '';
+      });
+    } catch (e) {
+      print('Error fetching drawing: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchQuestion();
+    _fetchDrawing();
+  }
+
+  /*@override
+  void initState() {
+    super.initState();
+    _fetchQuestion();
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +99,18 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
         leading: IconButton(
           icon: Icon(Icons.menu),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MenuPage(userId: widget.userId)));
           },
         ),
         actions: [
           IconButton(
             icon: Icon(Icons.account_circle),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => HomePage()));
             },
           ),
         ],
@@ -74,7 +133,26 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
                 ),
               ),
               SizedBox(height: 30),
-              customInput('Question', question, context: context),
+              FutureBuilder<Map<String, dynamic>>(
+                future: _fetchQuestion(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error loading question.');
+                  } else if (!snapshot.hasData || snapshot.data == null) {
+                    return Text('No question found.');
+                  } else {
+                    String questionText = snapshot.data?['title'] ?? '';
+                    TextEditingController myController =
+                        TextEditingController();
+                    myController.text = questionText;
+                    return customInput_un(questionText, myController,
+                        context: context);
+                  }
+                },
+              ),
+              SizedBox(height: 40),
               SizedBox(height: 50),
               Text(
                 'Select type of question',
@@ -94,30 +172,56 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
               Container(
                 width: 350,
                 height: 350,
-                child: Image.file(File(widget.imagePath)),
+                child: imagePathFromDB.isNotEmpty
+                    ? Image.file(File(imagePathFromDB))
+                    : Placeholder(),
               ),
               SizedBox(height: 20),
-              InkWell(
+              /*InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Drawpage()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NewCoursePage6(
+                        userId: widget.userId,
+                        courseId: widget.courseId,
+                        chapterId: widget.chapterId,
+                        questionId: widget.questionId,
+                      ),
+                    ),
+                  );
                 },
                 child: Icon(
                   Icons.edit,
                   size: 30,
                   color: Colors.blue,
                 ),
-              ),
+              ),*/
               SizedBox(height: 70),
               CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Questiontype()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewCoursePage3(
+                              userId: widget.userId,
+                              courseId: widget.courseId,
+                              chapterId: widget.chapterId,
+                              questionType: 'Draw')));
                 },
                 buttonText: 'Cancel',
               ),
               SizedBox(height: 20),
               CancelButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewCoursePage3(
+                              userId: widget.userId,
+                              courseId: widget.courseId,
+                              chapterId: widget.chapterId,
+                              questionType: 'Draw')));
                 },
                 buttonText: 'Save',
               ),

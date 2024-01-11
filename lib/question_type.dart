@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/new_course_page6.dart';
+import 'package:musIQAR/new_course_page6.dart';
+import 'new_course_page2.dart';
 import 'new_course_page3.dart';
 import 'new_course_page4.dart';
 import 'new_course_page5.dart';
 import 'widgets/custom_input.dart';
 import 'widgets/cancel_button.dart';
-
+import 'data/database_helper.dart';
 
 import 'drawpage.dart';
 
 class Questiontype extends StatefulWidget {
+  final int userId;
+  final int courseId;
+  final int chapterId;
+
+  Questiontype(
+      {required this.userId, required this.courseId, required this.chapterId});
+
   @override
   _Questiontype createState() => _Questiontype();
 }
 
 class _Questiontype extends State<Questiontype> {
-
-
   TextEditingController Questions = TextEditingController();
-
-
-
 
   String selectedQuestionType = 'Select question type';
   TextEditingController question = TextEditingController();
@@ -45,6 +48,7 @@ class _Questiontype extends State<Questiontype> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            /*
             Text(
               'Add question',
               textAlign: TextAlign.center,
@@ -59,7 +63,7 @@ class _Questiontype extends State<Questiontype> {
             ),
             SizedBox(height: 20),
             customInput('Question', question, context: context),
-            SizedBox(height: 50),
+            SizedBox(height: 50),*/
             Text(
               'Select type of question',
               textAlign: TextAlign.center,
@@ -91,18 +95,18 @@ class _Questiontype extends State<Questiontype> {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Container(
-                    padding: EdgeInsets.all(12.0), // Add padding around the text
+                    padding: EdgeInsets.all(12.0),
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade200, // Add a light gray background color
-                      borderRadius: BorderRadius.circular(8.0), // Add rounded corners
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: Text(
                       value,
                       style: TextStyle(
-                        color: Colors.black, // Change text color
-                        fontSize: 16.0, // Change font size
-                        fontWeight: FontWeight.w400, // Change font weight
-                        fontFamily: 'Roboto', // Change font family
+                        color: Colors.black,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: 'Roboto',
                       ),
                     ),
                   ),
@@ -110,24 +114,35 @@ class _Questiontype extends State<Questiontype> {
               }).toList(),
             ),
             SizedBox(height: 50, width: 150),
+            /*CancelButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId)));
+                print(selectedQuestionType);
+              },
+              buttonText: 'Cancel',
+            ),*/
             CancelButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NewCoursePage2(
+                            userId: widget.userId, courseId: widget.courseId)));
                 print(selectedQuestionType);
               },
               buttonText: 'Cancel',
             ),
             SizedBox(height: 50, width: 150),
-            CancelButton(
+            /*CancelButton(
               onPressed: () {
                 if(selectedQuestionType == "Draw"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage6()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage6(userId: widget.userId, courseId: widget.courseId)));
                 }
                 else if(selectedQuestionType == "Select correct answer"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage4()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage4(userId: widget.userId, courseId: widget.courseId)));
                 }
                 else if(selectedQuestionType == "Left or Right"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage5()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage5(userId: widget.userId, courseId: widget.courseId)));
                 }
                 else {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -139,12 +154,66 @@ class _Questiontype extends State<Questiontype> {
                 print(selectedQuestionType);
               },
               buttonText: 'Next',
+            ),*/
+            CancelButton(
+              onPressed: () {
+                if (selectedQuestionType == "Draw") {
+                  //updateChapter("Draw");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewCoursePage3(
+                                userId: widget.userId,
+                                courseId: widget.courseId,
+                                chapterId: widget.chapterId,
+                                questionType: "Draw",
+                              )));
+                } else if (selectedQuestionType == "Select correct answer") {
+                  //updateChapter("Select");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewCoursePage3(
+                              userId: widget.userId,
+                              courseId: widget.courseId,
+                              chapterId: widget.chapterId,
+                              questionType: "Select")));
+                } else if (selectedQuestionType == "Left or Right") {
+                  //updateChapter("LorR");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewCoursePage3(
+                                userId: widget.userId,
+                                courseId: widget.courseId,
+                                chapterId: widget.chapterId,
+                                questionType: "LorR",
+                              )));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Select question type.'),
+                    ),
+                  );
+                }
+                print(selectedQuestionType);
+              },
+              buttonText: 'Next',
             ),
           ],
         ),
       ),
     );
   }
+
+  Future<void> updateChapter(String question_type) async {
+    await DatabaseHelper()
+        .updateChapterQuestionType(widget.chapterId, question_type);
+
+    print("the chapterId is equal to");
+    print(widget.chapterId);
+    if (widget.chapterId == -1) {
+      print('Failed to insert chapter into the database');
+    }
+  }
 }
-
-

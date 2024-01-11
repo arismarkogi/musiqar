@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:musIQAR/data/database_helper.dart';
 import 'new_course_page7.dart';
+import 'question_draw.dart';
 import 'package:flutter_drawing_board/flutter_drawing_board.dart';
 import 'package:flutter_drawing_board/paint_contents.dart';
 import 'package:path_provider/path_provider.dart';
@@ -10,7 +10,6 @@ import 'dart:ui' as ui;
 import 'dart:typed_data';
 import 'package:flutter/rendering.dart';
 import 'new_course_page7.dart';
-import 'package:uuid/uuid.dart';
 
 class Triangle extends PaintContent {
   Triangle();
@@ -107,66 +106,53 @@ extension PaintExtension on Paint {
   }
 }
 
-class Drawpage extends StatefulWidget {
+class DrawpageAns extends StatefulWidget {
   final int userId;
   final int courseId;
-  final int chapterId;
-  final int questionId;
 
-  Drawpage(
-      {required this.userId,
-      required this.courseId,
-      required this.chapterId,
-      required this.questionId,
-      Key? key})
+  DrawpageAns({required this.userId, required this.courseId, Key? key})
       : super(key: key);
 
   @override
-  State<Drawpage> createState() => _Drawpage();
+  State<DrawpageAns> createState() => _DrawpageAns();
 }
 
-class _Drawpage extends State<Drawpage> {
+class _DrawpageAns extends State<DrawpageAns> {
   final GlobalKey _repaintKey = GlobalKey();
   final DrawingController _drawingController = DrawingController();
 
   final ScreenshotController _screenshotController = ScreenshotController();
 
-Future<void> _getImageData(BuildContext context) async {
-  print('Calling _getImageData');
-  try {
-    setState(() {});
+  Future<void> _getImageData(BuildContext context) async {
+    print('Calling _getImageData');
+    try {
+      setState(() {});
 
-    await Future.delayed(const Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 300));
 
-    Uint8List? data = await _screenshotController.capture();
+      Uint8List? data = await _screenshotController.capture();
 
-    if (data != null) {
-      final String uniqueId = Uuid().v4(); // Use a unique identifier library
-      final Directory directory = await getApplicationDocumentsDirectory();
-      final String filePath = '${directory.path}/drawing_image_$uniqueId.png';
+      if (data != null) {
+        final Directory directory = await getApplicationDocumentsDirectory();
+        final String filePath = '${directory.path}/drawing_image.png';
 
-      await File(filePath).writeAsBytes(data);
-      debugPrint('Image saved at: $filePath');
+        await File(filePath).writeAsBytes(data);
+        debugPrint('Image saved at: $filePath');
 
-      DatabaseHelper().addanswers(widget.questionId, filePath, 1);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => NewCoursePage7(
-              imagePath: filePath,
-              userId: widget.userId,
-              courseId: widget.courseId,
-              chapterId: widget.chapterId,
-              questionId: widget.questionId),
-        ),
-      );
-    } else {
-      debugPrint('Error capturing image');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                QuestionDraw(userId: widget.userId, courseId: widget.courseId),
+          ),
+        );
+      } else {
+        debugPrint('Error capturing image');
+      }
+    } catch (e) {
+      debugPrint('Error in _getImageData: $e');
     }
-  } catch (e) {
-    debugPrint('Error in _getImageData: $e');
   }
-}
 
   @override
   Widget build(BuildContext context) {
