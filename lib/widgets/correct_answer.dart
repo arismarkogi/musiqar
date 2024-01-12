@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-// correctAnswer and yourAnswer are URLs when isImage is true
-Widget correctAnswer(int index, String correctAnswer, String yourAnswer, bool isImage){
+Widget correctAnswer(
+    int index, String correctAnswer, String yourAnswer, bool isImage) {
   return Column(
     children: [
       Container(
         width: 340,
-        height: (isImage)?50:100,
+        height: (isImage) ? 50 : 100,
         child: Stack(
           children: [
             Positioned(
@@ -27,7 +27,7 @@ Widget correctAnswer(int index, String correctAnswer, String yourAnswer, bool is
                 ),
               ),
             ),
-            if(!isImage)
+            if (!isImage)
               Positioned(
                 left: 0,
                 top: 80,
@@ -46,8 +46,8 @@ Widget correctAnswer(int index, String correctAnswer, String yourAnswer, bool is
                   ),
                 ),
               ),
-            if(!isImage)
-            Positioned(
+            if (!isImage)
+              Positioned(
                 left: 0,
                 top: 39,
                 child: SizedBox(
@@ -65,11 +65,10 @@ Widget correctAnswer(int index, String correctAnswer, String yourAnswer, bool is
                   ),
                 ),
               ),
-
           ],
         ),
       ),
-      if(isImage)
+      if (isImage)
         Positioned(
           left: 0,
           top: 80,
@@ -88,15 +87,14 @@ Widget correctAnswer(int index, String correctAnswer, String yourAnswer, bool is
             ),
           ),
         ),
-      if(isImage)
+      if (isImage)
         Container(
           height: 150,
           width: 150,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(correctAnswer),
-              fit: BoxFit.fitHeight, // Adjusted fit
-              //alignment: Alignment.topCenter,
+              fit: BoxFit.fitHeight,
             ),
           ),
         ),
@@ -104,7 +102,7 @@ Widget correctAnswer(int index, String correctAnswer, String yourAnswer, bool is
         Align(
           alignment: Alignment.topLeft,
           child: Padding(
-            padding: EdgeInsets.only(left: 30.0, top: 20.0), // Adjust left padding as needed
+            padding: EdgeInsets.only(left: 30.0, top: 20.0),
             child: SizedBox(
               width: 238,
               height: 36,
@@ -121,19 +119,17 @@ Widget correctAnswer(int index, String correctAnswer, String yourAnswer, bool is
             ),
           ),
         ),
-        if(isImage)
-          Container(
-            height: 150,
-            width: 150,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(yourAnswer),
-                fit: BoxFit.fitHeight, // Adjusted fit
-                //alignment: Alignment.topCenter,
-              ),
+      if (isImage)
+        Container(
+          height: 150,
+          width: 150,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(yourAnswer),
+              fit: BoxFit.fitHeight,
             ),
           ),
-
+        ),
     ],
   );
 }

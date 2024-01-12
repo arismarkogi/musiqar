@@ -19,16 +19,16 @@ class CustomMultipleChoiceWidget extends StatefulWidget {
 
 class _CustomMultipleChoiceWidgetState
     extends State<CustomMultipleChoiceWidget> {
-  bool isChecked = false; // Track the state of the checkbox
+  bool isChecked = false;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         setState(() {
-          isChecked = !isChecked; // Toggle the isChecked state on tap
+          isChecked = !isChecked;
         });
-        widget.onTap(); // Execute the provided onTap function
+        widget.onTap();
       },
       child: Container(
         width: 340,
@@ -41,25 +41,24 @@ class _CustomMultipleChoiceWidgetState
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(widget.imageURL),
-                  fit: BoxFit.fitHeight, // Adjusted fit
+                  fit: BoxFit.fitHeight,
                 ),
               ),
             ),
-            SizedBox(width: 8), // Added SizedBox for spacing
-
-                Text(
-                  widget.answer,
-                  style: TextStyle(
-                    color: Color(0xFF1D1B20),
-                    fontSize: 16,
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: 0.50,
-                  ),
-                ),
+            SizedBox(width: 8),
+            Text(
+              widget.answer,
+              style: TextStyle(
+                color: Color(0xFF1D1B20),
+                fontSize: 16,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w400,
+                letterSpacing: 0.50,
+              ),
+            ),
             Spacer(),
             Expanded(
-            child: RadioCustom(initialValue: false),
+              child: RadioCustom(initialValue: false),
             )
           ],
         ),

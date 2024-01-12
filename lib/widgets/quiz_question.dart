@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget question(int number, String text){
+Widget question(int number, String text) {
   return Column(
     children: [
       SizedBox(
@@ -30,8 +30,8 @@ Widget question(int number, String text){
             fontWeight: FontWeight.w500,
             letterSpacing: 0.15,
           ),
-          overflow: TextOverflow.ellipsis, // Handles overflow
-          maxLines: 5, // Limits to two lines
+          overflow: TextOverflow.ellipsis,
+          maxLines: 5,
         ),
       )
     ],

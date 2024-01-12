@@ -6,12 +6,12 @@ Widget gyrAnswer(String text) {
     height: 320,
     clipBehavior: Clip.antiAlias,
     decoration: BoxDecoration(
-      color: Color(0xFFEDEDED), // Replace with your desired background color
-      borderRadius: BorderRadius.circular(15), // Adjust the radius to get desired circular edges
+      color: Color(0xFFEDEDED),
+      borderRadius: BorderRadius.circular(15),
     ),
     child: Center(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8.0), // Adjust as needed
+        padding: EdgeInsets.symmetric(horizontal: 8.0),
         child: Text(
           text,
           textAlign: TextAlign.center,

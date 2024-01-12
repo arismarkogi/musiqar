@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 Widget info(String name) {
   return Container(
     width: 340,
@@ -76,10 +75,10 @@ Widget info(String name) {
                   fontSize: 16,
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.w400,
-                  height: 1.2, 
+                  height: 1.2,
                   letterSpacing: 0.50,
                 ),
-                softWrap: true, 
+                softWrap: true,
               ),
             ),
           ),

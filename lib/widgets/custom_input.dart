@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-Future<void> _selectDate(BuildContext context, TextEditingController controller) async {
+
+Future<void> _selectDate(
+    BuildContext context, TextEditingController controller) async {
   final DateTime? picked = await showDatePicker(
     context: context,
     initialDate: DateTime.now(),
@@ -12,7 +14,10 @@ Future<void> _selectDate(BuildContext context, TextEditingController controller)
   }
 }
 
-Widget customInput(String labelText, TextEditingController controller, {bool isPassword = false, bool isDate = false, required BuildContext context}) {
+Widget customInput(String labelText, TextEditingController controller,
+    {bool isPassword = false,
+    bool isDate = false,
+    required BuildContext context}) {
   return Container(
     width: 210,
     height: 56,
@@ -54,27 +59,26 @@ Widget customInput(String labelText, TextEditingController controller, {bool isP
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Use a TextFormField for input
                       Expanded(
                         child: TextFormField(
                           obscureText: isPassword,
                           controller: controller,
                           onTap: () {
                             if (isDate) {
-                              // Pass context to the _selectDate function
                               _selectDate(context, controller);
                             }
                           },
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: labelText, // Use the provided labelText
+                            labelText: labelText,
                             suffixIcon: isPassword
                                 ? IconButton(
                                     icon: Icon(
-                                      isPassword ? Icons.visibility : Icons.visibility_off,
+                                      isPassword
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
                                     ),
                                     onPressed: () {
-                                      // Toggle password visibility
                                       isPassword = !isPassword;
                                     },
                                   )

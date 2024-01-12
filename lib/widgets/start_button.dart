@@ -5,7 +5,7 @@ Widget startButton(String myText, VoidCallback onPressed) {
     clipBehavior: Clip.antiAlias,
     borderRadius: BorderRadius.circular(8),
     color: Color(0xFFE8DEF8),
-    elevation: 3, // Adjust the elevation for shadow effect
+    elevation: 3,
     shadowColor: Color(0x26000000),
     child: InkWell(
       onTap: onPressed,

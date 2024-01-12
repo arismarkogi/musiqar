@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 
-
 Widget buildMenuItem(BuildContext context, String title, Widget page) {
   return InkWell(
     onTap: () {
-      // Navigate to the specified page
       Navigator.push(context, MaterialPageRoute(builder: (context) => page));
     },
     child: Container(
-      width: double.infinity, // Take the full width of the parent
+      width: double.infinity,
       child: Column(
         children: [
           Text(

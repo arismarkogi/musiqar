@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RadioCustom extends StatefulWidget {
-  final bool initialValue; // New parameter to hold the initial value
+  final bool initialValue;
   const RadioCustom({Key? key, required this.initialValue}) : super(key: key);
 
   @override
@@ -9,16 +9,16 @@ class RadioCustom extends StatefulWidget {
 }
 
 class _RadioCustomState extends State<RadioCustom> {
-  late bool isSelected; // Variable to hold the radio button state
+  late bool isSelected;
 
   @override
   void initState() {
     super.initState();
-    isSelected = widget.initialValue; // Initialize isSelected with the provided initial value
+    isSelected = widget.initialValue;
   }
 
   Color getColor(Set<MaterialState> states) {
-    return isSelected ? const Color(0xFF6750A4) : Colors.white; // Purple when selected, white when unselected
+    return isSelected ? const Color(0xFF6750A4) : Colors.white;
   }
 
   @override
@@ -30,7 +30,7 @@ class _RadioCustomState extends State<RadioCustom> {
       groupValue: isSelected ? true : false,
       onChanged: (bool? value) {
         setState(() {
-          isSelected = value ?? false; // Update the isSelected value
+          isSelected = value ?? false;
         });
       },
     );

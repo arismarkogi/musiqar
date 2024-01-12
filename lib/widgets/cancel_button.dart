@@ -6,7 +6,7 @@ Widget CancelButton({
   Widget? child,
 }) {
   return Container(
-    width: 120, // Increase the width as needed
+    width: 120,
     height: 40,
     child: TextButton(
       onPressed: onPressed,
@@ -17,7 +17,7 @@ Widget CancelButton({
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4), // Adjust padding
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,

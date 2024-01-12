@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+
 Widget Bio(String bio) {
   return Container(
     width: 355,
     height: 195,
-    padding: const EdgeInsets.all(16), // Adjust the padding as needed
+    padding: const EdgeInsets.all(16),
     clipBehavior: Clip.antiAlias,
     decoration: ShapeDecoration(
       color: Color(0xFFEDEDED),
@@ -25,7 +26,7 @@ Widget Bio(String bio) {
               fontSize: 14,
               fontFamily: 'Roboto',
               fontWeight: FontWeight.w500,
-              height: 1.5, // Adjust the line spacing as needed
+              height: 1.5,
               letterSpacing: 0.10,
             ),
           ),
