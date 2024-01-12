@@ -31,16 +31,23 @@ dependencies:
   arcore_flutter_plugin: ^0.2.0-alpha
   provider:
   open_file:
+  camera:   
+  object_3d: 
   file_picker:
   flutter_colorpicker:
   screenshot:
   vibration:
   path_provider:
-  image_picker: 
+  image_picker:
   syncfusion_flutter_pdfviewer:
   vector_math:
   sqflite: 'any'
   path: 'any'
+  model_viewer_plus:
+  sensors_plus: 4.0.2
+  permission_handler:
+  audioplayers:
+  just_audio:
   flutter:
     sdk: flutter
 
@@ -67,10 +74,15 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
 
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+
+
+
 
   assets:
     - assets/logo.png
@@ -84,11 +96,17 @@ flutter:
     - assets/dummy.pdf
     - assets/piano3d.glb
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
     - assets/pianoar.png
     - assets/saxophone.glb
     - assets/tuba.glb
     - assets/violin.glb
     - assets/Blue.mp3
     - assets/saxophone.m4a
+<<<<<<< HEAD
 >>>>>>> 3d15553 (update)
+=======
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6

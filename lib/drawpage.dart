@@ -131,23 +131,37 @@ class _Drawpage extends State<Drawpage> {
 
   final ScreenshotController _screenshotController = ScreenshotController();
 
+<<<<<<< HEAD
 Future<void> _getImageData(BuildContext context) async {
   print('Calling _getImageData');
   try {
     setState(() {});
+=======
+  Future<void> _getImageData(BuildContext context) async {
+    print('Calling _getImageData');
+    try {
+      setState(() {});
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
 
-    await Future.delayed(const Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 300));
 
-    Uint8List? data = await _screenshotController.capture();
+      Uint8List? data = await _screenshotController.capture();
 
+<<<<<<< HEAD
     if (data != null) {
       final String uniqueId = Uuid().v4(); // Use a unique identifier library
       final Directory directory = await getApplicationDocumentsDirectory();
       final String filePath = '${directory.path}/drawing_image_$uniqueId.png';
+=======
+      if (data != null) {
+        final Directory directory = await getApplicationDocumentsDirectory();
+        final String filePath = '${directory.path}/drawing_image.png';
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
 
-      await File(filePath).writeAsBytes(data);
-      debugPrint('Image saved at: $filePath');
+        await File(filePath).writeAsBytes(data);
+        debugPrint('Image saved at: $filePath');
 
+<<<<<<< HEAD
       DatabaseHelper().addanswers(widget.questionId, filePath, 1, "Draw");
       Navigator.push(
         context,
@@ -162,11 +176,30 @@ Future<void> _getImageData(BuildContext context) async {
       );
     } else {
       debugPrint('Error capturing image');
+=======
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NewCoursePage7(
+                imagePath: filePath,
+                userId: widget.userId,
+                courseId: widget.courseId,
+                chapterId: widget.chapterId,
+                questionId: widget.questionId),
+          ),
+        );
+      } else {
+        debugPrint('Error capturing image');
+      }
+    } catch (e) {
+      debugPrint('Error in _getImageData: $e');
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
     }
-  } catch (e) {
-    debugPrint('Error in _getImageData: $e');
   }
+<<<<<<< HEAD
 }
+=======
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
 
   @override
   Widget build(BuildContext context) {

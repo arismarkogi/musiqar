@@ -113,6 +113,10 @@ class _Questiontype extends State<Questiontype> {
             CancelButton(
               onPressed: () {
                 if (selectedQuestionType == "Draw") {
+<<<<<<< HEAD
+=======
+                  updateChapter("Draw");
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -123,6 +127,10 @@ class _Questiontype extends State<Questiontype> {
                                 questionType: "Draw",
                               )));
                 } else if (selectedQuestionType == "Select correct answer") {
+<<<<<<< HEAD
+=======
+                  updateChapter("Select");
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -132,6 +140,10 @@ class _Questiontype extends State<Questiontype> {
                               chapterId: widget.chapterId,
                               questionType: "Select")));
                 } else if (selectedQuestionType == "Left or Right") {
+<<<<<<< HEAD
+=======
+                  updateChapter("LorR");
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
                   Navigator.push(
                       context,
                       MaterialPageRoute(

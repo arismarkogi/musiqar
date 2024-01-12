@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'question_gyroscope.dart';
 import 'widgets/quiz_question.dart';
 import 'widgets/purple_button.dart';
+=======
+import 'package:flutter_application_1/question_gyroscope.dart';
+import 'widgets/quiz_question.dart';
+import 'widgets/purple_button.dart';
+import 'drawpage.dart';
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
 import 'submit_quiz.dart';
 import 'drawpage_answer.dart';
 

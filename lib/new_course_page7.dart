@@ -47,6 +47,7 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
         {};
   }
 
+<<<<<<< HEAD
   Future<Map<String, dynamic>> _getQuestionData() async {
     List<Map<String, dynamic>> questions =
         await DatabaseHelper().getAllQuestions();
@@ -69,11 +70,16 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
     }
   }
 
+=======
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
   @override
   void initState() {
     super.initState();
     _fetchQuestion();
+<<<<<<< HEAD
     _fetchDrawing();
+=======
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
   }
 
   @override
@@ -99,6 +105,18 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
                     builder: (context) => MenuPage(userId: widget.userId)));
           },
         ),
+<<<<<<< HEAD
+=======
+        actions: [
+          IconButton(
+            icon: Icon(Icons.account_circle),
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => HomePage()));
+            },
+          ),
+        ],
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -157,9 +175,32 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
               Container(
                 width: 350,
                 height: 350,
+<<<<<<< HEAD
                 child: imagePathFromDB.isNotEmpty
                     ? Image.file(File(imagePathFromDB))
                     : Placeholder(),
+=======
+                child: Image.file(File(widget.imagePath)),
+              ),
+              SizedBox(height: 20),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewCoursePage6(
+                                userId: widget.userId,
+                                courseId: widget.courseId,
+                                chapterId: widget.chapterId,
+                                questionId: widget.questionId,
+                              )));
+                },
+                child: Icon(
+                  Icons.edit,
+                  size: 30,
+                  color: Colors.blue,
+                ),
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
               ),
               SizedBox(height: 70),
               CancelButton(
@@ -167,12 +208,20 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
+<<<<<<< HEAD
                           builder: (context) => NewCoursePage6(
                               userId: widget.userId,
                               courseId: widget.courseId,
                               chapterId: widget.chapterId,
                               questionId: widget.questionId,
                               )));
+=======
+                          builder: (context) => NewCoursePage3(
+                              userId: widget.userId,
+                              courseId: widget.courseId,
+                              chapterId: widget.chapterId,
+                              questionType: 'Draw')));
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
                 },
                 buttonText: 'Cancel',
               ),

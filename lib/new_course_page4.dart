@@ -13,7 +13,10 @@ import 'new_course_page2.dart';
 import 'new_course_page3.dart';
 import 'widgets/input_unchangeable.dart';
 import 'data/database_helper.dart';
+<<<<<<< HEAD
 import 'package:vibration/vibration.dart';
+=======
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
 
 class NewCoursePage4 extends StatefulWidget {
   final int userId;
@@ -21,23 +24,35 @@ class NewCoursePage4 extends StatefulWidget {
   final int chapterId;
   final int questionId;
 
+<<<<<<< HEAD
   NewCoursePage4({
     required this.userId,
     required this.courseId,
     required this.chapterId,
     required this.questionId,
   });
+=======
+  NewCoursePage4(
+      {required this.userId,
+      required this.courseId,
+      required this.chapterId,
+      required this.questionId});
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
 
   @override
   _NewCoursePage4State createState() => _NewCoursePage4State();
 }
 
 class _NewCoursePage4State extends State<NewCoursePage4> {
+<<<<<<< HEAD
   List<TextEditingController> answersController = List.generate(
     4,
     (index) => TextEditingController(),
   );
   List<bool> areSelected = List.generate(4, (index) => false);
+=======
+  List<Widget> textInputs = [];
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
 
 /*Future<void> _initializeAnswersController() async {
     List<String> initialAnswers = await _fetchAnswers();
@@ -163,6 +178,20 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
     _fetchAnsdata();
   }
 
+  Future<Map<String, dynamic>> _fetchQuestion() async {
+    List<Map<String, dynamic>> questions =
+        await DatabaseHelper().getAllQuestions();
+    return questions
+            .firstWhere((question) => question['id'] == widget.questionId) ??
+        {};
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchQuestion();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -237,6 +266,33 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
                   },
                   isSelected: areSelected[i],
                 ),
+<<<<<<< HEAD
+=======
+              ),
+              SizedBox(height: 20),
+              AddAnswer(
+                onPressed: () {
+                  TextEditingController newController = TextEditingController();
+                  answerscontroller.add(newController);
+                  TextEditingController newansController =
+                      TextEditingController();
+                  newanswerscontroller.add(newansController);
+                  setState(() {
+                    textInputs.add(CustomBox(
+                      textController: newansController,
+                      onSelect: (isSelected) {
+                        if (isSelected) {
+                          print('Selected!');
+                        } else {
+                          print('Unselected!');
+                        }
+                      },
+                    ));
+                  });
+                },
+                buttonText: '+      Add Answer',
+              ),
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
               SizedBox(height: 20),
               CancelButton(
                 onPressed: () {
@@ -254,7 +310,18 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
               SizedBox(height: 20),
               CancelButton(
                 onPressed: () {
+<<<<<<< HEAD
                   _saveButtonPressed(context);
+=======
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewCoursePage3(
+                              userId: widget.userId,
+                              courseId: widget.courseId,
+                              chapterId: widget.chapterId,
+                              questionType: 'Select')));
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
                 },
                 buttonText: 'Save',
               ),
@@ -321,10 +388,14 @@ class _CustomBoxState extends State<CustomBox> {
           SizedBox(width: 8),
           IconButton(
             icon: Icon(
+<<<<<<< HEAD
               widget.isSelected
                   ? Icons.check_circle
                   : Icons.radio_button_unchecked,
             ),
+=======
+                isSelected ? Icons.check_circle : Icons.radio_button_unchecked),
+>>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
             onPressed: () {
               widget.onSelect(!widget.isSelected);
             },
