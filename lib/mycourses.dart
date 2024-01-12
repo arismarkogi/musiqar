@@ -102,7 +102,7 @@ class _MyCoursesState extends State<MyCourses> {
                             course['title'],
                             course['name'],
                             course['image_url'],
-                            0.42,
+                            course['completed_chapters'] / course['total_chapters'].toDouble(),
                                 () {
                               print('Tapped on course: $course');
                               Navigator.push(

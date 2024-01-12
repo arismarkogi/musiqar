@@ -48,7 +48,7 @@ Widget chapterCourse(String courseName, String instructorName, String imageURL) 
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  instructorName,
+                  "Instructor: $instructorName",
                   style: TextStyle(
                     color: Color(0xFF1D1B20),
                     fontSize: 14,
