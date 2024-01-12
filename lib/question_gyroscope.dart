@@ -43,7 +43,7 @@ class _QuestionGyroscopeState extends State<QuestionGyroscope> {
       setState(() {
         _gyroY = event.y;
 
-        double threshold = 5.0;
+        double threshold = 2.0;
         // Check if the absolute value of gyroY exceeds the threshold
         if (_gyroY < -threshold) {
           gyroscopeSubscription.cancel();

@@ -113,6 +113,12 @@ class DatabaseHelper {
     }
   }
 
+  Future<void> resetDatabase() async {
+    await dropAndRecreateTables();
+    await _executeInsertStatements();
+  }
+
+
 
 /*void _onUpgrade(Database db, int oldVersion, int newVersion) async {
   if (oldVersion < 3) {
@@ -120,7 +126,7 @@ class DatabaseHelper {
       CREATE TABLE course (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT,
-      description TEXT, 
+      description TEXT,
       category TEXT,
       instructor INTEGER
     )
@@ -274,12 +280,107 @@ Future<int> newQuestion(Map<String, dynamic> question) async {
   Future<List<Map<String, dynamic>>> getEnrolledCourses(int userId) async {
     var dbClient = await db;
     return await dbClient.rawQuery('''
-    SELECT c.title, u.name,c.image_url FROM course c
+    SELECT
+      c.id,
+      c.title,
+      u.name,
+      c.image_url,
+      COUNT(hc.chapter_id) as total_chapters,
+      COUNT(hcom.chapter_id) as completed_chapters
+    FROM course c
     INNER JOIN has_enrolled he ON c.id = he.course_id
-    INNer JOIN users u ON u.id = c.instructor
+    INNER JOIN users u ON u.id = c.instructor
+    LEFT JOIN has_chapter hc ON c.id = hc.course_id
+    LEFT JOIN has_completed hcom ON hc.chapter_id = hcom.chapter_id AND he.user_id = hcom.user_id
     WHERE he.user_id = ?
+    GROUP BY c.id, c.title, u.name, c.image_url
   ''', [userId]);
   }
+
+  Future<List<Map<String, dynamic>>> getAllCategories() async {
+    var dbClient = await db;
+    return await dbClient.rawQuery('''
+    SELECT  DISTINCT category
+    FROM course;
+  ''');
+  }
+  Future<List<Map<String, dynamic>>> getAvailableCourses(int userId, Set<String>? categories) async {
+    var dbClient = await db;
+    String categoriesStr = '';
+
+    if (categories != null && categories.isNotEmpty) {
+      // If categories set is not null and not empty, create the categories string for the SQL query
+      categoriesStr = "AND c.category IN ('${categories.join("','")}') ";
+    }
+
+    String query = '''
+    SELECT c.id, c.title, c.description, u1.name, c.image_url
+    FROM course c
+    JOIN users u1 ON c.instructor = u1.id
+    WHERE c.id NOT IN (SELECT course_id FROM has_enrolled WHERE user_id = $userId)
+    $categoriesStr;
+  ''';
+
+    return await dbClient.rawQuery(query);
+  }
+
+  Future<List<Map<String, dynamic>>> getCourseInfo(int courseId) async {
+    var dbClient = await db;
+
+    String query = '''
+    SELECT c.image_url, c.title, u.name 
+    FROM course c 
+    JOIN users u ON c.instructor = u.id
+    WHERE c.id = $courseId
+    ''';
+
+    return await dbClient.rawQuery(query);
+  }
+
+  Future<List<Map<String, dynamic>>> getChapters(int courseId, int userId) async {
+    var dbClient = await db;
+
+      String query = '''
+      SELECT c.title AS chapter_title,
+      FROM chapter c
+      JOIN has_chapter hc ON c.id = hc.chapter_id
+      WHERE hc.course_id = $courseId;
+      ''';
+      return await dbClient.rawQuery(query);
+    }
+  Future<bool> isChapterCompleted(int userId, int courseId, int chapterId) async {
+    var dbClient = await db;
+
+    String query = '''
+    SELECT 1
+    FROM has_completed
+    WHERE user_id = $userId AND chapter_id = $chapterId;
+  ''';
+
+    List<Map<String, dynamic>> result = await dbClient.rawQuery(query);
+    return result.isNotEmpty;
+  }
+
+
+
+
+
+  Future<void> enrollUserInCourse(int userId, int courseId) async {
+    var dbClient = await db;
+
+    await dbClient.rawInsert(
+      'INSERT INTO has_enrolled (course_id, user_id) VALUES (?, ?)',
+      [courseId, userId],
+    );
+  }
+
+
+
+
+
+
+
+
 
   Future<int> updateUser(Map<String, dynamic> user) async {
     var dbClient = await db;
@@ -310,7 +411,7 @@ Future<int> newQuestion(Map<String, dynamic> question) async {
   if (result != null && result.isNotEmpty) {
     return result.first['pdf_url'] == null;
   } else {
-    return true; 
+    return true;
   }
 }
 
@@ -360,7 +461,7 @@ Future<List<String>> getTables() async {
   return tableNames;
 }
 
-  
+
   Future<bool> doesTableExist(String tableName) async {
     var dbClient = await db;
     var result = await dbClient.rawQuery('''

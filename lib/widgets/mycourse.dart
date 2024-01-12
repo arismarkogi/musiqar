@@ -58,7 +58,7 @@ Widget myCourse(
                       ),
                       const SizedBox(height: 30),
                       Text(
-                        instructorName,
+                        "Instructor: $instructorName",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: const Color(0xFF1D1B20),
