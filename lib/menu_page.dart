@@ -9,7 +9,6 @@ import 'new_course_page1.dart';
 import 'widgets/menu_item.dart';
 import 'widgets/sline.dart';
 import 'widgets/menu_logo.dart';
-import 'drawww.dart';
 import 'adminpage.dart';
 import 'data/database_helper.dart';
 import 'available_courses.dart';
@@ -43,7 +42,7 @@ class _MenuPageState extends State<MenuPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(height: 45),
+          const SizedBox(height: 70),
           buildMenuItem(
               context, 'My Courses', MyCourses(userId: widget.userId)),
           const SizedBox(height: 25),
@@ -84,8 +83,8 @@ class _MenuPageState extends State<MenuPage> {
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: Image.asset(
                   'assets/logo.png',
-                  width: 120,
-                  height: 40,
+                  width: 200,
+                  height: 70,
                 ),
               ),
             ),

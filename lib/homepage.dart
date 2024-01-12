@@ -15,6 +15,7 @@ import 'extra_page.dart';
 import 'arsaxo.dart';
 import 'earth_ar.dart';
 import 'music.dart';
+import 'speech.dart';
 
 class HomePage extends StatelessWidget {
   final DatabaseHelper dbHelper = DatabaseHelper();
@@ -28,7 +29,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onHorizontalDragUpdate: (details) {
-        if (details.primaryDelta! > 0) {
+        if (details.primaryDelta! > 15) {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => SwipeRightPage()),
@@ -79,6 +80,16 @@ class HomePage extends StatelessWidget {
                     );
                   },
                   child: Text('Piano'),
+                ),
+
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SpeechSampleApp()),
+                    );
+                  },
+                  child: Text('Speech'),
                 ),
                 /*SizedBox(height: 20),
               ElevatedButton(

@@ -72,15 +72,6 @@ class _NewCoursePage6 extends State<NewCoursePage6> {
                     builder: (context) => MenuPage(userId: widget.userId)));
           },
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.account_circle),
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HomePage()));
-            },
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -156,12 +147,12 @@ class _NewCoursePage6 extends State<NewCoursePage6> {
                 },
                 child: Icon(
                   Icons.edit,
-                  size: 30,
-                  color: Colors.blue,
+                  size: 50,
+                  color: Colors.blueAccent,
                 ),
               ),
               SizedBox(height: 70),
-              CancelButton(
+              /*CancelButton(
                 onPressed: () {
                   Navigator.push(
                       context,
@@ -173,7 +164,7 @@ class _NewCoursePage6 extends State<NewCoursePage6> {
                               questionType: 'Draw')));
                 },
                 buttonText: 'Cancel',
-              ),
+              ),*/
               SizedBox(height: 20),
             ],
           ),

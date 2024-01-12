@@ -29,7 +29,23 @@ class _SignInPageState extends State<SignInPage> {
   bool validateInputs(BuildContext context) {
     if (signInEmailController.text.isEmpty ||
         signInPasswordController.text.isEmpty) {
-      Vibration.vibrate(duration: 1000);
+      Vibration.vibrate(duration: 500);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please fill in all fields'),
+          duration: Duration(seconds: 1),
+        ),
+      );
+      return false;
+    }
+    return true;
+  }
+
+  bool validateInputsup(BuildContext context) {
+    if (signUpEmailController.text.isEmpty ||
+        signUpPasswordController.text.isEmpty ||
+        signUpConfirmPasswordController.text.isEmpty) {
+      Vibration.vibrate(duration: 500);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Please fill in all fields'),
@@ -200,7 +216,11 @@ class _SignInPageState extends State<SignInPage> {
                       isPassword: true, context: context),
                   SizedBox(height: 16),
                   singinbutton(
-                    onPressed: () => signUp(context),
+                    onPressed: () {
+                      if (validateInputsup(context)) {
+                        signUp(context);
+                      }
+                    },
                     buttonText: 'Sign up',
                   ),
                 ],

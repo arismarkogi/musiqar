@@ -39,12 +39,47 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
   );
   List<bool> areSelected = List.generate(4, (index) => false);
 
+/*Future<void> _initializeAnswersController() async {
+    List<String> initialAnswers = await _fetchAnswers();
+
+    answersController = List.generate(
+      4,
+      (index) => TextEditingController(text: initialAnswers.length > index ? initialAnswers[index] : ''),
+    );
+  }*/
+
   Future<Map<String, dynamic>> _fetchQuestion() async {
     List<Map<String, dynamic>> questions =
         await DatabaseHelper().getAllQuestions();
     return questions
             .firstWhere((question) => question['id'] == widget.questionId) ??
         {};
+  }
+
+  /*Future<List<String>> _fetchAnswers() async {
+    List<Map<String, dynamic>> questions =
+        await DatabaseHelper().getAllQuestions();
+        Map<String, dynamic> te = questions
+            .firstWhere((question) => question['id'] == widget.questionId) ??
+        {};
+        List<String> answersList = (te['answers'] as String?)?.split(' /**/ ') ?? [];
+    return answersList;
+  }*/
+
+  Future<void> _fetchAnsdata() async {
+    List<Map<String, dynamic>> questions =
+        await DatabaseHelper().getAllQuestions();
+    Map<String, dynamic> answer =
+        questions.firstWhere((answers) => answers['id'] == widget.questionId);
+    List<String> answersList =
+        (answer['answers'] as String?)?.split(' /**/ ') ?? ['', '', '', ''];
+
+    setState(() {
+      answersController[0].text = answersList[0] ?? '';
+      answersController[1].text = answersList[1] ?? '';
+      answersController[2].text = answersList[2] ?? '';
+      answersController[3].text = answersList[3] ?? '';
+    });
   }
 
   bool areAnySelected() {
@@ -86,6 +121,7 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
   }
 
   void _showErrorMessage(BuildContext context) {
+    Vibration.vibrate(duration: 500);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content:
@@ -105,7 +141,7 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
     if (areAnySelected() && validateInputs(context)) {
       String combinedText = getCombinedText();
       await DatabaseHelper()
-          .addanswers(widget.questionId, combinedText, getSelected());
+          .addanswers(widget.questionId, combinedText, getSelected(), "Select");
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -124,6 +160,7 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
   void initState() {
     super.initState();
     _fetchQuestion();
+    _fetchAnsdata();
   }
 
   @override

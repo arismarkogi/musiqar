@@ -7,6 +7,7 @@ import 'dart:io';
 import 'data/database_helper.dart';
 import 'dart:typed_data';
 import 'widgets/save_button.dart';
+import 'package:vibration/vibration.dart';
 
 class ProfileSettings extends StatefulWidget {
   final int userId;
@@ -136,6 +137,16 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             child: SaveButton(
               onPressed: () async {
                 try {
+                  if (passwordController.text.trim().isEmpty) {
+                                Vibration.vibrate(duration: 500);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        'Please enter a value for Password.'),
+                                  ),
+                                );
+                              }
+                  else{
                   if (selectedImage != null) {
                     List<int> imageBytes = await selectedImage!.readAsBytes();
 
@@ -147,7 +158,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       'password': passwordController.text,
                       'dateofbirth': dobController.text,
                       'bio': bioController.text,
-                      'image': Uint8List.fromList(imageBytes),
+                      'image_url': Uint8List.fromList(imageBytes),
                     });
                   } else {
                     await DatabaseHelper().updateUser({
@@ -171,6 +182,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         builder: (context) =>
                             ProfilePage(userId: widget.userId)),
                   );
+                  }
                 } catch (e) {
                   print('Error during user data update: $e');
                 }

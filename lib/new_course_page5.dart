@@ -7,6 +7,7 @@ import 'question_type.dart';
 import 'new_course_page3.dart';
 import 'data/database_helper.dart';
 import 'widgets/input_unchangeable.dart';
+import 'package:vibration/vibration.dart';
 
 class NewCoursePage5 extends StatefulWidget {
   final int userId;
@@ -70,20 +71,13 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
                     builder: (context) => MenuPage(userId: widget.userId)));
           },
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.account_circle),
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HomePage()));
-            },
-          ),
-        ],
+
       ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             children: <Widget>[
+              SizedBox(height: 40),
               Text(
                 'Left or Right',
                 textAlign: TextAlign.center,
@@ -181,7 +175,7 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
                 }).toList(),
               ),
               SizedBox(height: 70),
-              CancelButton(
+              /*CancelButton(
                 onPressed: () {
                   Navigator.push(
                       context,
@@ -192,12 +186,12 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
                               chapterId: widget.chapterId)));
                 },
                 buttonText: 'Cancel',
-              ),
+              ),*/
               SizedBox(height: 20),
                CancelButton(
                 onPressed: () {
                   if (selectedAnswer == "Left (No)") {
-                    DatabaseHelper().addanswers(widget.questionId, "Left", 1);
+                    DatabaseHelper().addanswers(widget.questionId, "Left", 1, "LorR");
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -209,7 +203,7 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
                                 )));
                     print("Left");
                   } else if (selectedAnswer == "Right (Yes)") {
-                    DatabaseHelper().addanswers(widget.questionId, "Right", 2);
+                    DatabaseHelper().addanswers(widget.questionId, "Right", 2, "LorR");
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -220,6 +214,7 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
                                 questionType: 'LorR')));
                     print("Right");
                   } else {
+                    Vibration.vibrate(duration: 500);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text('Select correct answer.'),

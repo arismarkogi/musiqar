@@ -99,15 +99,6 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
                     builder: (context) => MenuPage(userId: widget.userId)));
           },
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.account_circle),
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HomePage()));
-            },
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -176,11 +167,12 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => NewCoursePage3(
+                          builder: (context) => NewCoursePage6(
                               userId: widget.userId,
                               courseId: widget.courseId,
                               chapterId: widget.chapterId,
-                              questionType: 'Draw')));
+                              questionId: widget.questionId,
+                              )));
                 },
                 buttonText: 'Cancel',
               ),

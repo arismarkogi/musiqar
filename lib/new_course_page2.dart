@@ -165,14 +165,40 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                                 );
                                 return;
                               } else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
+                                DatabaseHelper dbHelper =
+                                    DatabaseHelper(); // Create an instance
+                                await dbHelper.updatechaptertitle(
+                                    chapterId!, controller.text);
+                                String typee = await dbHelper.ChapthasQuestions(
+                                    chapterId!);
+                                //DatabaseHelper.updatechaptertitle(chapterId!, controller.text);
+                                //String typee = await DatabaseHelper()
+                                //   .ChapthasQuestions(chapterId!);
+                                print("the type is: $typee");
+                                if (typee != '') {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => NewCoursePage3(
+                                        userId: widget.userId,
+                                        courseId: widget.courseId,
+                                        chapterId: chapterId!,
+                                        questionType: typee,
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
                                       builder: (context) => Questiontype(
-                                          userId: widget.userId,
-                                          courseId: widget.courseId,
-                                          chapterId: chapterId!)),
-                                );
+                                        userId: widget.userId,
+                                        courseId: widget.courseId,
+                                        chapterId: chapterId!,
+                                      ),
+                                    ),
+                                  );
+                                }
                               }
                             },
                             child: Icon(Icons.edit),
@@ -279,13 +305,15 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
               ),
               SizedBox(height: 20),
               CancelButton(
-                onPressed: () {
+                onPressed: () async {
+                  DatabaseHelper dbHelper = DatabaseHelper();
+                  await dbHelper.deleteCourse(widget.courseId);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => NewCoursePage1(
+                          builder: (context) => MenuPage(
                               userId: widget.userId,
-                              courseId: widget.courseId)));
+                              )));
                 },
                 buttonText: 'Cancel',
               ),

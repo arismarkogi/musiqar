@@ -77,6 +77,41 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
     return true;
   }
 
+  Widget getNextPageForQuestionType(
+    String questionType,
+    int userId,
+    int courseId,
+    int chapterId,
+    int questionId,
+  ) {
+    switch (questionType) {
+      case "Draw":
+        return NewCoursePage6(
+          userId: userId,
+          courseId: courseId,
+          chapterId: chapterId,
+          questionId: questionId,
+        );
+      case "Select":
+        return NewCoursePage4(
+          userId: userId,
+          courseId: courseId,
+          chapterId: chapterId,
+          questionId: questionId,
+        );
+      case "LorR":
+        return NewCoursePage5(
+          userId: userId,
+          courseId: courseId,
+          chapterId: chapterId,
+          questionId: questionId,
+        );
+      default:
+        // Handle other question types if needed
+        return Container();
+    }
+  }
+
   Widget inputQuestion(
       String labelText, TextEditingController controller, BuildContext context,
       {bool isPassword = false, int? questionId}) {
@@ -139,7 +174,7 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          GestureDetector(
+                          /*GestureDetector(
                             onTap: () {
                               if (validateInputs()) {
                                 if (widget.questionType == "Draw") {
@@ -197,6 +232,85 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
                                 }
                               }
                               ;
+                            },
+                            child: Icon(Icons.edit),
+                          ),*/
+                          GestureDetector(
+                            onTap: () async {
+                              if (validateInputs()) {
+                                if (widget.questionType == "Draw" ||
+                                    widget.questionType == "Select" ||
+                                    widget.questionType == "LorR") {
+                                  int selectedQuestionId = questionId ?? 0;
+
+                                  if (existingQuestions.any(
+                                      (existingQuestion) =>
+                                          existingQuestion['id'] ==
+                                          selectedQuestionId)) {
+                                    DatabaseHelper().updatequestiontitle(
+                                        questionId!, controller.text);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => widget
+                                                    .questionType ==
+                                                "Draw"
+                                            ? NewCoursePage6(
+                                                userId: widget.userId,
+                                                courseId: widget.courseId,
+                                                chapterId: widget.chapterId,
+                                                questionId: selectedQuestionId,
+                                              )
+                                            : (widget.questionType == "Select"
+                                                ? NewCoursePage4(
+                                                    userId: widget.userId,
+                                                    courseId: widget.courseId,
+                                                    chapterId: widget.chapterId,
+                                                    questionId:
+                                                        selectedQuestionId,
+                                                  )
+                                                : NewCoursePage5(
+                                                    userId: widget.userId,
+                                                    courseId: widget.courseId,
+                                                    chapterId: widget.chapterId,
+                                                    questionId:
+                                                        selectedQuestionId,
+                                                  )),
+                                      ),
+                                    );
+                                  } else {
+                                    int newQuestionId = await insertQuestion(
+                                        widget.chapterId, controller.text);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => widget
+                                                    .questionType ==
+                                                "Draw"
+                                            ? NewCoursePage6(
+                                                userId: widget.userId,
+                                                courseId: widget.courseId,
+                                                chapterId: widget.chapterId,
+                                                questionId: newQuestionId,
+                                              )
+                                            : (widget.questionType == "Select"
+                                                ? NewCoursePage4(
+                                                    userId: widget.userId,
+                                                    courseId: widget.courseId,
+                                                    chapterId: widget.chapterId,
+                                                    questionId: newQuestionId,
+                                                  )
+                                                : NewCoursePage5(
+                                                    userId: widget.userId,
+                                                    courseId: widget.courseId,
+                                                    chapterId: widget.chapterId,
+                                                    questionId: newQuestionId,
+                                                  )),
+                                      ),
+                                    );
+                                  }
+                                }
+                              }
                             },
                             child: Icon(Icons.edit),
                           ),
@@ -286,32 +400,48 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
                 buttonText: '+ Add Question',
               ),
               SizedBox(height: 20),
-              CancelButton(
-                onPressed: () async {
-                  await deleteAllQuestionsForChapter();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Questiontype(
-                              userId: widget.userId,
-                              courseId: widget.courseId,
-                              chapterId: widget.chapterId)));
-                },
-                buttonText: 'Cancel',
-              ),
-              SizedBox(height: 20),
-              CancelButton(
-                onPressed: () {
-                  if (validateInputs()) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => NewCoursePage2(
-                                userId: widget.userId,
-                                courseId: widget.courseId)));
-                  }
-                },
-                buttonText: 'Save',
+              Row(
+                mainAxisAlignment: MainAxisAlignment
+                    .spaceEvenly,
+                children: [
+                  SizedBox(
+                      width: 40),
+                  Expanded(
+                    child: CancelButton(
+                      onPressed: () async {
+                        await deleteAllQuestionsForChapter();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Questiontype(
+                                    userId: widget.userId,
+                                    courseId: widget.courseId,
+                                    chapterId: widget.chapterId)));
+                      },
+                      buttonText: 'Cancel',
+                    ),
+                  ),
+                  SizedBox(
+                      width: 40), 
+                  Expanded(
+                    child: CancelButton(
+                      onPressed: () {
+                        if (validateInputs()) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => NewCoursePage2(
+                                      userId: widget.userId,
+                                      courseId: widget.courseId)));
+                        }
+                      },
+                      buttonText: 'Save',
+                    ),
+                    
+                  ),
+                  SizedBox(
+                      width: 40),
+                ],
               ),
             ],
           ),

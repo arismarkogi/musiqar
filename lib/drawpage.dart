@@ -148,7 +148,7 @@ Future<void> _getImageData(BuildContext context) async {
       await File(filePath).writeAsBytes(data);
       debugPrint('Image saved at: $filePath');
 
-      DatabaseHelper().addanswers(widget.questionId, filePath, 1);
+      DatabaseHelper().addanswers(widget.questionId, filePath, 1, "Draw");
       Navigator.push(
         context,
         MaterialPageRoute(

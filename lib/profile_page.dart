@@ -18,7 +18,7 @@ class ProfilePage extends StatelessWidget {
     return users.firstWhere((user) => user['id'] == userId) ?? {};
   }
 
-  Widget info(String name, Uint8List userImage) {
+  Widget info(String name, Uint8List userImage, int points) {
     return Container(
       width: 340,
       height: 144.24,
@@ -50,7 +50,10 @@ class ProfilePage extends StatelessWidget {
                 height: 60,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/piano.jpg'),
+                    image: points < 100
+                        ? AssetImage('assets/logo3.png'):
+                        points > 200 ? AssetImage('assets/piano.jpg')
+                        : AssetImage('assets/logo2.png'),
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -126,7 +129,7 @@ class ProfilePage extends StatelessWidget {
       Map<String, dynamic> userData, BuildContext context) {
     return GestureDetector(
       onHorizontalDragUpdate: (details) {
-        if (details.primaryDelta! > 0) {
+        if (details.primaryDelta! > 20) {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => MenuPage(userId: userId)),
@@ -199,14 +202,15 @@ class ProfilePage extends StatelessWidget {
 
   Widget _buildProfileInfo(Map<String, dynamic> userData) {
     return FutureBuilder(
-      future: _loadUserImage(userData['image']),
+      future: _loadUserImage(userData['image_url']),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
-          return info(userData['name'], snapshot.data! as Uint8List);
+          return info(userData['name'], snapshot.data! as Uint8List,
+              userData['points']);
         }
       },
     );

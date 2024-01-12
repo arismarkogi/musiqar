@@ -21,7 +21,7 @@ class RankingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onHorizontalDragUpdate: (details) {
-        if (details.primaryDelta! > 0) {
+        if (details.primaryDelta! > 20) {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => MenuPage(userId: userId)),
@@ -63,7 +63,7 @@ class RankingsPage extends StatelessWidget {
         ),
         body: GestureDetector(
           onHorizontalDragEnd: (details) {
-            if (details.primaryVelocity! > 0) {
+            if (details.primaryVelocity! > 20) {
               Navigator.push(
                   context,
                   MaterialPageRoute(
