@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'select_music.dart';
-=======
-import 'package:flutter_application_1/select_music.dart';
->>>>>>> 3d15553 (update)
 import 'signin_page.dart';
 import 'menu_page.dart';
 import 'swipe_right_page.dart';
@@ -19,14 +15,7 @@ import 'extra_page.dart';
 import 'arsaxo.dart';
 import 'earth_ar.dart';
 import 'music.dart';
-<<<<<<< HEAD
 import 'speech.dart';
-=======
-
-
-
-
->>>>>>> 3d15553 (update)
 
 class HomePage extends StatelessWidget {
   final DatabaseHelper dbHelper = DatabaseHelper();
@@ -59,7 +48,6 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
-<<<<<<< HEAD
         body: GestureDetector(
           onHorizontalDragUpdate: (details) {
             if (details.primaryDelta! > 0) {
@@ -104,53 +92,6 @@ class HomePage extends StatelessWidget {
                   child: Text('Speech'),
                 ),
                 /*SizedBox(height: 20),
-=======
-      ),
-      body: GestureDetector(
-        onHorizontalDragUpdate: (details) {
-          if (details.primaryDelta! > 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SwipeRightPage()),
-            );
-          }
-        },
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignInPage()),
-                  );
-                },
-                child: Text('Sign in'),
-              ),
-              SizedBox(height: 20),
-              /*ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MenuPage(userId:userId)),
-                  );
-                },
-                child: Text('Menu'),
-              ),
-              */
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ARR()),
-                  );
-                },
-                child: Text('Piano'),
-              ),
-              /*SizedBox(height: 20),
->>>>>>> 3d15553 (update)
               ElevatedButton(
                 onPressed: () async {
                   dbHelper.deleteAllUsers();
@@ -189,7 +130,6 @@ class HomePage extends StatelessWidget {
                 },
                 child: Text('Add data'),
               ),*/
-<<<<<<< HEAD
                 ElevatedButton(
                 onPressed: () async {
                   List<Map<String, dynamic>> users = await dbHelper.getAllQuestions();
@@ -207,36 +147,13 @@ class HomePage extends StatelessWidget {
 
                   // Print the list of tables
                   //print('Tables in the database: $tables');
-=======
-                /*ElevatedButton(
-                onPressed: () async {
-                  //List<Map<String, dynamic>> users = await dbHelper.getAllUsers();
-                  //print(users);
-                   //List<Map<String, dynamic>> courses = await dbHelper.getAllCourses();
-                   //print(courses);
-                   //List<Map<String, dynamic>> chapters = await dbHelper.getAllCChapters();
-                   //print(chapters);
-                  // await dbHelper.createQuestionTable();
-                  await dbHelper.createQuestionTable();
-                  await dbHelper.addTestData();
-                  List<String> tables = await dbHelper.getTables();
-
-                  // Print the list of tables
-                  print('Tables in the database: $tables');
->>>>>>> 3d15553 (update)
 
                   //await DatabaseHelper().checkAndCreateTables();
 
                 },
-<<<<<<< HEAD
                 child: Text('See data'),
               ),
                 /*ElevatedButton(
-=======
-                child: Text('See tables'),
-              ),*/
-              /*ElevatedButton(
->>>>>>> 3d15553 (update)
                 onPressed: () async {
                   await dbHelper.dropAndRecreateTables();
 
@@ -284,11 +201,7 @@ class HomePage extends StatelessWidget {
                 },
                 child: Text('Drop DB'),
               ),*/
-<<<<<<< HEAD
                 ElevatedButton(
-=======
-              ElevatedButton(
->>>>>>> 3d15553 (update)
                   onPressed: () async {
                     List<CameraDescription> cameras = await getCameras();
 
@@ -324,13 +237,7 @@ class HomePage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-<<<<<<< HEAD
                         builder: (context) => MusicSelectionScreen(),
-=======
-                        builder: (context) => MusicSelectionScreen(
-                        ),
-
->>>>>>> 3d15553 (update)
                       ),
                     );
                   },
@@ -349,10 +256,6 @@ class HomePage extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-<<<<<<< HEAD
-=======
-
->>>>>>> 3d15553 (update)
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -362,12 +265,8 @@ class HomePage extends StatelessWidget {
                   },
                   child: Text('Music'),
                 ),
-<<<<<<< HEAD
               ],
             ),
-=======
-            ],
->>>>>>> 3d15553 (update)
           ),
         ),
       ),

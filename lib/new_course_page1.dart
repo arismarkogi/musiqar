@@ -8,12 +8,9 @@ import 'new_course_page2.dart';
 import 'profile_page.dart';
 import 'data/database_helper.dart';
 import 'package:vibration/vibration.dart';
-<<<<<<< HEAD
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
-=======
->>>>>>> 3d15553 (update)
 
 class NewCoursePage1 extends StatefulWidget {
   final int userId;
@@ -49,20 +46,6 @@ class _NewCoursePage1State extends State<NewCoursePage1> {
     return true;
   }
 
-  bool validateInputs() {
-    if (coursename.text.isEmpty || category.text.isEmpty || description.text.isEmpty) {
-      Vibration.vibrate(duration: 1000); 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Please fill in all fields'),
-          duration: Duration(seconds: 2),
-        ),
-      );
-      return false;
-    }
-    return true;
-  }
-
   @override
   void initState() {
     super.initState();
@@ -70,22 +53,8 @@ class _NewCoursePage1State extends State<NewCoursePage1> {
   }
 
   Future<Map<String, dynamic>> _fetchUserData() async {
-<<<<<<< HEAD
     List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
     return users.firstWhere((user) => user["id"] == widget.userId) ?? {};
-=======
-  List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
-  return users.firstWhere((user) => user["id"] == widget.userId) ?? {};
-}
-
-Future<void> _fetchCourseData() async {
-  if (widget.courseId == -1){
-    setState((){
-      coursename.text = "";
-      category.text = "";
-      description.text = "";
-  });
->>>>>>> 3d15553 (update)
   }
 
   Future<void> _pickImage() async {
@@ -210,7 +179,6 @@ Future<void> _fetchCourseData() async {
                     color: Colors.blueAccent,
                   ),
                 ),
-<<<<<<< HEAD
                 SizedBox(height: 20),
                 Text(
                   'Course name',
@@ -284,66 +252,6 @@ Future<void> _fetchCourseData() async {
                 ),
               ],
             ),
-=======
-              ),
-              SizedBox(height: 30),
-              customdesc('Short Description', description),
-              SizedBox(height: 70),
-              CancelButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage(userId: widget.userId)));
-                },
-                buttonText: 'Cancel',
-              ),
-              SizedBox(height: 20),
-
-              /*CancelButton(
-                onPressed: () {
-                  Future<void> yourFunctionName() async {
-                 Map<String, dynamic> userData = await _fetchUserData();
-
-                String instructorText = userData['name'] + ' ' + userData['surname'];
-                print("instructor");
-                print(instructorText);
-
-                int courseId = await DatabaseHelper().newcourse({
-                  'title': coursename,
-                  'category': category,
-                  'description': description,
-                  'instructor': instructorText,
-                });
-                print("the courseId is equal to");
-                print(courseId);
-                if (courseId == -1) {
-                  print('Failed to insert course into the database');
-                  return;
-                }
-
-              }
-                  /*courseProvider.updateCourseInfo(
-                    coursename.text,
-                    category.text,
-                    description.text,
-                  );*/
-
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2(userId: userId, courseId: courseId)));
-                },
-                buttonText: 'Continue',
-              ),*/
-              CancelButton(
-                onPressed: () async {
-                  if (validateInputs()) {
-                    int newcourseid = await insertcourse();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => NewCoursePage2(userId: widget.userId, courseId: newcourseid)),
-                    );
-                  }
-                },
-                buttonText: 'Continue',
-              ),
-            ],
->>>>>>> 3d15553 (update)
           ),
         ),
       ),
