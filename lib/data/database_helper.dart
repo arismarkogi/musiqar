@@ -17,8 +17,7 @@ class DatabaseHelper {
     return _db!;
   }
 
-  String courseTable =
-      '''
+  String courseTable = '''
       CREATE TABLE course (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT,
@@ -29,8 +28,7 @@ class DatabaseHelper {
     );
     ''';
 
-  String chapterTable =
-      '''
+  String chapterTable = '''
       CREATE TABLE chapter (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT,
@@ -39,8 +37,7 @@ class DatabaseHelper {
     );
     ''';
 
-  String hasChapter =
-      """
+  String hasChapter = """
     CREATE TABLE has_chapter (
     chapter_id INTEGER,
     course_id INTEGER,
@@ -48,8 +45,7 @@ class DatabaseHelper {
     );
     """;
 
-  String usersTable =
-      '''
+  String usersTable = '''
       CREATE TABLE users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       email TEXT,
@@ -63,8 +59,7 @@ class DatabaseHelper {
     );
     ''';
 
-  String hasEnrolled =
-      '''
+  String hasEnrolled = '''
     CREATE TABLE has_enrolled (
       course_id INTEGER,
       user_id INTEGER,
@@ -72,8 +67,7 @@ class DatabaseHelper {
   );
   ''';
 
-  String hasCompleted =
-      '''
+  String hasCompleted = '''
     CREATE TABLE has_completed (
       chapter_id INTEGER,
       user_id INTEGER,
@@ -81,8 +75,7 @@ class DatabaseHelper {
     );
     ''';
 
-  String question =
-      """
+  String question = """
     CREATE TABLE Question (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       chapter_id INTEGER,
@@ -93,8 +86,7 @@ class DatabaseHelper {
     );
     """;
 
-  String answer =
-      """
+  String answer = """
     CREATE TABLE Answer (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       question_id INTEGER,
@@ -209,7 +201,6 @@ class DatabaseHelper {
     await db.execute(answer);
     await db.execute(hasEnrolled);
     await db.execute(hasCompleted);
-    //await _executeInsertStatements();  // Move this line here
   }
 
   Future<void> dropAndRecreateTables() async {
@@ -244,12 +235,10 @@ class DatabaseHelper {
     var dbClient = await db;
     int chapterId = await dbClient.insert('chapter', chapter);
 
-    await dbClient.rawInsert(
-        '''
+    await dbClient.rawInsert('''
     INSERT INTO has_chapter(chapter_id, course_id)
     VALUES(?, ?)
-  ''',
-        [chapterId, courseId]);
+  ''', [chapterId, courseId]);
 
     return chapterId;
   }
@@ -306,16 +295,34 @@ class DatabaseHelper {
     return await dbClient.query('Question');
   }
 
+  Future<List<Map<String, dynamic>>> _getAllQuestions() async {
+    var dbClient = await db;
+    return dbClient.query('Question');
+  }
+
+  Future<String> ChapthasQuestions(int chapterId) async {
+  var dbClient = await db;
+  List<Map<String, dynamic>> result = await dbClient.rawQuery('''
+    SELECT type FROM Question
+    WHERE chapter_id = ?
+    LIMIT 1
+  ''', [chapterId]);
+  if (result.isNotEmpty) {
+    return result.first['type'];
+  } else {
+    return ''; 
+  }
+}
+
+
   Future<List<Map<String, dynamic>>> getEnrolledCourses(int userId) async {
     var dbClient = await db;
-    return await dbClient.rawQuery(
-        '''
+    return await dbClient.rawQuery('''
     SELECT c.title, u.name,c.image_url FROM course c
     INNER JOIN has_enrolled he ON c.id = he.course_id
     INNer JOIN users u ON u.id = c.instructor
     WHERE he.user_id = ?
-  ''',
-        [userId]);
+  ''', [userId]);
   }
 
   Future<int> updateUser(Map<String, dynamic> user) async {
@@ -333,14 +340,12 @@ class DatabaseHelper {
   Future<void> updateChapterPdf(
       int chapterId, String filename, String pdfPath) async {
     var dbClient = await db;
-    await dbClient.rawUpdate(
-        '''
+    await dbClient.rawUpdate('''
       UPDATE chapter
       SET pdf_url = ?,
       pdf_name = ?
       WHERE id = ?
-    ''',
-        [pdfPath, filename, chapterId]);
+    ''', [pdfPath, filename, chapterId]);
   }
 
   Future<bool> isPdfNull(int chapterId) async {
@@ -358,36 +363,41 @@ class DatabaseHelper {
   Future<void> updateChapterQuestionType(
       int chapterId, String question_type) async {
     var dbClient = await db;
-    await dbClient.rawUpdate(
-        '''
+    await dbClient.rawUpdate('''
       UPDATE chapter
       SET question_type = ?
       WHERE id = ?
-    ''',
-        [question_type, chapterId]);
+    ''', [question_type, chapterId]);
   }
 
   Future<void> updatechaptertitle(int chapterId, String title) async {
     var dbClient = await db;
-    await dbClient.rawUpdate(
-        '''
+    await dbClient.rawUpdate('''
       UPDATE chapter
       SET title = ?
       WHERE id = ?
-    ''',
-        [title, chapterId]);
+    ''', [title, chapterId]);
   }
 
-  Future<void> addanswers(int questionId, String answers, int correct_answer) async {
+Future<void> updatequestiontitle(int questionId, String title) async {
     var dbClient = await db;
-    await dbClient.rawUpdate(
-        '''
+    await dbClient.rawUpdate('''
+      UPDATE Question
+      SET title = ?
+      WHERE id = ?
+    ''', [title, questionId]);
+  }
+
+  Future<void> addanswers(
+      int questionId, String answers, int correct_answer, String qtype) async {
+    var dbClient = await db;
+    await dbClient.rawUpdate('''
       UPDATE question
       SET answers = ?, 
-      correct_answer = ?
+      correct_answer = ?,
+      type = ?
       WHERE id = ?
-    ''',
-        [answers, correct_answer, questionId]);
+    ''', [answers, correct_answer, qtype, questionId]);
   }
 
   Future<int> deleteUser(int id) async {
@@ -401,7 +411,9 @@ class DatabaseHelper {
     try {
       await dbClient.delete('course', where: 'id = ?', whereArgs: [courseId]);
       await dbClient.delete('chapter', where: 'id = ?', whereArgs: [courseId]);
-      await dbClient.delete('question', where: 'chapter_id IN (SELECT id FROM chapter WHERE course_id = ?', whereArgs: [courseId]);
+      await dbClient.delete('question',
+          where: 'chapter_id IN (SELECT id FROM chapter WHERE course_id = ?',
+          whereArgs: [courseId]);
     } catch (e) {
       print('Error deleting course: $e');
     }
@@ -435,13 +447,11 @@ class DatabaseHelper {
 
   Future<bool> doesTableExist(String tableName) async {
     var dbClient = await db;
-    var result = await dbClient.rawQuery(
-        '''
+    var result = await dbClient.rawQuery('''
       SELECT name
       FROM sqlite_master
       WHERE type='table' AND name=?
-    ''',
-        [tableName]);
+    ''', [tableName]);
 
     return result.isNotEmpty;
   }
@@ -472,41 +482,41 @@ class DatabaseHelper {
 
   Future<List<Map<String, dynamic>>> getChaptersForCourse(int courseId) async {
     var dbClient = await db;
-    return await dbClient.rawQuery(
-        '''
+    return await dbClient.rawQuery('''
       SELECT c.id, c.title
       FROM chapter c
       INNER JOIN has_chapter hc ON c.id = hc.chapter_id
       WHERE hc.course_id = ?
-    ''',
-        [courseId]);
+    ''', [courseId]);
   }
 
   Future<List<Map<String, dynamic>>> getQuestion(int questionId) async {
     var dbClient = await db;
-    return await dbClient.rawQuery(
-        '''
+    return await dbClient.rawQuery('''
       SELECT *
       FROM question 
       WHERE id = ?
-    ''',
-        [questionId]);
+    ''', [questionId]);
+  }
+
+  Future<List<Map<String, dynamic>>> getAnswersofQuestion(
+      int questionId) async {
+    var dbClient = await db;
+    return await dbClient
+        .query('Question', where: 'id = ?', whereArgs: [questionId]);
   }
 
   Future<List<Map<String, dynamic>>> getQuestionsForChapter(
       int chapterId) async {
     var dbClient = await db;
-    return await dbClient.rawQuery(
-        '''
+    return await dbClient.rawQuery('''
       SELECT id, title, type
       FROM question 
       WHERE chapter_id = ?
-    ''',
-        [chapterId]);
+    ''', [chapterId]);
   }
 
-  final String createQuestionTableQuery =
-      '''
+  final String createQuestionTableQuery = '''
   CREATE TABLE IF NOT EXISTS Question (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     chapter_id INTEGER,
@@ -528,8 +538,7 @@ class DatabaseHelper {
 
   Future<void> addchapterr() async {
     var dbClient = await db;
-    await dbClient.execute(
-        """
+    await dbClient.execute("""
    ALTER TABLE chapter ADD COLUMN question_type TEXT
     """);
   }
