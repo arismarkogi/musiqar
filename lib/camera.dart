@@ -78,10 +78,6 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   }
 }
 
-<<<<<<< HEAD
-=======
-// A widget that displays the picture taken by the user.
->>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
 class DisplayPictureScreen extends StatelessWidget {
   final String imagePath;
 
@@ -91,11 +87,6 @@ class DisplayPictureScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Display the Picture')),
-<<<<<<< HEAD
-=======
-      // The image is stored as a file on the device. Use the `Image.file`
-      // constructor with the given path to display the image.
->>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
       body: Image.file(File(imagePath)),
     );
   }

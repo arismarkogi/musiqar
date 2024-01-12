@@ -1,5 +1,5 @@
-name: flutter_application_1
-description: "A new Flutter project."
+name: musIQAR
+description: "A music educational app with Augmented Reality"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -48,6 +48,9 @@ dependencies:
   permission_handler:
   audioplayers:
   just_audio:
+  shared_preferences:
+  uuid:
+  speech_to_text:
   flutter:
     sdk: flutter
 
@@ -95,18 +98,12 @@ flutter:
     - assets/quiz.png
     - assets/dummy.pdf
     - assets/piano3d.glb
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
     - assets/pianoar.png
     - assets/saxophone.glb
     - assets/tuba.glb
     - assets/violin.glb
     - assets/Blue.mp3
     - assets/saxophone.m4a
-<<<<<<< HEAD
->>>>>>> 3d15553 (update)
-=======
->>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+    - assets/logo2.png
+    - assets/logo3.png
+    

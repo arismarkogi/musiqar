@@ -18,15 +18,7 @@ class ProfilePage extends StatelessWidget {
     return users.firstWhere((user) => user['id'] == userId) ?? {};
   }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   Widget info(String name, Uint8List userImage, int points) {
-=======
-  Widget info(String name, Uint8List userImage) {
->>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
-=======
-  Widget info(String name, Uint8List userImage) {
->>>>>>> f7f5704 (add)
     return Container(
       width: 340,
       height: 144.24,
@@ -58,18 +50,10 @@ class ProfilePage extends StatelessWidget {
                 height: 60,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-<<<<<<< HEAD
-<<<<<<< HEAD
                     image: points < 100
                         ? AssetImage('assets/logo3.png'):
                         points > 200 ? AssetImage('assets/piano.jpg')
                         : AssetImage('assets/logo2.png'),
-=======
-                    image: AssetImage('assets/piano.jpg'),
->>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
-=======
-                    image: AssetImage('assets/piano.jpg'),
->>>>>>> f7f5704 (add)
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -105,15 +89,7 @@ class ProfilePage extends StatelessWidget {
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.center,
                 child: Text(
-<<<<<<< HEAD
-<<<<<<< HEAD
                   "Hey $name",
-=======
-                  name,
->>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
-=======
-                  name,
->>>>>>> f7f5704 (add)
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
@@ -127,74 +103,12 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
             ),
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> f7f5704 (add)
           ),
         ],
       ),
     );
   }
 
-/*
-
-@override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _fetchUserData(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
-          return _buildProfilePage(snapshot.data!, context);
-        }
-      },
-    );
-  }
-
-Widget _buildProfilePage(Map<String, dynamic> userData, BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        backgroundColor: Color(0xFFFEF7FF),
-        title: Center(
-          child: Image.asset(
-            'assets/logo.png',
-            width: 150,
-            height: 50,
-          ),
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage(userId: userId)));
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-            },
->>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
-          ),
-        ],
-      ),
-    );
-  }
-
-<<<<<<< HEAD
-=======
-*/
-<<<<<<< HEAD
->>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
-=======
->>>>>>> f7f5704 (add)
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -215,16 +129,11 @@ Widget _buildProfilePage(Map<String, dynamic> userData, BuildContext context) {
       Map<String, dynamic> userData, BuildContext context) {
     return GestureDetector(
       onHorizontalDragUpdate: (details) {
-<<<<<<< HEAD
         if (details.primaryDelta! > 20) {
-=======
-        if (details.primaryDelta! > 0) {
->>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => MenuPage(userId: userId)),
           );
-<<<<<<< HEAD
         }
       },
       child: Scaffold(
@@ -238,138 +147,6 @@ Widget _buildProfilePage(Map<String, dynamic> userData, BuildContext context) {
               width: 150,
               height: 50,
             ),
-<<<<<<< HEAD
-=======
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          backgroundColor: Color(0xFFFEF7FF),
-          title: Center(
-            child: Image.asset(
-              'assets/logo.png',
-              width: 150,
-              height: 50,
-            ),
-=======
->>>>>>> f7f5704 (add)
-          ),
-          leading: IconButton(
-            icon: Icon(Icons.menu),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MenuPage(userId: userId)));
-            },
-          ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.logout),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomePage()));
-              },
-            ),
-          ],
-        ),
-        body: SingleChildScrollView(
-          padding: EdgeInsets.all(0),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(height: 40),
-                _buildProfileInfo(userData),
-                SizedBox(height: 100),
-                Bio(userData['bio']),
-              ],
-            ),
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ProfileSettings(
-                  userId: userData['id'],
-                ),
-              ),
-            );
-          },
-          child: Icon(Icons.mode_edit),
-          backgroundColor: Colors.white,
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      ),
-    );
-  }
-
-  Widget _buildProfileInfo(Map<String, dynamic> userData) {
-    return FutureBuilder(
-      future: _loadUserImage(userData['image']),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
-          return info(userData['name'], snapshot.data! as Uint8List);
-        }
-      },
-    );
-  }
-
-  Future<Uint8List> _loadUserImage(dynamic imageData) async {
-    if (imageData == null) {
-      final ByteData data = await rootBundle.load('assets/piano.jpg');
-      return data.buffer.asUint8List();
-    } else if (imageData is Uint8List) {
-      return imageData;
-    } else {
-      // Handle other cases if needed
-      return Uint8List(0); // Return an empty Uint8List as a fallback
-    }
-  }
-}
-
-
-
-
-/*
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _fetchUserData(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
-          Map<String, dynamic> userData = snapshot.data as Map<String, dynamic>;
-          Uint8List userImage;
-
-          if (userData['image'] == null) {
-            final ByteData data = await rootBundle.load('assets/piano.jpg');
-            userImage = data.buffer.asUint8List();
-          } else {
-            userImage = userData['image'];
-          }
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        backgroundColor: Color(0xFFFEF7FF),
-        title: Center(
-          child: Image.asset(
-            'assets/logo.png',
-            width: 150,
-            height: 50,
->>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
           ),
           leading: IconButton(
             icon: Icon(Icons.menu),

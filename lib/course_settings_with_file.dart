@@ -2,11 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:file_picker/file_picker.dart';
-<<<<<<< HEAD
 import 'data/database_helper.dart';
-=======
-import 'package:flutter_application_1/data/database_helper.dart';
->>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
 import 'package:open_file/open_file.dart';
 import 'course_settings.dart';
 import 'new_course_page2.dart';
@@ -16,13 +12,7 @@ import 'course_info_provider.dart';
 import 'package:provider/provider.dart';
 import 'new_course_page2.dart';
 import 'new_course_page1.dart';
-<<<<<<< HEAD
-<<<<<<< HEAD
 import 'package:vibration/vibration.dart';
-=======
->>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
-=======
->>>>>>> f7f5704 (add)
 
 class FileOpenPage extends StatefulWidget {
   final int userId;
@@ -53,11 +43,6 @@ class _FileOpenPageState extends State<FileOpenPage> {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-=======
-    //var courseProvider = context.watch<CourseInfoProvider>();
-
->>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
     return Scaffold(
       appBar: AppBar(
         title: Text('File Open'),
@@ -133,7 +118,6 @@ class _FileOpenPageState extends State<FileOpenPage> {
                               userId: widget.userId,
                               courseId: widget.courseId)));
                 } else {
-<<<<<<< HEAD
                   Vibration.vibrate(duration: 500);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -142,19 +126,6 @@ class _FileOpenPageState extends State<FileOpenPage> {
                   );
                   print('Filename cannot be empty');
                 }
-=======
-                  print('Filename cannot be empty');
-                }
-                //courseProvider.addChapter(ChapterInfo(controller: filename, title: filename.text));
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => NewCoursePage2(
-                            userId: widget.userId, courseId: widget.courseId)));
-<<<<<<< HEAD
->>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
-=======
->>>>>>> f7f5704 (add)
               },
               buttonText: 'Save',
             ),

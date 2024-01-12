@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'new_course_page7.dart';
 import 'question_draw.dart';
-=======
-import 'package:flutter_application_1/new_course_page7.dart';
-import 'package:flutter_application_1/question_draw.dart';
->>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
 import 'package:flutter_drawing_board/flutter_drawing_board.dart';
 import 'package:flutter_drawing_board/paint_contents.dart';
 import 'package:path_provider/path_provider.dart';
@@ -14,11 +9,7 @@ import 'dart:io';
 import 'dart:ui' as ui;
 import 'dart:typed_data';
 import 'package:flutter/rendering.dart';
-<<<<<<< HEAD
 import 'package:uuid/uuid.dart';
-=======
-import 'new_course_page7.dart';
->>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
 
 class Triangle extends PaintContent {
   Triangle();
@@ -142,19 +133,9 @@ class _DrawpageAns extends State<DrawpageAns> {
       Uint8List? data = await _screenshotController.capture();
 
       if (data != null) {
-<<<<<<< HEAD
-<<<<<<< HEAD
         final String uniqueId = Uuid().v4(); // Use a unique identifier library
         final Directory directory = await getApplicationDocumentsDirectory();
         final String filePath = '${directory.path}/drawing_image_$uniqueId.png';
-=======
-        final Directory directory = await getApplicationDocumentsDirectory();
-        final String filePath = '${directory.path}/drawing_image.png';
->>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
-=======
-        final Directory directory = await getApplicationDocumentsDirectory();
-        final String filePath = '${directory.path}/drawing_image.png';
->>>>>>> f7f5704 (add)
 
         await File(filePath).writeAsBytes(data);
         debugPrint('Image saved at: $filePath');
