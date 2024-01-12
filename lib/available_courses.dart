@@ -6,7 +6,17 @@ import 'menu_page.dart';
 import 'widgets/category.dart';
 import 'data/database_helper.dart';
 
+<<<<<<< HEAD
 class AvailableCourses extends StatefulWidget {
+=======
+String courseName = "Course Name";
+String instructorName = "Instructor Name";
+String courseInfo =
+    "Short description of the course, probably mentions the prerequisites, if exist, and define the learning outcome";
+String imageURL = "assets/course.jpg";
+
+class AvailableCourses extends StatelessWidget {
+>>>>>>> f7f5704 (add)
   final int userId;
 
   AvailableCourses({required this.userId});
@@ -61,6 +71,7 @@ class _AvailableCoursesState extends State<AvailableCourses> {
           leading: IconButton(
             icon: Icon(Icons.menu),
             onPressed: () {
+<<<<<<< HEAD
               print("AVAILABLE");
               availableCourses.then((courses) {
                 print('Available Courses:');
@@ -79,12 +90,19 @@ class _AvailableCoursesState extends State<AvailableCourses> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => MenuPage(userId: widget.userId)));
+=======
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MenuPage(userId: userId)));
+>>>>>>> f7f5704 (add)
             },
           ),
           actions: [
             IconButton(
               icon: Icon(Icons.account_circle),
               onPressed: () {
+<<<<<<< HEAD
                 print("AVAILABLE");
                 print(availableCourses);
                 Navigator.push(
@@ -92,6 +110,12 @@ class _AvailableCoursesState extends State<AvailableCourses> {
                     MaterialPageRoute(
                         builder: (context) =>
                             ProfilePage(userId: widget.userId)));
+=======
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProfilePage(userId: userId)));
+>>>>>>> f7f5704 (add)
               },
             ),
           ],
@@ -104,6 +128,31 @@ class _AvailableCoursesState extends State<AvailableCourses> {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
+<<<<<<< HEAD
+=======
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 16.0),
+            child: Container(
+              height: 460,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: 10,
+                separatorBuilder: (context, _) => SizedBox(width: 8),
+                itemBuilder: (context, index) => AvailableCourse(
+                    courseName, instructorName, courseInfo, imageURL, () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CoursePage(
+                              userId: userId,
+                              courseId: 0,
+                            )),
+                  );
+                }),
+>>>>>>> f7f5704 (add)
               ),
             ),
           ),
@@ -208,10 +257,17 @@ class _AvailableCoursesState extends State<AvailableCourses> {
                         );
                       },
                     ),
+<<<<<<< HEAD
                   ),
                 );
               }
             },
+=======
+                  );
+                },
+              ),
+            ),
+>>>>>>> f7f5704 (add)
           ),
         ]));
   }

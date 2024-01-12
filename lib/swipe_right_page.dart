@@ -17,6 +17,7 @@ class SwipeRightPage extends StatelessWidget {
     );
   }
 }
+<<<<<<< HEAD
 =======
 import 'package:flutter/material.dart';
 
@@ -37,3 +38,5 @@ class SwipeRightPage extends StatelessWidget {
   }
 }
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+>>>>>>> f7f5704 (add)

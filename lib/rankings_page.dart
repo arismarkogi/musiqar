@@ -68,10 +68,14 @@ class RankingsPage extends StatelessWidget {
         body: GestureDetector(
           onHorizontalDragEnd: (details) {
 <<<<<<< HEAD
+<<<<<<< HEAD
             if (details.primaryVelocity! > 20) {
 =======
             if (details.primaryVelocity! > 0) {
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+            if (details.primaryVelocity! > 0) {
+>>>>>>> f7f5704 (add)
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -96,6 +100,7 @@ class RankingsPage extends StatelessWidget {
                         return Text('No users found.');
                       } else {
 <<<<<<< HEAD
+<<<<<<< HEAD
                         List<Map<String, dynamic>> users = List.from(
                             snapshot.data!);
                         users
@@ -104,6 +109,9 @@ class RankingsPage extends StatelessWidget {
 =======
                         List<Map<String, dynamic>> users = snapshot.data!;
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+                        List<Map<String, dynamic>> users = snapshot.data!;
+>>>>>>> f7f5704 (add)
                         List<Widget> rankingWidgets = [];
                         for (int i = 0; i < users.length; i++) {
                           rankingWidgets.add(

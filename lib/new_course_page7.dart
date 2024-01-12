@@ -48,6 +48,7 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   Future<Map<String, dynamic>> _getQuestionData() async {
     List<Map<String, dynamic>> questions =
         await DatabaseHelper().getAllQuestions();
@@ -72,14 +73,19 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
 
 =======
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+>>>>>>> f7f5704 (add)
   @override
   void initState() {
     super.initState();
     _fetchQuestion();
 <<<<<<< HEAD
+<<<<<<< HEAD
     _fetchDrawing();
 =======
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+>>>>>>> f7f5704 (add)
   }
 
   @override
@@ -209,6 +215,7 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
                       context,
                       MaterialPageRoute(
 <<<<<<< HEAD
+<<<<<<< HEAD
                           builder: (context) => NewCoursePage6(
                               userId: widget.userId,
                               courseId: widget.courseId,
@@ -216,12 +223,17 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
                               questionId: widget.questionId,
                               )));
 =======
+=======
+>>>>>>> f7f5704 (add)
                           builder: (context) => NewCoursePage3(
                               userId: widget.userId,
                               courseId: widget.courseId,
                               chapterId: widget.chapterId,
                               questionType: 'Draw')));
+<<<<<<< HEAD
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+>>>>>>> f7f5704 (add)
                 },
                 buttonText: 'Cancel',
               ),

@@ -13,6 +13,7 @@ class MusicSelectionScreen extends StatelessWidget {
     return await availableCameras();
   }
 
+<<<<<<< HEAD
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,6 +78,8 @@ class MusicSelectionScreen extends StatelessWidget {
     return await availableCameras();
   }
 
+=======
+>>>>>>> f7f5704 (add)
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,4 +130,7 @@ class MusicSelectionScreen extends StatelessWidget {
     );
   }
 }
+<<<<<<< HEAD
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+>>>>>>> f7f5704 (add)

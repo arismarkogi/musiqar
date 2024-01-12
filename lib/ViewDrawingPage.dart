@@ -14,6 +14,7 @@ class ViewDrawingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+<<<<<<< HEAD
         centerTitle: true,
         title: Center(
           child: Image.asset(
@@ -45,6 +46,8 @@ class ViewDrawingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+=======
+>>>>>>> f7f5704 (add)
         //automaticallyImplyLeading: false,
         centerTitle: true,
         title: Center(
@@ -61,4 +64,7 @@ class ViewDrawingPage extends StatelessWidget {
     );
   }
 }
+<<<<<<< HEAD
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+>>>>>>> f7f5704 (add)

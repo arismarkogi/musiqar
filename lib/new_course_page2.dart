@@ -12,7 +12,10 @@ import 'widgets/cancel_button.dart';
 import 'course_settings.dart';
 import 'course_info_provider.dart';
 import 'package:provider/provider.dart';
+<<<<<<< HEAD
 import 'package:vibration/vibration.dart';
+=======
+>>>>>>> f7f5704 (add)
 
 class ChapterInfo {
   TextEditingController controller;
@@ -38,6 +41,7 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
     setState(() {});
   }
 
+<<<<<<< HEAD
   Widget inputChapter(
       String labelText, TextEditingController controller, BuildContext context,
       {bool isPassword = false, int? chapterId}) {
@@ -385,6 +389,8 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
     setState(() {});
   }
 
+=======
+>>>>>>> f7f5704 (add)
 /*
   Widget inputChapter(String labelText, TextEditingController controller, BuildContext context, {bool isPassword = false}) {
     return Container(
@@ -977,4 +983,7 @@ class NewCoursePage2 extends StatefulWidget {
   @override
   _NewCoursePage2State createState() => _NewCoursePage2State();
 }
+<<<<<<< HEAD
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+>>>>>>> f7f5704 (add)

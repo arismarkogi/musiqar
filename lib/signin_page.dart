@@ -30,11 +30,16 @@ class _SignInPageState extends State<SignInPage> {
   bool validateInputs(BuildContext context) {
     if (signInEmailController.text.isEmpty ||
         signInPasswordController.text.isEmpty) {
+<<<<<<< HEAD
       Vibration.vibrate(duration: 500);
+=======
+      Vibration.vibrate(duration: 1000);
+>>>>>>> f7f5704 (add)
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Please fill in all fields'),
           duration: Duration(seconds: 1),
+<<<<<<< HEAD
         ),
       );
       return false;
@@ -51,6 +56,8 @@ class _SignInPageState extends State<SignInPage> {
         SnackBar(
           content: Text('Please fill in all fields'),
           duration: Duration(seconds: 1),
+=======
+>>>>>>> f7f5704 (add)
         ),
       );
       return false;
@@ -125,6 +132,7 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
+<<<<<<< HEAD
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -335,6 +343,8 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
+=======
+>>>>>>> f7f5704 (add)
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -450,4 +460,7 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 }
+<<<<<<< HEAD
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+>>>>>>> f7f5704 (add)

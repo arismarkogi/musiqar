@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f7f5704 (add)
 import 'package:flutter/material.dart';
 import 'select_music.dart';
 import 'signin_page.dart';
@@ -16,7 +19,10 @@ import 'extra_page.dart';
 import 'arsaxo.dart';
 import 'earth_ar.dart';
 import 'music.dart';
+<<<<<<< HEAD
 import 'speech.dart';
+=======
+>>>>>>> f7f5704 (add)
 
 class HomePage extends StatelessWidget {
   final DatabaseHelper dbHelper = DatabaseHelper();
@@ -73,6 +79,19 @@ class HomePage extends StatelessWidget {
                   child: Text('Sign in'),
                 ),
                 SizedBox(height: 20),
+<<<<<<< HEAD
+=======
+                /*ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MenuPage(userId:userId)),
+                  );
+                },
+                child: Text('Menu'),
+              ),
+              */
+>>>>>>> f7f5704 (add)
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -82,6 +101,7 @@ class HomePage extends StatelessWidget {
                   },
                   child: Text('Piano'),
                 ),
+<<<<<<< HEAD
 
                 ElevatedButton(
                   onPressed: () {
@@ -92,6 +112,8 @@ class HomePage extends StatelessWidget {
                   },
                   child: Text('Speech'),
                 ),
+=======
+>>>>>>> f7f5704 (add)
                 /*SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
@@ -135,12 +157,19 @@ class HomePage extends StatelessWidget {
                 onPressed: () async {
                   List<Map<String, dynamic>> users = await dbHelper.getAllQuestions();
                   print(users);
+<<<<<<< HEAD
                   List<Map<String, dynamic>> qq = await dbHelper.getcoursebyinput();
                   print(qq);
                   /*List<Map<String, dynamic>> courses = await dbHelper.getAllCourses();
                   print(courses);
                    List<Map<String, dynamic>> chapters = await dbHelper.getAllCChapters();
                    print(chapters);*/
+=======
+                   //List<Map<String, dynamic>> courses = await dbHelper.getAllCourses();
+                   //print(courses);
+                   //List<Map<String, dynamic>> chapters = await dbHelper.getAllCChapters();
+                   //print(chapters);
+>>>>>>> f7f5704 (add)
                   // await dbHelper.createQuestionTable();
                   //await dbHelper.createQuestionTable();
                   //await dbHelper.addTestData();
@@ -271,6 +300,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
+<<<<<<< HEAD
     );
   }
 }
@@ -549,3 +579,8 @@ class HomePage extends StatelessWidget {
   }
 }
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+    );
+  }
+}
+>>>>>>> f7f5704 (add)

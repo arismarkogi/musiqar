@@ -19,10 +19,14 @@ class ProfilePage extends StatelessWidget {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   Widget info(String name, Uint8List userImage, int points) {
 =======
   Widget info(String name, Uint8List userImage) {
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+  Widget info(String name, Uint8List userImage) {
+>>>>>>> f7f5704 (add)
     return Container(
       width: 340,
       height: 144.24,
@@ -55,6 +59,7 @@ class ProfilePage extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
 <<<<<<< HEAD
+<<<<<<< HEAD
                     image: points < 100
                         ? AssetImage('assets/logo3.png'):
                         points > 200 ? AssetImage('assets/piano.jpg')
@@ -62,6 +67,9 @@ class ProfilePage extends StatelessWidget {
 =======
                     image: AssetImage('assets/piano.jpg'),
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+                    image: AssetImage('assets/piano.jpg'),
+>>>>>>> f7f5704 (add)
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -98,10 +106,14 @@ class ProfilePage extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
 <<<<<<< HEAD
+<<<<<<< HEAD
                   "Hey $name",
 =======
                   name,
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+                  name,
+>>>>>>> f7f5704 (add)
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
@@ -116,7 +128,10 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> f7f5704 (add)
           ),
         ],
       ),
@@ -176,7 +191,10 @@ Widget _buildProfilePage(Map<String, dynamic> userData, BuildContext context) {
 <<<<<<< HEAD
 =======
 */
+<<<<<<< HEAD
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+>>>>>>> f7f5704 (add)
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -220,6 +238,7 @@ Widget _buildProfilePage(Map<String, dynamic> userData, BuildContext context) {
               width: 150,
               height: 50,
             ),
+<<<<<<< HEAD
 =======
         }
       },
@@ -234,6 +253,8 @@ Widget _buildProfilePage(Map<String, dynamic> userData, BuildContext context) {
               width: 150,
               height: 50,
             ),
+=======
+>>>>>>> f7f5704 (add)
           ),
           leading: IconButton(
             icon: Icon(Icons.menu),

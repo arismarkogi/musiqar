@@ -143,6 +143,7 @@ class _DrawpageAns extends State<DrawpageAns> {
 
       if (data != null) {
 <<<<<<< HEAD
+<<<<<<< HEAD
         final String uniqueId = Uuid().v4(); // Use a unique identifier library
         final Directory directory = await getApplicationDocumentsDirectory();
         final String filePath = '${directory.path}/drawing_image_$uniqueId.png';
@@ -150,6 +151,10 @@ class _DrawpageAns extends State<DrawpageAns> {
         final Directory directory = await getApplicationDocumentsDirectory();
         final String filePath = '${directory.path}/drawing_image.png';
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+        final Directory directory = await getApplicationDocumentsDirectory();
+        final String filePath = '${directory.path}/drawing_image.png';
+>>>>>>> f7f5704 (add)
 
         await File(filePath).writeAsBytes(data);
         debugPrint('Image saved at: $filePath');

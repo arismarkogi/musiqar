@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f7f5704 (add)
 import 'package:flutter/material.dart';
 import 'signin_page.dart';
 import 'menu_page.dart';
@@ -63,6 +66,10 @@ class AdminPage extends StatelessWidget {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
+<<<<<<< HEAD
+=======
+                  // Inside a button's onPressed handler or another relevant part of your app
+>>>>>>> f7f5704 (add)
                   List<Map<String, dynamic>> users =
                       await dbHelper.getAllUsers();
                   print(users);
@@ -76,6 +83,7 @@ class AdminPage extends StatelessWidget {
     );
   }
 }
+<<<<<<< HEAD
 =======
 import 'package:flutter/material.dart';
 import 'signin_page.dart';
@@ -156,3 +164,5 @@ class AdminPage extends StatelessWidget {
   }
 }
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+>>>>>>> f7f5704 (add)

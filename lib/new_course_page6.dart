@@ -181,10 +181,14 @@ class _NewCoursePage6 extends State<NewCoursePage6> {
                 },
                 buttonText: 'Cancel',
 <<<<<<< HEAD
+<<<<<<< HEAD
               ),*/
 =======
               ),
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+              ),
+>>>>>>> f7f5704 (add)
               SizedBox(height: 20),
             ],
           ),

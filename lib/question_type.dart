@@ -114,9 +114,13 @@ class _Questiontype extends State<Questiontype> {
               onPressed: () {
                 if (selectedQuestionType == "Draw") {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
                   updateChapter("Draw");
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+                  updateChapter("Draw");
+>>>>>>> f7f5704 (add)
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -128,9 +132,13 @@ class _Questiontype extends State<Questiontype> {
                               )));
                 } else if (selectedQuestionType == "Select correct answer") {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
                   updateChapter("Select");
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+                  updateChapter("Select");
+>>>>>>> f7f5704 (add)
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -141,9 +149,13 @@ class _Questiontype extends State<Questiontype> {
                               questionType: "Select")));
                 } else if (selectedQuestionType == "Left or Right") {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
                   updateChapter("LorR");
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+                  updateChapter("LorR");
+>>>>>>> f7f5704 (add)
                   Navigator.push(
                       context,
                       MaterialPageRoute(

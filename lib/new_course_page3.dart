@@ -54,6 +54,7 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
     return questionId;
   }
 
+<<<<<<< HEAD
   Future<void> deleteAllQuestionsForChapter() async {
     var dbHelper = DatabaseHelper();
     await dbHelper.deleteQuestionsForChapter(widget.chapterId);
@@ -62,6 +63,8 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
     });
   }
 
+=======
+>>>>>>> f7f5704 (add)
   bool validateInputs() {
     for (QuestionInfo question in questionInputs) {
       if (question.controller.text.trim().isEmpty) {
@@ -78,6 +81,7 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
     return true;
   }
 
+<<<<<<< HEAD
   Widget getNextPageForQuestionType(
     String questionType,
     int userId,
@@ -116,6 +120,12 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
   Widget inputQuestion(
       String labelText, TextEditingController controller, BuildContext context,
       {bool isPassword = false, int? questionId}) {
+=======
+  Widget inputQuestion(
+      String labelText, TextEditingController controller, BuildContext context,
+      {bool isPassword = false, int? questionId}) {
+    //TextEditingController controller = TextEditingController();
+>>>>>>> f7f5704 (add)
     return Container(
       width: 390,
       height: 58,
@@ -175,7 +185,11 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
                             ),
                           ),
                           SizedBox(height: 10),
+<<<<<<< HEAD
                           /*GestureDetector(
+=======
+                          GestureDetector(
+>>>>>>> f7f5704 (add)
                             onTap: () {
                               if (validateInputs()) {
                                 if (widget.questionType == "Draw") {
@@ -231,10 +245,18 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
                                     );
                                   });
                                 }
+<<<<<<< HEAD
+=======
+                                /*Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Questiontype(userId: widget.userId, courseId: widget.courseId)),
+                            );*/
+>>>>>>> f7f5704 (add)
                               }
                               ;
                             },
                             child: Icon(Icons.edit),
+<<<<<<< HEAD
                           ),*/
                           GestureDetector(
                             onTap: () async {
@@ -314,6 +336,8 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
                               }
                             },
                             child: Icon(Icons.edit),
+=======
+>>>>>>> f7f5704 (add)
                           ),
                         ],
                       ),
@@ -401,6 +425,7 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
                 buttonText: '+ Add Question',
               ),
               SizedBox(height: 20),
+<<<<<<< HEAD
               Row(
                 mainAxisAlignment: MainAxisAlignment
                     .spaceEvenly,
@@ -443,6 +468,32 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
                   SizedBox(
                       width: 40),
                 ],
+=======
+              CancelButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewCoursePage2(
+                              userId: widget.userId,
+                              courseId: widget.courseId)));
+                },
+                buttonText: 'Cancel',
+              ),
+              SizedBox(height: 20),
+              CancelButton(
+                onPressed: () {
+                  if (validateInputs()) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NewCoursePage2(
+                                userId: widget.userId,
+                                courseId: widget.courseId)));
+                  }
+                },
+                buttonText: 'Save',
+>>>>>>> f7f5704 (add)
               ),
             ],
           ),
@@ -467,6 +518,7 @@ class NewCoursePage3 extends StatefulWidget {
   @override
   _NewCoursePage3State createState() => _NewCoursePage3State();
 }
+<<<<<<< HEAD
 =======
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/drawpage.dart';
@@ -802,3 +854,5 @@ class NewCoursePage3 extends StatefulWidget {
   _NewCoursePage3State createState() => _NewCoursePage3State();
 }
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+>>>>>>> f7f5704 (add)

@@ -979,6 +979,7 @@ Future<int> newQuestion(Map<String, dynamic> question) async {
     return await dbClient.query('Question');
   }
 
+<<<<<<< HEAD
   Future<List<Map<String, dynamic>>> getEnrolledCourses(int userId) async {
     var dbClient = await db;
     return await dbClient.rawQuery('''
@@ -1084,6 +1085,8 @@ Future<int> newQuestion(Map<String, dynamic> question) async {
 
 
 
+=======
+>>>>>>> f7f5704 (add)
   Future<int> updateUser(Map<String, dynamic> user) async {
     var dbClient = await db;
     return await dbClient.update('users', user,
@@ -1258,6 +1261,7 @@ Future<void> _createTable(String tableName) async {
     case 'has_chapter':
       await dbClient.execute(hasChapter);
       break;
+<<<<<<< HEAD
     case 'has_enrolled':
       await dbClient.execute(hasEnrolled);
       break;
@@ -1269,6 +1273,29 @@ Future<void> _createTable(String tableName) async {
       break;
     case 'Answer':
       await dbClient.execute(answer);
+=======
+    case 'Question':
+      await dbClient.execute("""
+      CREATE TABLE Question (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        chapter_id INTEGER,
+        type TEXT,
+        title TEXT,
+        FOREIGN KEY(chapter_id) REFERENCES Chapter(id)
+      )
+      """);
+      break;
+    case 'Answer':
+      await dbClient.execute("""
+      CREATE TABLE Answer (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        question_id INTEGER,
+        text TEXT,
+        is_correct BOOLEAN,
+        FOREIGN KEY(question_id) REFERENCES Question(id)
+      )
+      """);
+>>>>>>> f7f5704 (add)
       break;
 
     default:

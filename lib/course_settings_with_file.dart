@@ -17,9 +17,12 @@ import 'package:provider/provider.dart';
 import 'new_course_page2.dart';
 import 'new_course_page1.dart';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import 'package:vibration/vibration.dart';
 =======
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+>>>>>>> f7f5704 (add)
 
 class FileOpenPage extends StatefulWidget {
   final int userId;
@@ -148,7 +151,10 @@ class _FileOpenPageState extends State<FileOpenPage> {
                     MaterialPageRoute(
                         builder: (context) => NewCoursePage2(
                             userId: widget.userId, courseId: widget.courseId)));
+<<<<<<< HEAD
 >>>>>>> 42a049a6090a6cc9f2307628a0a621d9ffc245f6
+=======
+>>>>>>> f7f5704 (add)
               },
               buttonText: 'Save',
             ),

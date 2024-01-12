@@ -8,7 +8,10 @@ import 'question_type.dart';
 import 'new_course_page3.dart';
 import 'data/database_helper.dart';
 import 'widgets/input_unchangeable.dart';
+<<<<<<< HEAD
 import 'package:vibration/vibration.dart';
+=======
+>>>>>>> f7f5704 (add)
 
 class NewCoursePage5 extends StatefulWidget {
   final int userId;
@@ -70,6 +73,7 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => MenuPage(userId: widget.userId)));
+<<<<<<< HEAD
           },
         ),
 
@@ -303,6 +307,8 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => MenuPage(userId: widget.userId)));
+=======
+>>>>>>> f7f5704 (add)
           },
         ),
         actions: [
@@ -431,7 +437,11 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
               SizedBox(height: 20),
               CancelButton(
                 onPressed: () {
+<<<<<<< HEAD
                   if (selectedAnswer == "Left") {
+=======
+                  if (selectedAnswer == "Left (No)") {
+>>>>>>> f7f5704 (add)
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -442,7 +452,11 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
                                   questionType: 'LorR',
                                 )));
                     print("Left");
+<<<<<<< HEAD
                   } else if (selectedAnswer == "Right") {
+=======
+                  } else if (selectedAnswer == "Right (Yes)") {
+>>>>>>> f7f5704 (add)
                     Navigator.push(
                         context,
                         MaterialPageRoute(
