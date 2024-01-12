@@ -9,7 +9,7 @@ import 'dart:io';
 import 'dart:ui' as ui;
 import 'dart:typed_data';
 import 'package:flutter/rendering.dart';
-import 'new_course_page7.dart';
+import 'package:uuid/uuid.dart';
 
 class Triangle extends PaintContent {
   Triangle();
@@ -133,8 +133,9 @@ class _DrawpageAns extends State<DrawpageAns> {
       Uint8List? data = await _screenshotController.capture();
 
       if (data != null) {
+        final String uniqueId = Uuid().v4(); // Use a unique identifier library
         final Directory directory = await getApplicationDocumentsDirectory();
-        final String filePath = '${directory.path}/drawing_image.png';
+        final String filePath = '${directory.path}/drawing_image_$uniqueId.png';
 
         await File(filePath).writeAsBytes(data);
         debugPrint('Image saved at: $filePath');

@@ -76,12 +76,6 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
     _fetchDrawing();
   }
 
-  /*@override
-  void initState() {
-    super.initState();
-    _fetchQuestion();
-  }*/
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -176,27 +170,6 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
                     ? Image.file(File(imagePathFromDB))
                     : Placeholder(),
               ),
-              SizedBox(height: 20),
-              /*InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => NewCoursePage6(
-                        userId: widget.userId,
-                        courseId: widget.courseId,
-                        chapterId: widget.chapterId,
-                        questionId: widget.questionId,
-                      ),
-                    ),
-                  );
-                },
-                child: Icon(
-                  Icons.edit,
-                  size: 30,
-                  color: Colors.blue,
-                ),
-              ),*/
               SizedBox(height: 70),
               CancelButton(
                 onPressed: () {

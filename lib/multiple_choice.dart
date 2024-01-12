@@ -6,11 +6,11 @@ import 'start_quiz.dart';
 import 'question_gyroscope.dart';
 
 class QuestionMultiple extends StatelessWidget {
-
   final int userId;
   final int courseId;
 
-  QuestionMultiple({required this.userId, required this.courseId, Key? key}) : super(key: key);
+  QuestionMultiple({required this.userId, required this.courseId, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,19 +35,17 @@ class QuestionMultiple extends StatelessWidget {
           ),
           Expanded(
               child: ListView.separated(
-                itemCount: 4,
-                separatorBuilder: (context, _) => SizedBox(height: 8),
-                itemBuilder: (context, index) => SizedBox(
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20), // Adjust horizontal padding if needed
-                      child: CustomMultipleChoiceWidget(
+            itemCount: 4,
+            separatorBuilder: (context, _) => SizedBox(height: 8),
+            itemBuilder: (context, index) => SizedBox(
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: CustomMultipleChoiceWidget(
                       answer: "text for the answer",
                       imageURL: "assets/course.jpg",
-                      onTap: () {} )
-                  ),
-                ),
-              )
-          ),
+                      onTap: () {})),
+            ),
+          )),
           Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -55,8 +53,13 @@ class QuestionMultiple extends StatelessWidget {
                 SizedBox(
                   width: 133,
                   child: PurpleButton("Previous", () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => StartQuiz(userId: userId, courseId: courseId,)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => StartQuiz(
+                                  userId: userId,
+                                  courseId: courseId,
+                                )));
                   }),
                 ),
                 SizedBox(width: 50),
@@ -66,7 +69,8 @@ class QuestionMultiple extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => QuestionGyroscope(userId: userId, courseId: courseId)));
+                            builder: (context) => QuestionGyroscope(
+                                userId: userId, courseId: courseId)));
                   }),
                 ),
               ],
@@ -74,6 +78,5 @@ class QuestionMultiple extends StatelessWidget {
           ),
           SizedBox(height: 40)
         ]));
-    // Other widgets or sections in the body can be added below
   }
 }

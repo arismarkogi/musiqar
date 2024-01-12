@@ -62,7 +62,6 @@ class AdminPage extends StatelessWidget {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
-                  // Inside a button's onPressed handler or another relevant part of your app
                   List<Map<String, dynamic>> users =
                       await dbHelper.getAllUsers();
                   print(users);

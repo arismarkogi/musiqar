@@ -1,17 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:open_file/open_file.dart';
 import 'course_settings_with_file.dart';
 import 'widgets/custom_input.dart';
-
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'course_settings_with_file.dart';
-import 'widgets/custom_input.dart';
 
 class FileUploadPage extends StatefulWidget {
   final int userId;
@@ -49,12 +42,6 @@ class _FileUploadPageState extends State<FileUploadPage> {
                   final localFilePath =
                       '${appDocumentDir.path}/${result.files.single.name}';
                   await file.copy(localFilePath);
-
-                  // Store the file path in the database
-                  // You need to implement the appropriate method in your DatabaseHelper
-                  // to store the file path associated with the user ID
-                  // For example: DatabaseHelper().storeFilePath(widget.userId, localFilePath);
-
                   setState(() {
                     filePath = localFilePath;
                   });

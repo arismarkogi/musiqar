@@ -60,14 +60,13 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
   }
 
   int getSelected() {
-  for (int i = 1; i <= areSelected.length; i++) {
-    if (areSelected[i - 1]) {
-      return i;
+    for (int i = 1; i <= areSelected.length; i++) {
+      if (areSelected[i - 1]) {
+        return i;
+      }
     }
+    return -1;
   }
-  return -1;
-}
-
 
   bool validateInputs(BuildContext context) {
     if (answersController[0].text.isEmpty ||
@@ -89,20 +88,24 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
   void _showErrorMessage(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Please select at least one answer or fill in all inputs'),
+        content:
+            Text('Please select at least one answer or fill in all inputs'),
         duration: Duration(seconds: 2),
       ),
     );
   }
 
   String getCombinedText() {
-    return answersController.map((controller) => controller.text).join(' /**/ ');
+    return answersController
+        .map((controller) => controller.text)
+        .join(' /**/ ');
   }
 
-  void _saveButtonPressed(BuildContext context) async{
+  void _saveButtonPressed(BuildContext context) async {
     if (areAnySelected() && validateInputs(context)) {
       String combinedText = getCombinedText();
-      await DatabaseHelper().addanswers(widget.questionId, combinedText, getSelected());
+      await DatabaseHelper()
+          .addanswers(widget.questionId, combinedText, getSelected());
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -116,8 +119,6 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
       _showErrorMessage(context);
     }
   }
-
-  
 
   @override
   void initState() {
@@ -191,37 +192,6 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
                 ),
               ),
               SizedBox(height: 30),
-              /*ListView.builder(
-                shrinkWrap: true,
-                itemCount: textInputs.length,
-                itemBuilder: (context, index) => Container(
-                  width: 200,
-                  child: textInputs[index],
-                ),
-              ),
-              SizedBox(height: 20),
-              AddAnswer(
-                onPressed: () {
-                  TextEditingController newController = TextEditingController();
-                  answerscontroller.add(newController);
-                  TextEditingController newansController =
-                      TextEditingController();
-                  newanswerscontroller.add(newansController);
-                  setState(() {
-                    textInputs.add(CustomBox(
-                      textController: newansController,
-                      onSelect: (isSelected) {
-                        if (isSelected) {
-                          print('Selected!');
-                        } else {
-                          print('Unselected!');
-                        }
-                      },
-                    ));
-                  });
-                },
-                buttonText: '+      Add Answer',
-              ),*/
               for (int i = 0; i < 4; i++)
                 CustomBox(
                   textController: answersController[i],

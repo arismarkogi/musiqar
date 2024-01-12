@@ -22,11 +22,6 @@ class NewCoursePage1 extends StatefulWidget {
 }
 
 class _NewCoursePage1State extends State<NewCoursePage1> {
-  //final int userId;
-  //final int courseId;
-
-  //NewCoursePage1({required this.userId, required this.courseId});
-
   TextEditingController coursename = TextEditingController();
   TextEditingController category = TextEditingController();
   TextEditingController description = TextEditingController();
@@ -188,40 +183,6 @@ class _NewCoursePage1State extends State<NewCoursePage1> {
                   buttonText: 'Cancel',
                 ),
                 SizedBox(height: 20),
-
-                /*CancelButton(
-                onPressed: () {
-                  Future<void> yourFunctionName() async {
-                 Map<String, dynamic> userData = await _fetchUserData();
-
-                String instructorText = userData['name'] + ' ' + userData['surname'];
-                print("instructor");
-                print(instructorText);
-
-                int courseId = await DatabaseHelper().newcourse({
-                  'title': coursename,
-                  'category': category,
-                  'description': description,
-                  'instructor': instructorText,
-                });
-                print("the courseId is equal to");
-                print(courseId);
-                if (courseId == -1) {
-                  print('Failed to insert course into the database');
-                  return;
-                }
-
-              }
-                  /*courseProvider.updateCourseInfo(
-                    coursename.text,
-                    category.text,
-                    description.text,
-                  );*/
-
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2(userId: userId, courseId: courseId)));
-                },
-                buttonText: 'Continue',
-              ),*/
                 CancelButton(
                   onPressed: () async {
                     if (validateInputs()) {

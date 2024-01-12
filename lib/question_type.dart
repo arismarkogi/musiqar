@@ -48,22 +48,6 @@ class _Questiontype extends State<Questiontype> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /*
-            Text(
-              'Add question',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Color(0xFF6750A4),
-                fontSize: 20,
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.w700,
-                height: 0.10,
-                letterSpacing: 0.10,
-              ),
-            ),
-            SizedBox(height: 20),
-            customInput('Question', question, context: context),
-            SizedBox(height: 50),*/
             Text(
               'Select type of question',
               textAlign: TextAlign.center,
@@ -114,13 +98,6 @@ class _Questiontype extends State<Questiontype> {
               }).toList(),
             ),
             SizedBox(height: 50, width: 150),
-            /*CancelButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage3(userId: widget.userId, courseId: widget.courseId)));
-                print(selectedQuestionType);
-              },
-              buttonText: 'Cancel',
-            ),*/
             CancelButton(
               onPressed: () {
                 Navigator.push(
@@ -133,32 +110,9 @@ class _Questiontype extends State<Questiontype> {
               buttonText: 'Cancel',
             ),
             SizedBox(height: 50, width: 150),
-            /*CancelButton(
-              onPressed: () {
-                if(selectedQuestionType == "Draw"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage6(userId: widget.userId, courseId: widget.courseId)));
-                }
-                else if(selectedQuestionType == "Select correct answer"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage4(userId: widget.userId, courseId: widget.courseId)));
-                }
-                else if(selectedQuestionType == "Left or Right"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage5(userId: widget.userId, courseId: widget.courseId)));
-                }
-                else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Select question type.'),
-                      ),
-                    );
-                }
-                print(selectedQuestionType);
-              },
-              buttonText: 'Next',
-            ),*/
             CancelButton(
               onPressed: () {
                 if (selectedQuestionType == "Draw") {
-                  //updateChapter("Draw");
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -169,7 +123,6 @@ class _Questiontype extends State<Questiontype> {
                                 questionType: "Draw",
                               )));
                 } else if (selectedQuestionType == "Select correct answer") {
-                  //updateChapter("Select");
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -179,7 +132,6 @@ class _Questiontype extends State<Questiontype> {
                               chapterId: widget.chapterId,
                               questionType: "Select")));
                 } else if (selectedQuestionType == "Left or Right") {
-                  //updateChapter("LorR");
                   Navigator.push(
                       context,
                       MaterialPageRoute(

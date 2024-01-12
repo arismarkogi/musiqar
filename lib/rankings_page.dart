@@ -88,7 +88,7 @@ class RankingsPage extends StatelessWidget {
                         return Text('No users found.');
                       } else {
                         List<Map<String, dynamic>> users = List.from(
-                            snapshot.data!); // Create a copy of the list
+                            snapshot.data!);
                         users
                             .sort((a, b) => b['points'].compareTo(a['points']));
 

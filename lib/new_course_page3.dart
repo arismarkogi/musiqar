@@ -57,7 +57,7 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
     var dbHelper = DatabaseHelper();
     await dbHelper.deleteQuestionsForChapter(widget.chapterId);
     setState(() {
-      existingQuestions = []; 
+      existingQuestions = [];
     });
   }
 
@@ -80,7 +80,6 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
   Widget inputQuestion(
       String labelText, TextEditingController controller, BuildContext context,
       {bool isPassword = false, int? questionId}) {
-    //TextEditingController controller = TextEditingController();
     return Container(
       width: 390,
       height: 58,
@@ -196,10 +195,6 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
                                     );
                                   });
                                 }
-                                /*Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => Questiontype(userId: widget.userId, courseId: widget.courseId)),
-                            );*/
                               }
                               ;
                             },

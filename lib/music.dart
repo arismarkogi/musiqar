@@ -5,7 +5,6 @@ class BackgroundMusicPlayer {
   static AudioPlayer _audioPlayer = AudioPlayer();
 
   static Future<void> play() async {
-    //await _audioPlayer.play('assets/Blue.mp3', isLocal: true);
     await _audioPlayer.play(AssetSource('Blue.mp3'));
   }
 
@@ -43,7 +42,7 @@ class _MusicPageState extends State<MusicPage> {
         title: Text('Music Page'),
       ),
       body: Center(
-        child: Text('Your music page content'),
+        child: Text('music page content'),
       ),
     );
   }

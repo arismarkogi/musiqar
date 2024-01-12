@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'question_gyroscope.dart';
 import 'widgets/quiz_question.dart';
 import 'widgets/purple_button.dart';
-import 'drawpage.dart';
 import 'submit_quiz.dart';
 import 'drawpage_answer.dart';
 

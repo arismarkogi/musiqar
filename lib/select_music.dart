@@ -30,9 +30,8 @@ class MusicSelectionScreen extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => CombinedScreen(
                       camera: cameras.first,
-                      musicAsset: 'Blue.mp3', // Default music for piano
-                      modelAsset:
-                          'assets/piano3d.glb', // Default 3D model for piano
+                      musicAsset: 'Blue.mp3',
+                      modelAsset: 'assets/piano3d.glb',
                     ),
                   ),
                 );
