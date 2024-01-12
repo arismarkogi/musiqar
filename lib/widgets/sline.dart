@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-
-Widget  sline(){
+Widget sline() {
   return Container(
     width: 288,
     decoration: ShapeDecoration(

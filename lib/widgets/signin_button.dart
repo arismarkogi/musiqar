@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
-Widget singinbutton({required VoidCallback onPressed, required String buttonText, Widget? child}) {
+Widget singinbutton(
+    {required VoidCallback onPressed,
+    required String buttonText,
+    Widget? child}) {
   return Container(
     width: 110,
     height: 40,
@@ -30,7 +33,7 @@ Widget singinbutton({required VoidCallback onPressed, required String buttonText
                 letterSpacing: 0.10,
               ),
             ),
-            if (child != null) SizedBox(width: 6), // Add some space between text and additional child
+            if (child != null) SizedBox(width: 6),
             if (child != null) child,
           ],
         ),

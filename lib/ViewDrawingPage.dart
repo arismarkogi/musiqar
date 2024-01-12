@@ -5,15 +5,14 @@ import 'dart:convert';
 import 'dart:io';
 
 class ViewDrawingPage extends StatelessWidget {
-   const ViewDrawingPage({Key? key, required this.imagePath}) : super(key: key);
+  const ViewDrawingPage({Key? key, required this.imagePath}) : super(key: key);
 
-   final String imagePath;
+  final String imagePath;
 
-   @override
-   Widget build(BuildContext context) {
-     return Scaffold(
-       appBar: AppBar(
-        //automaticallyImplyLeading: false,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
         centerTitle: true,
         title: Center(
           child: Image.asset(
@@ -23,10 +22,9 @@ class ViewDrawingPage extends StatelessWidget {
           ),
         ),
       ),
-       body: Center(
-         child: Image.file(File(imagePath)),
-       ),
-     );
-   }
+      body: Center(
+        child: Image.file(File(imagePath)),
+      ),
+    );
+  }
 }
-

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class SwipeRightPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

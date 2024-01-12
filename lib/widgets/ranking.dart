@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-Widget ranking(int rank, String name, int points, {required bool isCurrentUser}) {
+Widget ranking(int rank, String name, int points,
+    {required bool isCurrentUser}) {
   return Container(
     width: 338,
     height: 56,
@@ -29,12 +30,19 @@ Widget ranking(int rank, String name, int points, {required bool isCurrentUser})
               Container(
                 width: 299,
                 height: 56,
-                padding: const EdgeInsets.only(top: 8, left: 16, right: 24, bottom: 8),
+                padding: const EdgeInsets.only(
+                    top: 8, left: 16, right: 24, bottom: 8),
                 decoration: ShapeDecoration(
                   gradient: LinearGradient(
                     begin: Alignment(0.00, -1.00),
                     end: Alignment(0, 1),
-                    colors: [isCurrentUser ? Color.fromARGB(255, 8, 27, 236) : Color(0xFFB5B5B5),isCurrentUser ? Colors.blue : Color(0x8EB1C5C8), Color(0x00FFCDCD)],
+                    colors: [
+                      isCurrentUser
+                          ? Color.fromARGB(255, 8, 27, 236)
+                          : Color(0xFFB5B5B5),
+                      isCurrentUser ? Colors.blue : Color(0x8EB1C5C8),
+                      Color(0x00FFCDCD)
+                    ],
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -54,7 +62,7 @@ Widget ranking(int rank, String name, int points, {required bool isCurrentUser})
                           if (isCurrentUser)
                             Icon(
                               Icons.person,
-                              color: Colors.blue, // Set color as needed
+                              color: Colors.blue,
                             ),
                         ],
                       ),
@@ -74,10 +82,14 @@ Widget ranking(int rank, String name, int points, {required bool isCurrentUser})
                               child: Text(
                                 '$name ',
                                 style: TextStyle(
-                                  color: isCurrentUser ? Colors.white : Color(0xFF1D1B20),
+                                  color: isCurrentUser
+                                      ? Colors.white
+                                      : Color(0xFF1D1B20),
                                   fontSize: 16,
                                   fontFamily: 'Roboto',
-                                  fontWeight: isCurrentUser ? FontWeight.bold : FontWeight.w400,
+                                  fontWeight: isCurrentUser
+                                      ? FontWeight.bold
+                                      : FontWeight.w400,
                                   height: 0.09,
                                   letterSpacing: 0.50,
                                 ),

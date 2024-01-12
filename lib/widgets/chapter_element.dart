@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 Widget chapterElement(String descText, String imageURL, VoidCallback onTap) {
   return GestureDetector(
     onTap: onTap,
@@ -10,7 +9,6 @@ Widget chapterElement(String descText, String imageURL, VoidCallback onTap) {
       decoration: BoxDecoration(
         color: const Color(0xFFEEEEEE),
         borderRadius: BorderRadius.circular(15.0),
-
       ),
       child: Row(
         children: [
@@ -21,7 +19,7 @@ Widget chapterElement(String descText, String imageURL, VoidCallback onTap) {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: 220, 
+                  width: 220,
                   child: Text(
                     descText,
                     style: TextStyle(
@@ -32,11 +30,10 @@ Widget chapterElement(String descText, String imageURL, VoidCallback onTap) {
                       height: 1.2,
                       letterSpacing: 0.15,
                     ),
-                    softWrap: true, 
-                    overflow: TextOverflow.visible, 
+                    softWrap: true,
+                    overflow: TextOverflow.visible,
                   ),
                 ),
-
               ],
             ),
           ),
@@ -51,7 +48,6 @@ Widget chapterElement(String descText, String imageURL, VoidCallback onTap) {
             ),
           ),
           SizedBox(width: 8),
-
         ],
       ),
     ),

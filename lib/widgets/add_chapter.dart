@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 Widget AddChapter({
   required VoidCallback onPressed,
   required String buttonText,
@@ -11,7 +10,8 @@ Widget AddChapter({
     child: TextButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 255, 255, 255)),
+        backgroundColor: MaterialStateProperty.all<Color>(
+            Color.fromARGB(255, 255, 255, 255)),
         shape: MaterialStateProperty.all<OutlinedBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),

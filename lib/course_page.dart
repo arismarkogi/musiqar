@@ -15,8 +15,9 @@ String chapterName = "chapterName";
 class CoursePage extends StatelessWidget {
 
   final int userId;
+  final int courseId;
 
-  CoursePage({required this.userId});
+  CoursePage({required this.userId, required this.courseId, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +67,7 @@ class CoursePage extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20), 
                       child: chapter(chapterName, () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ChapterPage(userId : userId)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ChapterPage(userId : userId, courseId: courseId,)));
                       } )
                   ),
                 ),

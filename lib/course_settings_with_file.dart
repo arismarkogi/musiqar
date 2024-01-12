@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter_application_1/data/database_helper.dart';
+import 'data/database_helper.dart';
 import 'package:open_file/open_file.dart';
 import 'course_settings.dart';
 import 'new_course_page2.dart';
@@ -11,7 +12,7 @@ import 'course_info_provider.dart';
 import 'package:provider/provider.dart';
 import 'new_course_page2.dart';
 import 'new_course_page1.dart';
-
+import 'package:vibration/vibration.dart';
 
 class FileOpenPage extends StatefulWidget {
   final int userId;
@@ -19,7 +20,12 @@ class FileOpenPage extends StatefulWidget {
   final int courseId;
   final int chapterId;
 
-  FileOpenPage({required this.userId, required this.courseId, required this.chapterId, required this.filePath, Key? key})
+  FileOpenPage(
+      {required this.userId,
+      required this.courseId,
+      required this.chapterId,
+      required this.filePath,
+      Key? key})
       : super(key: key);
 
   @override
@@ -37,8 +43,6 @@ class _FileOpenPageState extends State<FileOpenPage> {
 
   @override
   Widget build(BuildContext context) {
-    var courseProvider = context.watch<CourseInfoProvider>();
-
     return Scaffold(
       appBar: AppBar(
         title: Text('File Open'),
@@ -49,7 +53,11 @@ class _FileOpenPageState extends State<FileOpenPage> {
               await _deleteFile();
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => FileUploadPage(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)),
+                MaterialPageRoute(
+                    builder: (context) => FileUploadPage(
+                        userId: widget.userId,
+                        courseId: widget.courseId,
+                        chapterId: widget.chapterId)),
               );
             },
           ),
@@ -75,12 +83,12 @@ class _FileOpenPageState extends State<FileOpenPage> {
             SizedBox(height: 8),
             Text(widget.filePath),
             SizedBox(height: 20),
-            ElevatedButton(
+            /*ElevatedButton(
               onPressed: () {
                 _openFile(widget.filePath);
               },
               child: Text('Open File'),
-            ),
+            ),*/
             SizedBox(height: 30),
             Text(
               'Enter the name of the file',
@@ -98,16 +106,26 @@ class _FileOpenPageState extends State<FileOpenPage> {
             customInput('Filename', filename, context: context),
             SizedBox(height: 50),
             CancelButton(
-              onPressed: () async{
+              onPressed: () async {
                 String filenameText = filename.text;
                 if (filenameText.isNotEmpty) {
-                  await DatabaseHelper().updateChapterPdf(widget.chapterId, filenameText, widget.filePath);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2(userId: widget.userId, courseId: widget.courseId)));
+                  await DatabaseHelper().updateChapterPdf(
+                      widget.chapterId, filenameText, widget.filePath);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewCoursePage2(
+                              userId: widget.userId,
+                              courseId: widget.courseId)));
                 } else {
+                  Vibration.vibrate(duration: 500);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Please enter a value for filename.'),
+                    ),
+                  );
                   print('Filename cannot be empty');
                 }
-                //courseProvider.addChapter(ChapterInfo(controller: filename, title: filename.text));
-                Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage2(userId: widget.userId, courseId: widget.courseId)));
               },
               buttonText: 'Save',
             ),
@@ -133,7 +151,6 @@ class _FileOpenPageState extends State<FileOpenPage> {
       if (await file.exists()) {
         await file.delete();
       }
-
 
       print('File deleted successfully');
     } catch (e) {

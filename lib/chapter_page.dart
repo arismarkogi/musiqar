@@ -5,6 +5,7 @@ import 'menu_page.dart';
 import 'widgets/chapter_element.dart';
 import 'widgets/purple_button.dart';
 import 'course_page.dart';
+import 'start_quiz.dart';
 
 String chapterName = "chapterName";
 String pdfURL = "assets/dummy.pdf";
@@ -14,8 +15,9 @@ String pdfURL = "assets/dummy.pdf";
 class ChapterPage extends StatelessWidget {
 
   final int userId;
+  final int courseId;
 
-  ChapterPage({required this.userId});
+  ChapterPage({required this.userId, required this.courseId, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +85,7 @@ class ChapterPage extends StatelessWidget {
                     () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => CoursePage(userId: userId)),
+                    MaterialPageRoute(builder: (context) => CoursePage(userId: userId, courseId: courseId,)),
                   );
 
                 },
@@ -97,7 +99,7 @@ class ChapterPage extends StatelessWidget {
                     () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => CoursePage(userId: userId)),
+                    MaterialPageRoute(builder: (context) => StartQuiz(userId: userId, courseId: courseId,)),
                   );
 
                 },
@@ -110,7 +112,7 @@ class ChapterPage extends StatelessWidget {
                     () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => CoursePage(userId : userId)),
+                    MaterialPageRoute(builder: (context) => CoursePage(userId : userId, courseId: courseId,)),
                   );
 
                 },

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-Widget chapterCourse(String courseName, String instructorName, String imageURL) {
+Widget chapterCourse(
+    String courseName, String instructorName, String imageURL) {
   return Container(
     width: 350,
     height: 80,
     decoration: BoxDecoration(
       color: Color(0xFFFEF7FF),
-
       border: Border(
         left: BorderSide(width: 1, color: Color(0xFFCAC4D0)),
         right: BorderSide(width: 1, color: Color(0xFFCAC4D0)),
@@ -14,7 +14,6 @@ Widget chapterCourse(String courseName, String instructorName, String imageURL) 
         bottom: BorderSide(width: 1, color: Color(0xFFCAC4D0)),
       ),
     ),
-
     child: Row(
       children: [
         Container(
@@ -23,12 +22,11 @@ Widget chapterCourse(String courseName, String instructorName, String imageURL) 
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(imageURL),
-              fit: BoxFit.fitHeight, // Adjusted fit
-              //alignment: Alignment.topCenter,
+              fit: BoxFit.fitHeight,
             ),
           ),
         ),
-        Expanded( // Added Expanded widget to take remaining width
+        Expanded(
           child: Container(
             padding: const EdgeInsets.all(12),
             child: Column(
@@ -48,7 +46,7 @@ Widget chapterCourse(String courseName, String instructorName, String imageURL) 
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  instructorName,
+                  "Instructor: $instructorName",
                   style: TextStyle(
                     color: Color(0xFF1D1B20),
                     fontSize: 14,

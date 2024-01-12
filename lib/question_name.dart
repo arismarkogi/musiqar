@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/new_course_page6.dart';
+import 'package:musIQAR/new_course_page6.dart';
 import 'new_course_page3.dart';
 import 'new_course_page4.dart';
 import 'new_course_page5.dart';
 import 'widgets/custom_input.dart';
 import 'question_type.dart';
 import 'widgets/cancel_button.dart';
-
-
 import 'drawpage.dart';
 
 class QuestionName extends StatefulWidget {
@@ -15,19 +13,15 @@ class QuestionName extends StatefulWidget {
   final int courseId;
   final int chapterId;
 
-  QuestionName({required this.userId, required this.courseId, required this.chapterId});
+  QuestionName(
+      {required this.userId, required this.courseId, required this.chapterId});
 
   @override
   _QuestionName createState() => _QuestionName();
 }
 
 class _QuestionName extends State<QuestionName> {
-
-
   TextEditingController Questions = TextEditingController();
-
-
-
 
   String selectedQuestionType = 'Select question type';
   TextEditingController question = TextEditingController();
@@ -66,11 +60,17 @@ class _QuestionName extends State<QuestionName> {
             ),
             SizedBox(height: 20),
             customInput('Question', question, context: context),
-            
             SizedBox(height: 50, width: 150),
             CancelButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Questiontype(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId,)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Questiontype(
+                              userId: widget.userId,
+                              courseId: widget.courseId,
+                              chapterId: widget.chapterId,
+                            )));
                 print(selectedQuestionType);
               },
               buttonText: 'Cancel',
@@ -78,21 +78,18 @@ class _QuestionName extends State<QuestionName> {
             SizedBox(height: 50, width: 150),
             CancelButton(
               onPressed: () {
-                if(selectedQuestionType == "Draw"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage6(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)));
-                }
-                else if(selectedQuestionType == "Select correct answer"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage4(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)));
-                }
-                else if(selectedQuestionType == "Left or Right"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage5(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)));
-                }
-                else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Select question type.'),
-                      ),
-                    );
+                if (selectedQuestionType == "Draw") {
+                  //Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage6(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)));
+                } else if (selectedQuestionType == "Select correct answer") {
+                  //Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage4(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)));
+                } else if (selectedQuestionType == "Left or Right") {
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) => NewCoursePage5(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Select question type.'),
+                    ),
+                  );
                 }
                 print(selectedQuestionType);
               },
@@ -104,5 +101,3 @@ class _QuestionName extends State<QuestionName> {
     );
   }
 }
-
-
