@@ -167,46 +167,50 @@ class _AvailableCoursesState extends State<AvailableCourses> {
                     height: 120,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
-                      itemCount: (categories.length / 2).ceil(),
+                      itemCount: ((categories.length + 1) / 2).floor(), // Add 1 for handling odd number of categories
                       separatorBuilder: (context, index) => SizedBox(width: 8),
                       itemBuilder: (context, index) {
+                        final firstIndex = 2 * index;
+                        final secondIndex = 2 * index + 1;
+
+                        // Check if the second index is out of bounds (for odd number of categories)
+                        final isSecondIndexOutOfBounds = secondIndex >= categories.length;
+
                         return Container(
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: Column(
                             children: [
                               CategoryWidget(
-                                  label: categories[2 * index]['category'],
-                                  onPressed: () {
-                                    if (this.Categories.contains(
-                                        categories[2 * index]['category'])) {
-                                      this.Categories.remove(
-                                          categories[2 * index]['category']);
-                                    } else
-                                      this.Categories.add(
-                                          categories[2 * index]['category']);
-                                    _updateCourses();
-                                  }),
+                                label: categories[firstIndex]['category'],
+                                onPressed: () {
+                                  if (this.Categories.contains(categories[firstIndex]['category'])) {
+                                    this.Categories.remove(categories[firstIndex]['category']);
+                                  } else {
+                                    this.Categories.add(
+                                        categories[firstIndex]['category']);
+                                  }
+                                  _updateCourses();
+                                },
+                              ),
                               SizedBox(height: 20),
-                              CategoryWidget(
-                                  label: categories[2 * index + 1]['category'],
+                              if (!isSecondIndexOutOfBounds)
+                                CategoryWidget(
+                                  label: categories[secondIndex]['category'],
                                   onPressed: () {
-                                    if (this.Categories.contains(
-                                        categories[2 * index + 1]
-                                            ['category'])) {
-                                      this.Categories.remove(
-                                          categories[2 * index + 1]
-                                              ['category']);
-                                    } else
-                                      this.Categories.add(
-                                          categories[2 * index + 1]
-                                              ['category']);
+                                    if (this.Categories.contains(categories[secondIndex]['category'])) {
+                                      this.Categories.remove(categories[secondIndex]['category']);
+                                    } else {
+                                      this.Categories.add(categories[secondIndex]['category']);
+                                    }
                                     _updateCourses();
-                                  }),
+                                  },
+                                ),
                             ],
                           ),
                         );
                       },
                     ),
+
                   ),
                 );
               }

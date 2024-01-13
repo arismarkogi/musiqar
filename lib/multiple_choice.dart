@@ -8,8 +8,9 @@ import 'question_gyroscope.dart';
 class QuestionMultiple extends StatelessWidget {
   final int userId;
   final int courseId;
+  final int chapterId;
 
-  QuestionMultiple({required this.userId, required this.courseId, Key? key})
+  QuestionMultiple({required this.userId, required this.courseId, required this.chapterId, Key? key})
       : super(key: key);
 
   @override
@@ -59,6 +60,7 @@ class QuestionMultiple extends StatelessWidget {
                             builder: (context) => StartQuiz(
                                   userId: userId,
                                   courseId: courseId,
+                                  chapterId: chapterId,
                                 )));
                   }),
                 ),
@@ -70,7 +72,7 @@ class QuestionMultiple extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => QuestionGyroscope(
-                                userId: userId, courseId: courseId)));
+                                userId: userId, courseId: courseId, chapterId: chapterId)));
                   }),
                 ),
               ],

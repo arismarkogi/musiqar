@@ -10,8 +10,9 @@ import 'dart:async';
 class QuestionGyroscope extends StatefulWidget {
   final int userId;
   final int courseId;
+  final int chapterId;
 
-  QuestionGyroscope({required this.userId, required this.courseId, Key? key})
+  QuestionGyroscope({required this.userId, required this.courseId, required this.chapterId, Key? key})
       : super(key: key);
 
   @override
@@ -45,6 +46,7 @@ class _QuestionGyroscopeState extends State<QuestionGyroscope> {
                 builder: (context) => QuestionMultiple(
                       userId: widget.userId,
                       courseId: widget.courseId,
+                      chapterId: widget.chapterId,
                     )),
           );
         } else if (_gyroY > threshold) {
@@ -56,6 +58,7 @@ class _QuestionGyroscopeState extends State<QuestionGyroscope> {
                 builder: (context) => QuestionDraw(
                       userId: widget.userId,
                       courseId: widget.courseId,
+                      chapterId: widget.chapterId,
                     )),
           );
         }
@@ -127,7 +130,8 @@ class _QuestionGyroscopeState extends State<QuestionGyroscope> {
                           MaterialPageRoute(
                               builder: (context) => QuestionMultiple(
                                   userId: widget.userId,
-                                  courseId: widget.courseId)),
+                                  courseId: widget.courseId,
+                                  chapterId: widget.chapterId)),
                         );
                       },
                     ),
@@ -144,6 +148,7 @@ class _QuestionGyroscopeState extends State<QuestionGyroscope> {
                               builder: (context) => QuestionDraw(
                                     userId: widget.userId,
                                     courseId: widget.courseId,
+                                    chapterId: widget.chapterId,
                                   )),
                         );
                       },

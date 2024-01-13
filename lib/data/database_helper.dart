@@ -24,7 +24,7 @@ class DatabaseHelper {
       description TEXT, 
       category TEXT,
       instructor INTEGER,
-      image_url TEXT
+      image_url TEXT DEFAULT 'assets/course.jpg'
     );
     ''';
 
@@ -209,13 +209,24 @@ class DatabaseHelper {
 
     var db = await openDatabase(path);
 
+    await db.execute('DROP TABLE IF EXISTS users');
+    await db.execute('DROP TABLE IF EXISTS course');
+    await db.execute('DROP TABLE IF EXISTS chapter');
+    await db.execute('DROP TABLE IF EXISTS has_chapter');
+    await db.execute('DROP TABLE IF EXISTS has_enrolled');
+    await db.execute('DROP TABLE IF EXISTS has_completed');
     await db.execute('DROP TABLE IF EXISTS question');
     await db.execute('DROP TABLE IF EXISTS has_question');
 
     db = await openDatabase(path, version: 1, onCreate: (db, version) async {
+      await db.execute(courseTable);
+      await db.execute(chapterTable);
+      await db.execute(usersTable);
+      await db.execute(hasChapter);
       await db.execute(question);
-
       await db.execute(answer);
+      await db.execute(hasEnrolled);
+      await db.execute(hasCompleted);
     });
   }
 
@@ -341,7 +352,9 @@ class DatabaseHelper {
     return await dbClient.rawQuery('''
     SELECT  DISTINCT category
     FROM course;
-  ''');
+    ''');
+
+
   }
 
 
@@ -359,7 +372,7 @@ class DatabaseHelper {
     LEFT JOIN users u1 ON c.instructor = u1.id
     WHERE c.id NOT IN (SELECT course_id FROM has_enrolled WHERE user_id = $userId)
     $categoriesStr;
-  ''';
+  //''';
 
     return await dbClient.rawQuery(query);
   }
@@ -381,14 +394,25 @@ class DatabaseHelper {
     var dbClient = await db;
 
       String query = '''
-      SELECT c.title AS chapter_title,
+      SELECT c.title AS chapter_title, c.id
       FROM chapter c
       JOIN has_chapter hc ON c.id = hc.chapter_id
       WHERE hc.course_id = $courseId;
       ''';
       return await dbClient.rawQuery(query);
     }
-  Future<bool> isChapterCompleted(int userId, int courseId, int chapterId) async {
+
+  Future<List<Map<String, dynamic>>> getChapterInfo(int chapterId) async {
+    var dbClient = await db;
+
+    String query = '''
+      SELECT pdf_url, pdf_name, title
+      FROM chapter 
+      WHERE id = $chapterId;
+      ''';
+    return await dbClient.rawQuery(query);
+  }
+  Future<bool> isChapterCompleted(int userId, int chapterId) async {
     var dbClient = await db;
 
     String query = '''
@@ -399,6 +423,40 @@ class DatabaseHelper {
 
     List<Map<String, dynamic>> result = await dbClient.rawQuery(query);
     return result.isNotEmpty;
+  }
+
+  Future<void> updateHasCompleted(int userId, int chapterId, bool isCompleted) async {
+    var dbClient = await db;
+    if(isCompleted){
+      await dbClient.rawDelete(
+        'DELETE FROM has_completed WHERE chapter_id = ? AND user_id = ?',
+        [chapterId, userId],
+      );
+      await dbClient.rawUpdate(
+        'UPDATE users SET points = points - 1 WHERE id = ?',
+        [userId],
+      );
+    }
+    else{
+      await dbClient.rawInsert(
+      'INSERT INTO has_completed (chapter_id, user_id) VALUES (?, ?)',
+      [chapterId, userId],
+      );
+
+      await dbClient.rawUpdate(
+        'UPDATE users SET points = points + 1 WHERE id = ?',
+        [userId],
+      );
+    }
+  }
+
+  Future<void> updateHasEnrolled(int userId, int courseId) async {
+    var dbClient = await db;
+
+    await dbClient.rawInsert(
+      'INSERT INTO has_enrolled (course_id, user_id) VALUES (?, ?)',
+      [courseId, userId],
+    );
   }
 
 
@@ -697,4 +755,8 @@ Future<void> updatequestiontitle(int questionId, String title) async {
       print('No insert statements to process');
     }
   }
+
+
+
+
 }

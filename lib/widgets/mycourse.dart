@@ -3,13 +3,15 @@ import 'dart:io';
 
 Widget myCourse(String courseName, String instructorName, String imageURL,
     double completionRate, VoidCallback onTap) {
-       ImageProvider<Object> imageProvider;
 
-  if (imageURL.startsWith('assets')) {
-    imageProvider = AssetImage(imageURL);
-  } else {
-    imageProvider = FileImage(File(imageURL));
-  }
+    ImageProvider<Object> imageProvider;
+
+    if (imageURL.startsWith('assets')) {
+      imageProvider = AssetImage(imageURL);
+    }
+    else {
+      imageProvider = FileImage(File(imageURL));
+    }
 
   return GestureDetector(
     onTap: onTap,

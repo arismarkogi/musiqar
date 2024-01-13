@@ -9,8 +9,10 @@ import 'menu_page.dart';
 class CorrectAnswers extends StatelessWidget {
 
   final int userId;
+  final int courseId;
+  final int chapterId;
 
-  CorrectAnswers({required this.userId});
+  CorrectAnswers({required this.userId, required this.courseId, required this.chapterId});
 
   @override
   Widget build(BuildContext context) {

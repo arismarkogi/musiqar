@@ -109,8 +109,9 @@ extension PaintExtension on Paint {
 class DrawpageAns extends StatefulWidget {
   final int userId;
   final int courseId;
+  final int chapterId;
 
-  DrawpageAns({required this.userId, required this.courseId, Key? key})
+  DrawpageAns({required this.userId, required this.courseId, required this.chapterId, Key? key})
       : super(key: key);
 
   @override
@@ -144,7 +145,7 @@ class _DrawpageAns extends State<DrawpageAns> {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                QuestionDraw(userId: widget.userId, courseId: widget.courseId),
+                QuestionDraw(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId,),
           ),
         );
       } else {

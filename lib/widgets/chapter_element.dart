@@ -18,25 +18,28 @@ Widget chapterElement(String descText, String imageURL, VoidCallback onTap) {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: 220,
-                  child: Text(
-                    descText,
-                    style: TextStyle(
-                      color: Color(0xFF1D1B20),
-                      fontSize: 20,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.bold,
-                      height: 1.2,
-                      letterSpacing: 0.15,
+                Center( // Wrap the Text widget with Center
+                  child: Container(
+                    width: 220,
+                    child: Text(
+                      descText,
+                      style: TextStyle(
+                        color: Color(0xFF1D1B20),
+                        fontSize: 20,
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.bold,
+                        height: 1.2,
+                        letterSpacing: 0.15,
+                      ),
+                      softWrap: true,
+                      overflow: TextOverflow.visible,
                     ),
-                    softWrap: true,
-                    overflow: TextOverflow.visible,
                   ),
                 ),
               ],
             ),
           ),
+
           Container(
             height: 80,
             width: 80,

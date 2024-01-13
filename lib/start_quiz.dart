@@ -15,8 +15,9 @@ class StartQuiz extends StatelessWidget {
 
   final int userId;
   final int courseId;
+  final int chapterId;
 
-  StartQuiz({required this.userId, required this.courseId, Key? key}) : super(key: key);
+  StartQuiz({required this.userId, required this.courseId, required this.chapterId, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +83,7 @@ class StartQuiz extends StatelessWidget {
                    () {
                      Navigator.push(
                        context,
-                       MaterialPageRoute(builder: (context) => QuestionMultiple(userId: userId, courseId: courseId)),
+                       MaterialPageRoute(builder: (context) => QuestionMultiple(userId: userId, courseId: courseId, chapterId: chapterId)),
                      );
                    }
                 )
@@ -95,7 +96,7 @@ class StartQuiz extends StatelessWidget {
                     () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ChapterPage(userId: userId, courseId: courseId,)),
+                    MaterialPageRoute(builder: (context) => ChapterPage(userId: userId, chapterId: chapterId,courseId: courseId,)),
                   );
 
                 },

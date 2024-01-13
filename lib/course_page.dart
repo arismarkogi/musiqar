@@ -1,28 +1,79 @@
 import 'package:flutter/material.dart';
+import 'package:musIQAR/data/database_helper.dart';
 import 'widgets/chapter.dart';
 import 'widgets/course_in_chapter.dart';
 import 'profile_page.dart';
 import 'menu_page.dart';
 import 'chapter_page.dart';
 
-String courseName = "Course Name";
-String instructorName = "Instructor Name";
-String imageURL = "assets/course.jpg";
-String chapterName = "chapterName";
-
-
-
-class CoursePage extends StatelessWidget {
-
+class CoursePage extends StatefulWidget {
   final int userId;
   final int courseId;
 
-  CoursePage({required this.userId, required this.courseId, Key? key}) : super(key: key);
+    CoursePage({required this.userId, required this.courseId, Key? key})
+      : super(key: key);
+
+  @override
+  _CoursePageState createState() => _CoursePageState();
+}
+
+class _CoursePageState extends State<CoursePage> {
+  String courseName = "";
+  String instructorName = "";
+  String imageURL = "";
+  List<Map<String, dynamic>> chapters = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Call the database queries in initState to fetch data when the widget is created.
+    fetchCourseInfo();
+    fetchChapters();
+  }
+
+  Future<void> fetchCourseInfo() async {
+    // Call your getCourseInfo function here and update the state with the result.
+    // For simplicity, I assume the getCourseInfo function is asynchronous.
+    List<Map<String, dynamic>> courseInfo = await DatabaseHelper().getCourseInfo(widget.courseId);
+
+    setState(() {
+      if (courseInfo.isNotEmpty) {
+        courseName = courseInfo[0]['title'];
+        instructorName = courseInfo[0]['name'];
+        imageURL = courseInfo[0]['image_url'];
+      }
+    });
+  }
+
+  Future<void> fetchChapters() async {
+    // Call your getChapters function here and update the state with the result.
+    // For simplicity, I assume the getChapters function is asynchronous.
+    List<Map<String, dynamic>> fetchedChapters =
+    await DatabaseHelper().getChapters(widget.courseId, widget.userId);
+
+    setState(() {
+      chapters = fetchedChapters;
+    });
+  }
+
+  Future<bool> isChapterCompleted(int chapterId) async {
+    // Call the database query here and handle the result.
+    bool completed = await DatabaseHelper().isChapterCompleted(widget.userId, chapterId);
+
+    // You can use the 'completed' value as needed.
+    return completed;
+  }
+
+  Future<void> changeHasCompleted(int chapterId) async{
+
+    bool isCompleted = await DatabaseHelper().isChapterCompleted(widget.userId, chapterId);
+    await DatabaseHelper().updateHasCompleted(widget.userId, chapterId, isCompleted);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+      appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: Color(0xFFFEF7FF),
@@ -36,45 +87,67 @@ class CoursePage extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.menu),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage(userId : userId)));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MenuPage(userId: widget.userId),
+              ),
+            );
           },
-          ),
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.account_circle),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage(userId : userId)));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProfilePage(userId: widget.userId),
+                ),
+              );
             },
           ),
         ],
       ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Align(
-                alignment: Alignment.center,
-                child: chapterCourse(courseName, instructorName, imageURL),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Align(
+              alignment: Alignment.center,
+              child: chapterCourse(courseName, instructorName, imageURL),
+            ),
+          ),
+          SizedBox(height: 20),
+          Expanded(
+            child: ListView.separated(
+              itemCount: chapters.length,
+              separatorBuilder: (context, _) => SizedBox(height: 8),
+              itemBuilder: (context, index) => SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: chapter(chapters[index]['chapter_title'], () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChapterPage(
+                          userId: widget.userId,
+                          courseId: widget.courseId,
+                          chapterId: chapters[index]['id'],
+                        ),
+                      ),
+                    );
+                  },
+                      isChapterCompleted(chapters[index]['id']),
+                (bool? newValue) => changeHasCompleted(chapters[index]['id']),
+                ),
               ),
             ),
-            SizedBox(height: 20),
-            Expanded(
-              child: ListView.separated(
-                itemCount: 20,
-                separatorBuilder: (context, _) => SizedBox(height: 8),
-                itemBuilder: (context, index) => SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.8, 
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20), 
-                      child: chapter(chapterName, () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ChapterPage(userId : userId, courseId: courseId,)));
-                      } )
-                  ),
-                ),
-              )
-            )
-    ],
-        )
+          ),
+          )
+        ],
+      ),
     );
   }
 }

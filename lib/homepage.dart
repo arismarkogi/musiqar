@@ -25,6 +25,7 @@ class HomePage extends StatelessWidget {
     return await availableCameras();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

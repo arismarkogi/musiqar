@@ -14,8 +14,9 @@ class SubmitQuiz extends StatelessWidget {
 
   final int userId;
   final int courseId;
+  final int chapterId;
 
-  SubmitQuiz({required this.userId, required this.courseId, Key? key}) : super(key: key);
+  SubmitQuiz({required this.userId, required this.courseId, required this.chapterId, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +83,7 @@ class SubmitQuiz extends StatelessWidget {
                         () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => CorrectAnswers(userId: userId)),
+                        MaterialPageRoute(builder: (context) => CorrectAnswers(userId: userId, courseId: courseId, chapterId: chapterId)),
                       );
                     }
                 )
@@ -95,7 +96,7 @@ class SubmitQuiz extends StatelessWidget {
                     () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => QuestionDraw(userId: userId, courseId: courseId)),
+                    MaterialPageRoute(builder: (context) => QuestionDraw(userId: userId, courseId: courseId, chapterId: chapterId,)),
                   );
 
                 },

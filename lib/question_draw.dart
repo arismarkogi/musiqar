@@ -8,8 +8,9 @@ import 'drawpage_answer.dart';
 class QuestionDraw extends StatelessWidget {
   final int userId;
   final int courseId;
+  final int chapterId;
 
-  QuestionDraw({required this.userId, required this.courseId, Key? key})
+  QuestionDraw({required this.userId, required this.courseId, required this.chapterId, Key? key})
       : super(key: key);
 
   @override
@@ -60,6 +61,7 @@ class QuestionDraw extends StatelessWidget {
                         builder: (context) => DrawpageAns(
                               userId: userId,
                               courseId: courseId,
+                              chapterId: chapterId,
                             )));
               },
               child: Icon(
@@ -85,7 +87,7 @@ class QuestionDraw extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => QuestionGyroscope(
-                                  userId: userId, courseId: courseId)),
+                                  userId: userId, courseId: courseId, chapterId: chapterId)),
                         );
                       },
                     ),
@@ -100,7 +102,7 @@ class QuestionDraw extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => SubmitQuiz(
-                                  userId: userId, courseId: courseId)),
+                                  userId: userId, courseId: courseId, chapterId: chapterId)),
                         );
                       },
                     ),
