@@ -459,6 +459,17 @@ class DatabaseHelper {
     );
   }
 
+  Future<List<Map<String, dynamic>>> getQuestionsForChapter(int chapterId) async {
+    var dbClient = await db;
+
+    // Use raw query to retrieve questions for a specific chapter
+    List<Map<String, dynamic>> questions = await dbClient.rawQuery(
+      'SELECT * FROM Question WHERE chapter_id = ?',
+      [chapterId],
+    );
+    return questions;
+  }
+
 
 
 
@@ -664,15 +675,7 @@ Future<void> updatequestiontitle(int questionId, String title) async {
         .query('Question', where: 'id = ?', whereArgs: [questionId]);
   }
 
-  Future<List<Map<String, dynamic>>> getQuestionsForChapter(
-      int chapterId) async {
-    var dbClient = await db;
-    return await dbClient.rawQuery('''
-      SELECT id, title, type
-      FROM question 
-      WHERE chapter_id = ?
-    ''', [chapterId]);
-  }
+
 
   final String createQuestionTableQuery = '''
   CREATE TABLE IF NOT EXISTS Question (

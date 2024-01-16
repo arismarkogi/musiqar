@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget gyrAnswer(String text) {
+Widget gyrAnswer(String boldText, String regularText) {
   return Container(
     width: 170,
     height: 320,
@@ -12,18 +12,37 @@ Widget gyrAnswer(String text) {
     child: Center(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8.0),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.w500,
-            letterSpacing: 0.15,
-          ),
-          overflow: TextOverflow.ellipsis,
-          maxLines: 5,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              boldText,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.15,
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
+            SizedBox(height: 30),
+            Text(
+              regularText,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.15,
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 4,
+            ),
+          ],
         ),
       ),
     ),

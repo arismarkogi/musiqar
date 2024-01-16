@@ -110,8 +110,19 @@ class DrawpageAns extends StatefulWidget {
   final int userId;
   final int courseId;
   final int chapterId;
+  final List<Map<String, dynamic>> questions;
+  final int counter;
+  final List<Map<String, dynamic>> answers;
 
-  DrawpageAns({required this.userId, required this.courseId, required this.chapterId, Key? key})
+  DrawpageAns({
+    required this.userId,
+    required this.courseId,
+    required this.chapterId,
+    required this.questions,
+    required this.counter,
+    required this.answers,
+    Key? key,
+})
       : super(key: key);
 
   @override
@@ -141,11 +152,19 @@ class _DrawpageAns extends State<DrawpageAns> {
         await File(filePath).writeAsBytes(data);
         debugPrint('Image saved at: $filePath');
 
+        // Assuming answers is a List<Map<String, dynamic>> and each answer has an 'imageUrl' field
+        widget.answers[widget.counter] = {'answer': filePath};
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                QuestionDraw(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId,),
+            builder: (context) => QuestionDraw(
+              userId: widget.userId,
+              courseId: widget.courseId,
+              chapterId: widget.chapterId,
+              counter: widget.counter,
+              answers: widget.answers,
+              questions: widget.questions,
+            ),
           ),
         );
       } else {
@@ -155,6 +174,7 @@ class _DrawpageAns extends State<DrawpageAns> {
       debugPrint('Error in _getImageData: $e');
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

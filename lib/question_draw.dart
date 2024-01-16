@@ -1,20 +1,35 @@
 import 'package:flutter/material.dart';
-import 'question_gyroscope.dart';
 import 'widgets/quiz_question.dart';
 import 'widgets/purple_button.dart';
 import 'submit_quiz.dart';
 import 'drawpage_answer.dart';
 
-class QuestionDraw extends StatelessWidget {
+class QuestionDraw extends StatefulWidget {
   final int userId;
   final int courseId;
   final int chapterId;
+  final List<Map<String, dynamic>> questions;
+  final int counter;
+  final List<Map<String, dynamic>> answers;
 
-  QuestionDraw({required this.userId, required this.courseId, required this.chapterId, Key? key})
-      : super(key: key);
+  QuestionDraw({
+    required this.userId,
+    required this.courseId,
+    required this.chapterId,
+    required this.questions,
+    required this.counter,
+    required this.answers,
+    Key? key,
+  }) : super(key: key);
 
   @override
+  _QuestionDrawState createState() => _QuestionDrawState();
+}
+
+class _QuestionDrawState extends State<QuestionDraw> {
+  @override
   Widget build(BuildContext context) {
+    String currentQuestionText = widget.questions[widget.counter]['title'].toString();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -33,82 +48,118 @@ class QuestionDraw extends StatelessWidget {
           SizedBox(height: 20),
           Center(
             child: question(
-              42,
-              'Here is the text for the question i want to test if it works with two lines properly',
+              widget.counter + 1,
+              currentQuestionText,
             ),
           ),
           Center(
               child: Column(children: <Widget>[
-            SizedBox(height: 150),
-            Text(
-              'Insert Drawing',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Color(0xFF6750A4),
-                fontSize: 20,
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.w700,
-                height: 0.10,
-                letterSpacing: 0.10,
-              ),
-            ),
-            SizedBox(height: 40),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
+                SizedBox(height: 150),
+                Text(
+                  'Insert Drawing',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF6750A4),
+                    fontSize: 20,
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w700,
+                    height: 0.10,
+                    letterSpacing: 0.10,
+                  ),
+                ),
+                SizedBox(height: 40),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
                         builder: (context) => DrawpageAns(
-                              userId: userId,
-                              courseId: courseId,
-                              chapterId: chapterId,
-                            )));
-              },
-              child: Icon(
-                Icons.edit,
-                size: 30,
-                color: Colors.blue,
-              ),
-            ),
-          ])),
+                          userId: widget.userId,
+                          courseId: widget.courseId,
+                          chapterId: widget.chapterId,
+                          answers: widget.answers,
+                          questions: widget.questions,
+                          counter: widget.counter,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Icon(
+                    Icons.edit,
+                    size: 30,
+                    color: Colors.blue,
+                  ),
+                ),
+              ])),
           SizedBox(height: 240),
-          SizedBox(
-            height: 100,
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(
+          Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Visibility(
+                  visible: widget.counter != 0, // Hide when counter is 0
+                  child: SizedBox(
                     width: 133,
-                    child: PurpleButton(
-                      "Previous",
-                      () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => QuestionGyroscope(
-                                  userId: userId, courseId: courseId, chapterId: chapterId)),
-                        );
-                      },
-                    ),
+                    child: PurpleButton("Previous", () {
+                      // If not on the first question, navigate to the previous question
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => QuestionDraw(
+                            userId: widget.userId,
+                            courseId: widget.courseId,
+                            chapterId: widget.chapterId,
+                            questions: widget.questions,
+                            counter: widget.counter - 1,
+                            answers: widget.answers,
+                          ),
+                        ),
+                      );
+                    }),
                   ),
-                  SizedBox(width: 50),
-                  SizedBox(
-                    width: 133,
-                    child: PurpleButton(
-                      "Next",
-                      () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SubmitQuiz(
-                                  userId: userId, courseId: courseId, chapterId: chapterId)),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                ),
+
+                SizedBox(width: 50),
+                SizedBox(
+                  width: 133,
+                  child: PurpleButton("Next", () {
+                    if (widget.counter == widget.questions.length - 1) {
+                      // If on the last question, navigate to SubmitQuiz page
+                      print(widget.answers);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SubmitQuiz(
+                            userId: widget.userId,
+                            courseId: widget.courseId,
+                            chapterId: widget.chapterId,
+                            questions: widget.questions,
+                            counter: widget.counter,
+                            answers: widget.answers,
+                          ),
+                        ),
+                      );
+                    } else {
+                      // If not on the last question, navigate to the next question
+                      print("answers:");
+                      print(widget.answers);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => QuestionDraw(
+                            userId: widget.userId,
+                            courseId: widget.courseId,
+                            chapterId: widget.chapterId,
+                            questions: widget.questions,
+                            counter: widget.counter + 1,
+                            answers: widget.answers,
+                          ),
+                        ),
+                      );
+                    }
+                  }),
+                ),
+              ],
             ),
           ),
         ],
