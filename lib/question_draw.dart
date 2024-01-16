@@ -29,7 +29,8 @@ class QuestionDraw extends StatefulWidget {
 class _QuestionDrawState extends State<QuestionDraw> {
   @override
   Widget build(BuildContext context) {
-    String currentQuestionText = widget.questions[widget.counter]['title'].toString();
+    String currentQuestionText =
+        widget.questions[widget.counter]['title'].toString();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -54,50 +55,50 @@ class _QuestionDrawState extends State<QuestionDraw> {
           ),
           Center(
               child: Column(children: <Widget>[
-                SizedBox(height: 150),
-                Text(
-                  'Insert Drawing',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(0xFF6750A4),
-                    fontSize: 20,
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w700,
-                    height: 0.10,
-                    letterSpacing: 0.10,
+            SizedBox(height: 150),
+            Text(
+              'Insert Drawing',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color(0xFF6750A4),
+                fontSize: 20,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w700,
+                height: 0.10,
+                letterSpacing: 0.10,
+              ),
+            ),
+            SizedBox(height: 40),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DrawpageAns(
+                      userId: widget.userId,
+                      courseId: widget.courseId,
+                      chapterId: widget.chapterId,
+                      answers: widget.answers,
+                      questions: widget.questions,
+                      counter: widget.counter,
+                    ),
                   ),
-                ),
-                SizedBox(height: 40),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DrawpageAns(
-                          userId: widget.userId,
-                          courseId: widget.courseId,
-                          chapterId: widget.chapterId,
-                          answers: widget.answers,
-                          questions: widget.questions,
-                          counter: widget.counter,
-                        ),
-                      ),
-                    );
-                  },
-                  child: Icon(
-                    Icons.edit,
-                    size: 30,
-                    color: Colors.blue,
-                  ),
-                ),
-              ])),
+                );
+              },
+              child: Icon(
+                Icons.edit,
+                size: 30,
+                color: Colors.blue,
+              ),
+            ),
+          ])),
           SizedBox(height: 240),
           Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Visibility(
-                  visible: widget.counter != 0, // Hide when counter is 0
+                  visible: widget.counter != 0,
                   child: SizedBox(
                     width: 133,
                     child: PurpleButton("Previous", () {
@@ -118,7 +119,6 @@ class _QuestionDrawState extends State<QuestionDraw> {
                     }),
                   ),
                 ),
-
                 SizedBox(width: 50),
                 SizedBox(
                   width: 133,

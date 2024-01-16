@@ -107,7 +107,6 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
           questionId: questionId,
         );
       default:
-        // Handle other question types if needed
         return Container();
     }
   }
@@ -174,67 +173,6 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          /*GestureDetector(
-                            onTap: () {
-                              if (validateInputs()) {
-                                if (widget.questionType == "Draw") {
-                                  insertQuestion(
-                                          widget.chapterId, controller.text)
-                                      .then((result) {
-                                    setState(() {
-                                      questionId = result;
-                                    });
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => NewCoursePage6(
-                                                userId: widget.userId,
-                                                courseId: widget.courseId,
-                                                chapterId: widget.chapterId,
-                                                questionId: questionId ?? 0,
-                                              )),
-                                    );
-                                  });
-                                } else if (widget.questionType == "Select") {
-                                  insertQuestion(
-                                          widget.chapterId, controller.text)
-                                      .then((result) {
-                                    setState(() {
-                                      questionId = result;
-                                    });
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => NewCoursePage4(
-                                              userId: widget.userId,
-                                              courseId: widget.courseId,
-                                              chapterId: widget.chapterId,
-                                              questionId: questionId ?? 0)),
-                                    );
-                                  });
-                                } else if (widget.questionType == "LorR") {
-                                  insertQuestion(
-                                          widget.chapterId, controller.text)
-                                      .then((result) {
-                                    setState(() {
-                                      questionId = result;
-                                    });
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => NewCoursePage5(
-                                              userId: widget.userId,
-                                              courseId: widget.courseId,
-                                              chapterId: widget.chapterId,
-                                              questionId: questionId ?? 0)),
-                                    );
-                                  });
-                                }
-                              }
-                              ;
-                            },
-                            child: Icon(Icons.edit),
-                          ),*/
                           GestureDetector(
                             onTap: () async {
                               if (validateInputs()) {
@@ -401,11 +339,9 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
               ),
               SizedBox(height: 20),
               Row(
-                mainAxisAlignment: MainAxisAlignment
-                    .spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SizedBox(
-                      width: 40),
+                  SizedBox(width: 40),
                   Expanded(
                     child: CancelButton(
                       onPressed: () async {
@@ -421,8 +357,7 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
                       buttonText: 'Cancel',
                     ),
                   ),
-                  SizedBox(
-                      width: 40), 
+                  SizedBox(width: 40),
                   Expanded(
                     child: CancelButton(
                       onPressed: () {
@@ -437,10 +372,8 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
                       },
                       buttonText: 'Save',
                     ),
-                    
                   ),
-                  SizedBox(
-                      width: 40),
+                  SizedBox(width: 40),
                 ],
               ),
             ],

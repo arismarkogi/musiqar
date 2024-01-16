@@ -122,8 +122,7 @@ class DrawpageAns extends StatefulWidget {
     required this.counter,
     required this.answers,
     Key? key,
-})
-      : super(key: key);
+  }) : super(key: key);
 
   @override
   State<DrawpageAns> createState() => _DrawpageAns();
@@ -145,14 +144,13 @@ class _DrawpageAns extends State<DrawpageAns> {
       Uint8List? data = await _screenshotController.capture();
 
       if (data != null) {
-        final String uniqueId = Uuid().v4(); // Use a unique identifier library
+        final String uniqueId = Uuid().v4();
         final Directory directory = await getApplicationDocumentsDirectory();
         final String filePath = '${directory.path}/drawing_image_$uniqueId.png';
 
         await File(filePath).writeAsBytes(data);
         debugPrint('Image saved at: $filePath');
 
-        // Assuming answers is a List<Map<String, dynamic>> and each answer has an 'imageUrl' field
         widget.answers[widget.counter] = {'answer': filePath};
         Navigator.push(
           context,
@@ -174,7 +172,6 @@ class _DrawpageAns extends State<DrawpageAns> {
       debugPrint('Error in _getImageData: $e');
     }
   }
-
 
   @override
   Widget build(BuildContext context) {

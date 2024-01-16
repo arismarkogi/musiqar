@@ -26,7 +26,7 @@ class _CustomMultipleChoiceWidgetState
         widget.onTap();
       },
       child: Card(
-        elevation: 4, // Add elevation for a card-like appearance
+        elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -39,8 +39,7 @@ class _CustomMultipleChoiceWidgetState
                 child: Text(
                   widget.answer,
                   style: TextStyle(
-                    color:
-                    widget.isSelected ? Colors.white : Color(0xFF1D1B20),
+                    color: widget.isSelected ? Colors.white : Color(0xFF1D1B20),
                     fontSize: 16,
                     fontFamily: 'Roboto',
                     fontWeight: FontWeight.w400,

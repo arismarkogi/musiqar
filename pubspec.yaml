@@ -103,6 +103,8 @@ flutter:
     - assets/tuba.glb
     - assets/violin.glb
     - assets/Blue.mp3
+    - assets/violin.mp3
+    - assets/tuba.mp3
     - assets/saxophone.m4a
     - assets/logo2.png
     - assets/logo3.png

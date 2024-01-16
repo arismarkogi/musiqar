@@ -8,19 +8,31 @@ import 'course_page.dart';
 import 'start_quiz.dart';
 import 'data/database_helper.dart';
 import 'dart:io';
-
+import 'dart:math';
+import 'earth_ar.dart';
+import 'dart:async';
+import 'earth_ar.dart';
+import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
+import 'package:model_viewer_plus/model_viewer_plus.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 String chapterName = "chapterName";
 String pdfURL = "assets/dummy.pdf";
-
-
 
 class ChapterPage extends StatefulWidget {
   final int userId;
   final int courseId;
   final int chapterId;
 
-  ChapterPage({required this.userId, required this.courseId, required this.chapterId, Key? key}) : super(key: key);
+  
+
+  ChapterPage(
+      {required this.userId,
+      required this.courseId,
+      required this.chapterId,
+      Key? key})
+      : super(key: key);
 
   @override
   _ChapterPageState createState() => _ChapterPageState();
@@ -32,18 +44,21 @@ class _ChapterPageState extends State<ChapterPage> {
   String pdfName = "";
   Widget pdfViewerWidget = Container();
 
-
   @override
   void initState() {
     super.initState();
     fetchChapterInfo();
   }
 
-  Future<void> fetchChapterInfo() async {
-    // Use your database function to get chapter information
+  Future<List<CameraDescription>> getCameras() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    return await availableCameras();
+  }
+
+
+  void fetchChapterInfo() async {
     var chapterInfo = await DatabaseHelper().getChapterInfo(widget.chapterId);
 
-    // Update the widget state with the fetched data
     setState(() {
       chapterName = chapterInfo[0]['title'];
       pdfURL = chapterInfo[0]['pdf_url'];
@@ -53,15 +68,14 @@ class _ChapterPageState extends State<ChapterPage> {
         if (pdfURL.startsWith('assets')) {
           pdfViewerWidget = SfPdfViewer.asset(pdfURL);
         } else if (pdfURL.startsWith('http') || pdfURL.startsWith('https')) {
-          // Assuming pdfURL is a valid network URL
           pdfViewerWidget = SfPdfViewer.network(pdfURL);
         } else {
-          // Assuming pdfURL is a local file path
           pdfViewerWidget = SfPdfViewer.file(File(pdfURL));
         }
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,14 +93,21 @@ class _ChapterPageState extends State<ChapterPage> {
           leading: IconButton(
             icon: Icon(Icons.menu),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage(userId : widget.userId)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MenuPage(userId: widget.userId)));
             },
           ),
           actions: [
             IconButton(
               icon: Icon(Icons.account_circle),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage(userId : widget.userId)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ProfilePage(userId: widget.userId)));
               },
             ),
           ],
@@ -110,7 +131,7 @@ class _ChapterPageState extends State<ChapterPage> {
               child: chapterElement(
                 pdfName,
                 "assets/pdf.png",
-                    () {
+                () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -122,15 +143,37 @@ class _ChapterPageState extends State<ChapterPage> {
             ),
             SizedBox(height: 30),
             Center(
-              child: chapterElement(
+              child: chapterElement (
                 "Tap to use the AR tools",
                 "assets/ar.png",
-                    () {
+                () async {
+                  List<String> mp3Files = [
+                    "Blue.mp3",
+                    "saxophone.m4a",
+                    "tuba.mp3",
+                    "violin.mp3"
+                  ];
+                  List<String> glbFiles = [
+                    "piano3d.glb",
+                    "saxophone.glb",
+                    "tuba.glb",
+                    "violin.glb"
+                  ];
+
+                  int randomIndex = Random().nextInt(mp3Files.length);
+
+                  String randomMp3 = mp3Files[randomIndex];
+                  String randomGlb = glbFiles[randomIndex];
+                  List<CameraDescription> cameras = await getCameras();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => CoursePage(userId: widget.userId, courseId: widget.courseId,)),
+                    MaterialPageRoute(
+                        builder: (context) => CombinedScreen(
+                              camera: cameras.first,
+                              musicAsset: "$randomMp3",
+                              modelAsset: "assets/$randomGlb",
+                            )),
                   );
-
                 },
               ),
             ),
@@ -139,12 +182,15 @@ class _ChapterPageState extends State<ChapterPage> {
               child: chapterElement(
                 "Tap to take the quiz",
                 "assets/quiz.png",
-                    () {
+                () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => StartQuiz(userId: widget.userId, courseId: widget.courseId, chapterId: widget.chapterId)),
+                    MaterialPageRoute(
+                        builder: (context) => StartQuiz(
+                            userId: widget.userId,
+                            courseId: widget.courseId,
+                            chapterId: widget.chapterId)),
                   );
-
                 },
               ),
             ),
@@ -152,18 +198,19 @@ class _ChapterPageState extends State<ChapterPage> {
             Center(
               child: PurpleButton(
                 "Course Page",
-                    () {
+                () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => CoursePage(userId : widget.userId, courseId: widget.courseId,)),
+                    MaterialPageRoute(
+                        builder: (context) => CoursePage(
+                              userId: widget.userId,
+                              courseId: widget.courseId,
+                            )),
                   );
-
                 },
               ),
             ),
           ],
-        )
-
-    );
+        ));
   }
 }

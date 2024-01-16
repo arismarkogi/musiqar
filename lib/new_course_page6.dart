@@ -152,19 +152,6 @@ class _NewCoursePage6 extends State<NewCoursePage6> {
                 ),
               ),
               SizedBox(height: 70),
-              /*CancelButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => NewCoursePage3(
-                              userId: widget.userId,
-                              courseId: widget.courseId,
-                              chapterId: widget.chapterId,
-                              questionType: 'Draw')));
-                },
-                buttonText: 'Cancel',
-              ),*/
               SizedBox(height: 20),
             ],
           ),

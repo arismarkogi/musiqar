@@ -83,12 +83,6 @@ class _FileOpenPageState extends State<FileOpenPage> {
             SizedBox(height: 8),
             Text(widget.filePath),
             SizedBox(height: 20),
-            /*ElevatedButton(
-              onPressed: () {
-                _openFile(widget.filePath);
-              },
-              child: Text('Open File'),
-            ),*/
             SizedBox(height: 30),
             Text(
               'Enter the name of the file',

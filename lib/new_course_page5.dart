@@ -71,7 +71,6 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
                     builder: (context) => MenuPage(userId: widget.userId)));
           },
         ),
-
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -152,10 +151,6 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
                   'Select correct answer',
                   'True',
                   'False',
-                  /*'Left (No)',
-                  'Right (Yes)',
-                  */
-
                 ].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
@@ -179,23 +174,12 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
                 }).toList(),
               ),
               SizedBox(height: 70),
-              /*CancelButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Questiontype(
-                              userId: widget.userId,
-                              courseId: widget.courseId,
-                              chapterId: widget.chapterId)));
-                },
-                buttonText: 'Cancel',
-              ),*/
               SizedBox(height: 20),
-               CancelButton(
+              CancelButton(
                 onPressed: () {
                   if (selectedAnswer == "False") {
-                    DatabaseHelper().addanswers(widget.questionId, "False", 1, "TorF");
+                    DatabaseHelper()
+                        .addanswers(widget.questionId, "False", 1, "TorF");
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -207,7 +191,8 @@ class _NewCoursePage5 extends State<NewCoursePage5> {
                                 )));
                     print("False");
                   } else if (selectedAnswer == "True") {
-                    DatabaseHelper().addanswers(widget.questionId, "True", 2, "TorF");
+                    DatabaseHelper()
+                        .addanswers(widget.questionId, "True", 2, "TorF");
                     Navigator.push(
                         context,
                         MaterialPageRoute(

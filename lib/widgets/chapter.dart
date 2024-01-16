@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'checkbox.dart';
 
-Widget chapter(String chapterName, VoidCallback onTap, Future<bool> isCompleted, void Function(bool?)? onCheckboxChanged) {
+Widget chapter(String chapterName, VoidCallback onTap, Future<bool> isCompleted,
+    void Function(bool?)? onCheckboxChanged) {
   return GestureDetector(
     onTap: onTap,
     child: Container(
       width: 330,
       decoration: BoxDecoration(
-        color: const Color(0xFFCAC4D0), // Grey color
+        color: const Color(0xFFCAC4D0),
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(

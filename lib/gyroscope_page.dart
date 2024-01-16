@@ -41,7 +41,7 @@ class _GyroscopeExampleState extends State<GyroscopeExample> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Gyroscope Example'),
+        title: Text('Gyroscope Question'),
       ),
       body: Center(
         child: Column(

@@ -39,15 +39,6 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
   );
   List<bool> areSelected = List.generate(4, (index) => false);
 
-/*Future<void> _initializeAnswersController() async {
-    List<String> initialAnswers = await _fetchAnswers();
-
-    answersController = List.generate(
-      4,
-      (index) => TextEditingController(text: initialAnswers.length > index ? initialAnswers[index] : ''),
-    );
-  }*/
-
   Future<Map<String, dynamic>> _fetchQuestion() async {
     List<Map<String, dynamic>> questions =
         await DatabaseHelper().getAllQuestions();
@@ -56,23 +47,13 @@ class _NewCoursePage4State extends State<NewCoursePage4> {
         {};
   }
 
-  /*Future<List<String>> _fetchAnswers() async {
-    List<Map<String, dynamic>> questions =
-        await DatabaseHelper().getAllQuestions();
-        Map<String, dynamic> te = questions
-            .firstWhere((question) => question['id'] == widget.questionId) ??
-        {};
-        List<String> answersList = (te['answers'] as String?)?.split(' /**/ ') ?? [];
-    return answersList;
-  }*/
-
   Future<void> _fetchAnsdata() async {
     List<Map<String, dynamic>> questions =
         await DatabaseHelper().getAllQuestions();
     Map<String, dynamic> answer =
         questions.firstWhere((answers) => answers['id'] == widget.questionId);
     List<String> answersList =
-        (answer['answers'] as String?)?.split(' /**/ ') ?? ['', '', '', ''];
+        (answer['answers'] as String?)?.split('/**/') ?? ['', '', '', ''];
 
     setState(() {
       answersController[0].text = answersList[0] ?? '';

@@ -39,47 +39,37 @@ class _QuestionGyroscopeState extends State<QuestionGyroscope> {
     startGyroscope();
   }
 
- void startGyroscope() {
-  bool processing = false; // Variable to track if processing is ongoing
-  double threshold = 5.0;
-
-  gyroscopeSubscription = gyroscopeEventStream().listen((GyroscopeEvent event) {
-    if (!processing) {
+  void startGyroscope() {
+    gyroscopeSubscription =
+        gyroscopeEventStream().listen((GyroscopeEvent event) {
       setState(() {
         _gyroY = event.y;
 
+        double threshold = 3.0;
         if (_gyroY < -threshold) {
-          processing = true; 
           gyroscopeSubscription.cancel();
           print("left");
           widget.answers[widget.counter] = {'answer': 1};
-          print("answer ${widget.answers[widget.counter]}");
-          navigateToQuestion(widget.counter + 1);
+          Future.delayed(Duration(milliseconds: 500), () {
+            navigateToQuestion(widget.counter + 1);
+          });
         } else if (_gyroY > threshold) {
-          processing = true; 
           gyroscopeSubscription.cancel();
           print("right");
           widget.answers[widget.counter] = {'answer': 2};
-          print("answer ${widget.answers[widget.counter]}");
-          navigateToQuestion(widget.counter + 1);
+          Future.delayed(Duration(milliseconds: 500), () {
+            navigateToQuestion(widget.counter + 1);
+          });
         }
-
-        Timer(Duration(seconds: 4), () {
-          processing = false;
-        });
       });
-    }
-  });
-}
+    });
+  }
 
   void navigateToQuestion(int newCounter) {
     print(widget.answers);
     if (newCounter < 0) {
-      // If counter is negative, go to the first question
       newCounter = 0;
     } else if (newCounter >= widget.questions.length) {
-      print("Submitted ${widget.answers}");
-      // If counter exceeds the number of questions, go to SubmitQuiz
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -119,7 +109,8 @@ class _QuestionGyroscopeState extends State<QuestionGyroscope> {
 
   @override
   Widget build(BuildContext context) {
-    String currentQuestionText = widget.questions[widget.counter]['title'].toString();
+    String currentQuestionText =
+        widget.questions[widget.counter]['title'].toString();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -140,7 +131,7 @@ class _QuestionGyroscopeState extends State<QuestionGyroscope> {
             child: question(
               widget.counter + 1,
               currentQuestionText,
-              ),
+            ),
           ),
           Center(
             child: Column(
@@ -149,9 +140,11 @@ class _QuestionGyroscopeState extends State<QuestionGyroscope> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    gyrAnswer("False","Tilt your device to the left to select False"),
+                    gyrAnswer("False",
+                        "Tilt your device to the left to select False"),
                     SizedBox(width: 30),
-                    gyrAnswer("True","Tilt your device to the right to select True"),
+                    gyrAnswer(
+                        "True", "Tilt your device to the right to select True"),
                   ],
                 ),
               ],
@@ -163,7 +156,7 @@ class _QuestionGyroscopeState extends State<QuestionGyroscope> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Visibility(
-                  visible: widget.counter != 0, 
+                  visible: widget.counter != 0,
                   child: SizedBox(
                     width: 133,
                     child: PurpleButton("Previous", () {
@@ -183,13 +176,11 @@ class _QuestionGyroscopeState extends State<QuestionGyroscope> {
                     }),
                   ),
                 ),
-
                 SizedBox(width: 50),
                 SizedBox(
                   width: 133,
                   child: PurpleButton("Next", () {
                     if (widget.counter == widget.questions.length - 1) {
-                      print("Submitted $widget.answers");
                       Navigator.push(
                         context,
                         MaterialPageRoute(

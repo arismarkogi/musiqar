@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:musIQAR/signin_page.dart';
 import 'profile_settings.dart';
 import 'homepage.dart';
 import 'menu_page.dart';
@@ -51,9 +52,10 @@ class ProfilePage extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: points < 100
-                        ? AssetImage('assets/logo3.png'):
-                        points > 200 ? AssetImage('assets/piano.jpg')
-                        : AssetImage('assets/logo2.png'),
+                        ? AssetImage('assets/logo3.png')
+                        : points > 200
+                            ? AssetImage('assets/piano.jpg')
+                            : AssetImage('assets/logo2.png'),
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -162,7 +164,7 @@ class ProfilePage extends StatelessWidget {
               icon: Icon(Icons.logout),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomePage()));
+                    MaterialPageRoute(builder: (context) => SignInPage()));
               },
             ),
           ],

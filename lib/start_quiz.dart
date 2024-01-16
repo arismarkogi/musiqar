@@ -14,7 +14,12 @@ class StartQuiz extends StatefulWidget {
   final int courseId;
   final int chapterId;
 
-  StartQuiz({required this.userId, required this.courseId, required this.chapterId, Key? key}) : super(key: key);
+  StartQuiz(
+      {required this.userId,
+      required this.courseId,
+      required this.chapterId,
+      Key? key})
+      : super(key: key);
 
   @override
   _StartQuizState createState() => _StartQuizState();
@@ -30,7 +35,8 @@ class _StartQuizState extends State<StartQuiz> {
   }
 
   Future<void> fetchData() async {
-    List<Map<String, dynamic>> fetchedQuestions = await DatabaseHelper().getQuestionsForChapter(widget.chapterId);
+    List<Map<String, dynamic>> fetchedQuestions =
+        await DatabaseHelper().getQuestionsForChapter(widget.chapterId);
     setState(() {
       questions = fetchedQuestions;
     });
@@ -53,19 +59,26 @@ class _StartQuizState extends State<StartQuiz> {
           leading: IconButton(
             icon: Icon(Icons.menu),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage(userId: widget.userId)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MenuPage(userId: widget.userId)));
             },
           ),
           actions: [
             IconButton(
               icon: Icon(Icons.account_circle),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage(userId: widget.userId)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ProfilePage(userId: widget.userId)));
               },
             ),
           ],
         ),
-        body:  Column(
+        body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -84,58 +97,59 @@ class _StartQuizState extends State<StartQuiz> {
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.w400,
                     ),
-                    overflow: TextOverflow.ellipsis, // Handles overflow
-                    maxLines: 5, // Limits to two lines
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 5,
                   ),
                 ],
               ),
             ),
-
             SizedBox(height: 100),
-
             Center(
               child: FutureBuilder<List<Map<String, dynamic>>>(
                 future: Future.value(questions),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     List<Map<String, dynamic>> questionsData = snapshot.data!;
-                    String quizType = questionsData.isNotEmpty ? questionsData[0]['type'].toString() : 'Unknown';
+                    String quizType = questionsData.isNotEmpty
+                        ? questionsData[0]['type'].toString()
+                        : 'Unknown';
 
-                    List<Map<String, dynamic>> answers = List.filled(questionsData.length, {}); // Initialize answers list
+                    List<Map<String, dynamic>> answers =
+                        List.filled(questionsData.length, {});
 
                     return startButton(
                       "Start Quiz",
-                          () {
+                      () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) {
                               if (quizType == 'Select') {
                                 return QuestionMultiple(
-                                    userId: widget.userId,
-                                    courseId: widget.courseId,
-                                    chapterId: widget.chapterId,
-                                    questions: questionsData,
-                                    counter: 0, // Assume you start from the first question
-                                    answers: answers, // Initialize the answers list);
-                                );}
-                              else if (quizType == 'TorF') {
+                                  userId: widget.userId,
+                                  courseId: widget.courseId,
+                                  chapterId: widget.chapterId,
+                                  questions: questionsData,
+                                  counter: 0,
+                                  answers: answers,
+                                );
+                              } else if (quizType == 'TorF') {
                                 return QuestionGyroscope(
-                                    userId: widget.userId,
-                                    courseId: widget.courseId,
-                                    chapterId: widget.chapterId,
-                                    questions: questionsData,
-                                    counter: 0, // Assume you start from the first question
-                                    answers: answers, // Initialize the answers list);
-                                );}
-                              else if (quizType == 'Draw') {
+                                  userId: widget.userId,
+                                  courseId: widget.courseId,
+                                  chapterId: widget.chapterId,
+                                  questions: questionsData,
+                                  counter: 0,
+                                  answers: answers,
+                                );
+                              } else if (quizType == 'Draw') {
                                 return QuestionDraw(
                                   userId: widget.userId,
                                   courseId: widget.courseId,
                                   chapterId: widget.chapterId,
                                   questions: questionsData,
-                                  counter: 0, // Assume you start from the first question
-                                  answers: answers, // Initialize the answers list
+                                  counter: 0,
+                                  answers: answers,
                                 );
                               } else {
                                 return QuestionMultiple(
@@ -143,8 +157,8 @@ class _StartQuizState extends State<StartQuiz> {
                                   courseId: widget.courseId,
                                   chapterId: widget.chapterId,
                                   questions: questionsData,
-                                  counter: 0, // Assume you start from the first question
-                                  answers: answers, // Initialize the answers list
+                                  counter: 0,
+                                  answers: answers,
                                 );
                               }
                             },
@@ -153,14 +167,12 @@ class _StartQuizState extends State<StartQuiz> {
                       },
                     );
                   } else {
-                    // Handle other ConnectionState cases (e.g., waiting, active)
                     return CircularProgressIndicator();
                   }
                 },
               ),
             ),
-
-            SizedBox(height:100),
+            SizedBox(height: 100),
             Container(
               width: 324,
               padding: EdgeInsets.all(16.0),
@@ -169,18 +181,17 @@ class _StartQuizState extends State<StartQuiz> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     List<Map<String, dynamic>> questionsData = snapshot.data!;
-                    String quizType = questionsData.isNotEmpty ? questionsData[0]['type'].toString() : 'Unknown';
-                  if(quizType == 'Select') {
-                    quizType = "Multiple Choice";
-                  }
-                  else if(quizType == "TorF"){
-                    quizType = "True or False";
-                  }
-                  else if (quizType == "Draw"){
-                    quizType = "Drawing";
-                  }
-                  else{
-                    quizType = "Undetermined";
+                    String quizType = questionsData.isNotEmpty
+                        ? questionsData[0]['type'].toString()
+                        : 'Unknown';
+                    if (quizType == 'Select') {
+                      quizType = "Multiple Choice";
+                    } else if (quizType == "TorF") {
+                      quizType = "True or False";
+                    } else if (quizType == "Draw") {
+                      quizType = "Drawing";
+                    } else {
+                      quizType = "Undetermined";
                     }
                     return Text(
                       'Quiz type: $quizType',
@@ -211,22 +222,24 @@ class _StartQuizState extends State<StartQuiz> {
                 },
               ),
             ),
-
             SizedBox(height: 120),
             Center(
               child: PurpleButton(
                 "Chapter Page",
-                    () {
+                () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ChapterPage(userId: widget.userId, chapterId: widget.chapterId, courseId: widget.courseId,)),
+                    MaterialPageRoute(
+                        builder: (context) => ChapterPage(
+                              userId: widget.userId,
+                              chapterId: widget.chapterId,
+                              courseId: widget.courseId,
+                            )),
                   );
-
                 },
               ),
             ),
           ],
-        )
-    );
+        ));
   }
 }

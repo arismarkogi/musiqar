@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 Widget chapterCourse(
     String courseName, String instructorName, String imageURL) {
+  ImageProvider<Object> imageProvider;
+
+  if (imageURL.startsWith('assets')) {
+    imageProvider = AssetImage(imageURL);
+  } else {
+    imageProvider = FileImage(File(imageURL));
+  }
   return Container(
     width: 350,
     height: 80,
@@ -21,7 +29,7 @@ Widget chapterCourse(
           width: 80,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(imageURL),
+              image: imageProvider,
               fit: BoxFit.fitHeight,
             ),
           ),

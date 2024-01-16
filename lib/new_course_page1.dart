@@ -34,8 +34,7 @@ class _NewCoursePage1State extends State<NewCoursePage1> {
     if (coursename.text.isEmpty ||
         category.text.isEmpty ||
         description.text.isEmpty ||
-        selectedImage == null
-        ) {
+        selectedImage == null) {
       Vibration.vibrate(duration: 500);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -271,8 +270,8 @@ class _NewCoursePage1State extends State<NewCoursePage1> {
       'title': coursename.text,
       'category': category.text,
       'description': description.text,
-      'instructor': userData['id'],//instructorText,
-      'image_url' : selectedImagePath
+      'instructor': userData['id'],
+      'image_url': selectedImagePath
     });
     print("the courseId is equal to");
     print(courseId);

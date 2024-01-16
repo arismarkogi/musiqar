@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:musIQAR/signin_page.dart';
 import 'package:path/path.dart';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: SignInPage(),
     );
   }
 }

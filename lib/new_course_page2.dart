@@ -166,15 +166,11 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                                 return;
                               } else {
                                 DatabaseHelper dbHelper =
-                                    DatabaseHelper(); // Create an instance
+                                    DatabaseHelper(); 
                                 await dbHelper.updatechaptertitle(
                                     chapterId!, controller.text);
                                 String typee = await dbHelper.ChapthasQuestions(
                                     chapterId!);
-                                //DatabaseHelper.updatechaptertitle(chapterId!, controller.text);
-                                //String typee = await DatabaseHelper()
-                                //   .ChapthasQuestions(chapterId!);
-                                print("the type is: $typee");
                                 if (typee != '') {
                                   Navigator.push(
                                     context,
@@ -312,7 +308,7 @@ class _NewCoursePage2State extends State<NewCoursePage2> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => MenuPage(
-                              userId: widget.userId,
+                                userId: widget.userId,
                               )));
                 },
                 buttonText: 'Cancel',

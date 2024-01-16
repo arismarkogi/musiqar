@@ -10,7 +10,7 @@ class CoursePage extends StatefulWidget {
   final int userId;
   final int courseId;
 
-    CoursePage({required this.userId, required this.courseId, Key? key})
+  CoursePage({required this.userId, required this.courseId, Key? key})
       : super(key: key);
 
   @override
@@ -26,15 +26,13 @@ class _CoursePageState extends State<CoursePage> {
   @override
   void initState() {
     super.initState();
-    // Call the database queries in initState to fetch data when the widget is created.
     fetchCourseInfo();
     fetchChapters();
   }
 
   Future<void> fetchCourseInfo() async {
-    // Call your getCourseInfo function here and update the state with the result.
-    // For simplicity, I assume the getCourseInfo function is asynchronous.
-    List<Map<String, dynamic>> courseInfo = await DatabaseHelper().getCourseInfo(widget.courseId);
+    List<Map<String, dynamic>> courseInfo =
+        await DatabaseHelper().getCourseInfo(widget.courseId);
 
     setState(() {
       if (courseInfo.isNotEmpty) {
@@ -46,10 +44,8 @@ class _CoursePageState extends State<CoursePage> {
   }
 
   Future<void> fetchChapters() async {
-    // Call your getChapters function here and update the state with the result.
-    // For simplicity, I assume the getChapters function is asynchronous.
     List<Map<String, dynamic>> fetchedChapters =
-    await DatabaseHelper().getChapters(widget.courseId, widget.userId);
+        await DatabaseHelper().getChapters(widget.courseId, widget.userId);
 
     setState(() {
       chapters = fetchedChapters;
@@ -57,17 +53,17 @@ class _CoursePageState extends State<CoursePage> {
   }
 
   Future<bool> isChapterCompleted(int chapterId) async {
-    // Call the database query here and handle the result.
-    bool completed = await DatabaseHelper().isChapterCompleted(widget.userId, chapterId);
+    bool completed =
+        await DatabaseHelper().isChapterCompleted(widget.userId, chapterId);
 
-    // You can use the 'completed' value as needed.
     return completed;
   }
 
-  Future<void> changeHasCompleted(int chapterId) async{
-
-    bool isCompleted = await DatabaseHelper().isChapterCompleted(widget.userId, chapterId);
-    await DatabaseHelper().updateHasCompleted(widget.userId, chapterId, isCompleted);
+  Future<void> changeHasCompleted(int chapterId) async {
+    bool isCompleted =
+        await DatabaseHelper().isChapterCompleted(widget.userId, chapterId);
+    await DatabaseHelper()
+        .updateHasCompleted(widget.userId, chapterId, isCompleted);
   }
 
   @override
@@ -127,24 +123,27 @@ class _CoursePageState extends State<CoursePage> {
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: chapter(chapters[index]['chapter_title'], () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ChapterPage(
-                          userId: widget.userId,
-                          courseId: widget.courseId,
-                          chapterId: chapters[index]['id'],
+                  child: chapter(
+                    chapters[index]['chapter_title'],
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChapterPage(
+                            userId: widget.userId,
+                            courseId: widget.courseId,
+                            chapterId: chapters[index]['id'],
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                      isChapterCompleted(chapters[index]['id']),
-                (bool? newValue) => changeHasCompleted(chapters[index]['id']),
+                      );
+                    },
+                    isChapterCompleted(chapters[index]['id']),
+                    (bool? newValue) =>
+                        changeHasCompleted(chapters[index]['id']),
+                  ),
                 ),
               ),
             ),
-          ),
           )
         ],
       ),

@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 Widget correctAnswer(
-    int index,
-    String question,
-    String correctAnswerURL,
-    String yourAnswerURL,
-    bool isImage,
-    ) {
+  int index,
+  String question,
+  String correctAnswerURL,
+  String yourAnswerURL,
+  bool isImage,
+  bool isCorrect,
+) {
   ImageProvider<Object> correctAnswerImageProvider;
   ImageProvider<Object> yourAnswerImageProvider;
 
@@ -23,11 +24,13 @@ Widget correctAnswer(
     yourAnswerImageProvider = FileImage(File(yourAnswerURL));
   }
 
+  Color backgroundColor = isCorrect ? Colors.green : Colors.red;
+
   return Container(
     width: double.infinity,
     padding: EdgeInsets.all(16),
     decoration: BoxDecoration(
-      color: Colors.white,
+      color: backgroundColor,
       borderRadius: BorderRadius.circular(10),
       boxShadow: [
         BoxShadow(

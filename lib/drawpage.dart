@@ -131,42 +131,42 @@ class _Drawpage extends State<Drawpage> {
 
   final ScreenshotController _screenshotController = ScreenshotController();
 
-Future<void> _getImageData(BuildContext context) async {
-  print('Calling _getImageData');
-  try {
-    setState(() {});
+  Future<void> _getImageData(BuildContext context) async {
+    print('Calling _getImageData');
+    try {
+      setState(() {});
 
-    await Future.delayed(const Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 300));
 
-    Uint8List? data = await _screenshotController.capture();
+      Uint8List? data = await _screenshotController.capture();
 
-    if (data != null) {
-      final String uniqueId = Uuid().v4(); // Use a unique identifier library
-      final Directory directory = await getApplicationDocumentsDirectory();
-      final String filePath = '${directory.path}/drawing_image_$uniqueId.png';
+      if (data != null) {
+        final String uniqueId = Uuid().v4(); // Use a unique identifier library
+        final Directory directory = await getApplicationDocumentsDirectory();
+        final String filePath = '${directory.path}/drawing_image_$uniqueId.png';
 
-      await File(filePath).writeAsBytes(data);
-      debugPrint('Image saved at: $filePath');
+        await File(filePath).writeAsBytes(data);
+        debugPrint('Image saved at: $filePath');
 
-      DatabaseHelper().addanswers(widget.questionId, filePath, 1, "Draw");
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => NewCoursePage7(
-              imagePath: filePath,
-              userId: widget.userId,
-              courseId: widget.courseId,
-              chapterId: widget.chapterId,
-              questionId: widget.questionId),
-        ),
-      );
-    } else {
-      debugPrint('Error capturing image');
+        DatabaseHelper().addanswers(widget.questionId, filePath, 1, "Draw");
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NewCoursePage7(
+                imagePath: filePath,
+                userId: widget.userId,
+                courseId: widget.courseId,
+                chapterId: widget.chapterId,
+                questionId: widget.questionId),
+          ),
+        );
+      } else {
+        debugPrint('Error capturing image');
+      }
+    } catch (e) {
+      debugPrint('Error in _getImageData: $e');
     }
-  } catch (e) {
-    debugPrint('Error in _getImageData: $e');
   }
-}
 
   @override
   Widget build(BuildContext context) {

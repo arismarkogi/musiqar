@@ -28,14 +28,17 @@ class QuestionMultiple extends StatefulWidget {
 }
 
 class _QuestionMultipleState extends State<QuestionMultiple> {
-
-  late List<bool> areSelected = [false, false, false, false]; // Initialize with false values
+  late List<bool> areSelected = [
+    false,
+    false,
+    false,
+    false
+  ]; // Initialize with false values
 
   @override
   void initState() {
     super.initState();
 
-    // Initialize areSelected based on the stored answer in widget.answers
     int selectedAnswer = widget.answers[widget.counter]['answer'] ?? -1;
     areSelected = List.generate(4, (index) => (index + 1) == selectedAnswer);
   }
@@ -50,16 +53,13 @@ class _QuestionMultipleState extends State<QuestionMultiple> {
         areSelected[i] = (i == selectedIndex);
       }
 
-      // Store the selected answer in widget.answers
-      int selectedAnswer = selectedIndex + 1; // Convert 0-based index to 1-based answer
+      int selectedAnswer = selectedIndex + 1;
       widget.answers[widget.counter] = {'answer': selectedAnswer};
 
       print("areSelected: $areSelected");
       print("widget.answers: ${widget.answers}");
     });
   }
-
-
 
   int getSelected() {
     for (int i = 1; i <= areSelected.length; i++) {
@@ -72,7 +72,8 @@ class _QuestionMultipleState extends State<QuestionMultiple> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> answerOptions = widget.questions[widget.counter]['answers'].toString().split('/**/');
+    List<String> answerOptions =
+        widget.questions[widget.counter]['answers'].toString().split('/**/');
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -89,10 +90,8 @@ class _QuestionMultipleState extends State<QuestionMultiple> {
         body: Column(children: [
           SizedBox(height: 20),
           Center(
-            child: question(
-              widget.counter+1,
-                widget.questions[widget.counter]['title'].toString()
-                ),
+            child: question(widget.counter + 1,
+                widget.questions[widget.counter]['title'].toString()),
           ),
           SizedBox(height: 60),
           Expanded(
@@ -105,7 +104,7 @@ class _QuestionMultipleState extends State<QuestionMultiple> {
                   child: CustomMultipleChoiceWidget(
                     answer: answerOptions[index],
                     onTap: () {
-                      _handleSelect(index); // Handle tap if needed
+                      _handleSelect(index);
                     },
                     isSelected: areSelected[index],
                   ),
@@ -118,7 +117,7 @@ class _QuestionMultipleState extends State<QuestionMultiple> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Visibility(
-                  visible: widget.counter != 0, // Hide when counter is 0
+                  visible: widget.counter != 0,
                   child: SizedBox(
                     width: 133,
                     child: PurpleButton("Previous", () {
@@ -139,7 +138,6 @@ class _QuestionMultipleState extends State<QuestionMultiple> {
                     }),
                   ),
                 ),
-
                 SizedBox(width: 50),
                 SizedBox(
                   width: 133,
@@ -177,7 +175,6 @@ class _QuestionMultipleState extends State<QuestionMultiple> {
                     }
                   }),
                 ),
-
               ],
             ),
           ),

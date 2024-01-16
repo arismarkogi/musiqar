@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
@@ -63,7 +62,7 @@ class _CombinedScreenState extends State<CombinedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Combined Screen')),
+      appBar: AppBar(title: const Text('Experience AR')),
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
@@ -73,9 +72,8 @@ class _CombinedScreenState extends State<CombinedScreen> {
               children: [
                 CameraPreview(_controller),
                 ModelViewer(
-                  //src: 'assets/piano3d.glb',
                   src: widget.modelAsset,
-                  alt: 'A 3D model of a piano',
+                  alt: 'Augmented Reality',
                   ar: true,
                   autoRotate: true,
                   iosSrc:

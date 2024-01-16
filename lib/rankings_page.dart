@@ -87,8 +87,8 @@ class RankingsPage extends StatelessWidget {
                       } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                         return Text('No users found.');
                       } else {
-                        List<Map<String, dynamic>> users = List.from(
-                            snapshot.data!);
+                        List<Map<String, dynamic>> users =
+                            List.from(snapshot.data!);
                         users
                             .sort((a, b) => b['points'].compareTo(a['points']));
 

@@ -4,7 +4,8 @@ class CheckboxCustom extends StatefulWidget {
   final Future<bool> isCompleted;
   final void Function(bool?)? onChanged;
 
-  const CheckboxCustom({Key? key, required this.isCompleted, required this.onChanged})
+  const CheckboxCustom(
+      {Key? key, required this.isCompleted, required this.onChanged})
       : super(key: key);
 
   @override
@@ -39,7 +40,6 @@ class _CheckboxCustomState extends State<CheckboxCustom> {
           isChecked = newValue ?? false;
         });
 
-        // Call the provided onChanged callback with the updated value
         widget.onChanged?.call(isChecked);
       },
     );

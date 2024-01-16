@@ -71,18 +71,6 @@ Widget customInput(String labelText, TextEditingController controller,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: labelText,
-                            suffixIcon: isPassword
-                                ? IconButton(
-                                    icon: Icon(
-                                      isPassword
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                    ),
-                                    onPressed: () {
-                                      isPassword = !isPassword;
-                                    },
-                                  )
-                                : null,
                           ),
                         ),
                       ),

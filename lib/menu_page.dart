@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:musIQAR/profile_page.dart';
-import 'signin_page.dart';
 import 'rankings_page.dart';
 import 'profile_page.dart';
-import 'profile_settings.dart';
-import 'drawpage.dart';
 import 'new_course_page1.dart';
 import 'widgets/menu_item.dart';
 import 'widgets/sline.dart';
 import 'widgets/menu_logo.dart';
-import 'adminpage.dart';
 import 'data/database_helper.dart';
 import 'available_courses.dart';
 import 'mycourses.dart';
+import 'select_music.dart';
 
 class MenuPage extends StatefulWidget {
   final int userId;
@@ -72,8 +68,7 @@ class _MenuPageState extends State<MenuPage> {
           const SizedBox(height: 25),
           sline(),
           const SizedBox(height: 45),
-          buildMenuItem(
-              context, 'Admin page', AdminPage(userId: widget.userId)),
+          buildMenuItem(context, 'Experience AR', MusicSelectionScreen()),
           const SizedBox(height: 25),
           sline(),
           Expanded(

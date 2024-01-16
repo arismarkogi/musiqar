@@ -168,10 +168,10 @@ class _NewCoursePage7State extends State<NewCoursePage7> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => NewCoursePage6(
-                              userId: widget.userId,
-                              courseId: widget.courseId,
-                              chapterId: widget.chapterId,
-                              questionId: widget.questionId,
+                                userId: widget.userId,
+                                courseId: widget.courseId,
+                                chapterId: widget.chapterId,
+                                questionId: widget.questionId,
                               )));
                 },
                 buttonText: 'Cancel',

@@ -18,7 +18,7 @@ Widget chapterElement(String descText, String imageURL, VoidCallback onTap) {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Center( // Wrap the Text widget with Center
+                Center(
                   child: Container(
                     width: 220,
                     child: Text(
@@ -39,7 +39,6 @@ Widget chapterElement(String descText, String imageURL, VoidCallback onTap) {
               ],
             ),
           ),
-
           Container(
             height: 80,
             width: 80,

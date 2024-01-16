@@ -139,50 +139,48 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               onPressed: () async {
                 try {
                   if (passwordController.text.trim().isEmpty) {
-                                Vibration.vibrate(duration: 500);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                        'Please enter a value for Password.'),
-                                  ),
-                                );
-                              }
-                  else{
-                  if (selectedImage != null) {
-                    List<int> imageBytes = await selectedImage!.readAsBytes();
-
-                    await DatabaseHelper().updateUser({
-                      'id': widget.userId,
-                      'name': nameController.text,
-                      'surname': surnameController.text,
-                      'email': emailController.text,
-                      'password': passwordController.text,
-                      'dateofbirth': dobController.text,
-                      'bio': bioController.text,
-                      'image_url': Uint8List.fromList(imageBytes),
-                    });
+                    Vibration.vibrate(duration: 500);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Please enter a value for Password.'),
+                      ),
+                    );
                   } else {
-                    await DatabaseHelper().updateUser({
-                      'id': widget.userId,
-                      'name': nameController.text,
-                      'surname': surnameController.text,
-                      'email': emailController.text,
-                      'password': passwordController.text,
-                      'dateofbirth': dobController.text,
-                      'bio': bioController.text,
-                    });
-                  }
+                    if (selectedImage != null) {
+                      List<int> imageBytes = await selectedImage!.readAsBytes();
 
-                  print('Changes saved');
+                      await DatabaseHelper().updateUser({
+                        'id': widget.userId,
+                        'name': nameController.text,
+                        'surname': surnameController.text,
+                        'email': emailController.text,
+                        'password': passwordController.text,
+                        'dateofbirth': dobController.text,
+                        'bio': bioController.text,
+                        'image_url': Uint8List.fromList(imageBytes),
+                      });
+                    } else {
+                      await DatabaseHelper().updateUser({
+                        'id': widget.userId,
+                        'name': nameController.text,
+                        'surname': surnameController.text,
+                        'email': emailController.text,
+                        'password': passwordController.text,
+                        'dateofbirth': dobController.text,
+                        'bio': bioController.text,
+                      });
+                    }
 
-                  await _fetchUserData();
+                    print('Changes saved');
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ProfilePage(userId: widget.userId)),
-                  );
+                    await _fetchUserData();
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ProfilePage(userId: widget.userId)),
+                    );
                   }
                 } catch (e) {
                   print('Error during user data update: $e');
@@ -280,6 +278,3 @@ class EditIconContainer extends StatelessWidget {
     );
   }
 }
-
-
-
