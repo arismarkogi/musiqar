@@ -377,6 +377,22 @@ class DatabaseHelper {
     return await dbClient.rawQuery(query);
   }
 
+
+    Future<List<Map<String, dynamic>>> getInstructorCourses(int userId) async {
+    var dbClient = await db;
+
+
+
+    String query = '''
+    SELECT c.id as id, c.title as title, c.description as description, u1.name as name, c.image_url as image_url
+    FROM course c
+    LEFT JOIN users u1 ON c.instructor = u1.id
+    WHERE c.instructor = $userId);
+   ''';
+
+    return await dbClient.rawQuery(query);
+  }
+
   Future<List<Map<String, dynamic>>> getCourseInfo(int courseId) async {
     var dbClient = await db;
 

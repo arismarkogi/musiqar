@@ -167,14 +167,14 @@ class _AvailableCoursesState extends State<AvailableCourses> {
                     height: 120,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
-                      itemCount: ((categories.length + 1) / 2).floor(), // Add 1 for handling odd number of categories
+                      itemCount: ((categories.length + 1) / 2).floor(),
                       separatorBuilder: (context, index) => SizedBox(width: 8),
                       itemBuilder: (context, index) {
                         final firstIndex = 2 * index;
                         final secondIndex = 2 * index + 1;
 
-                        // Check if the second index is out of bounds (for odd number of categories)
-                        final isSecondIndexOutOfBounds = secondIndex >= categories.length;
+                        final isSecondIndexOutOfBounds =
+                            secondIndex >= categories.length;
 
                         return Container(
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -183,8 +183,10 @@ class _AvailableCoursesState extends State<AvailableCourses> {
                               CategoryWidget(
                                 label: categories[firstIndex]['category'],
                                 onPressed: () {
-                                  if (this.Categories.contains(categories[firstIndex]['category'])) {
-                                    this.Categories.remove(categories[firstIndex]['category']);
+                                  if (this.Categories.contains(
+                                      categories[firstIndex]['category'])) {
+                                    this.Categories.remove(
+                                        categories[firstIndex]['category']);
                                   } else {
                                     this.Categories.add(
                                         categories[firstIndex]['category']);
@@ -197,10 +199,13 @@ class _AvailableCoursesState extends State<AvailableCourses> {
                                 CategoryWidget(
                                   label: categories[secondIndex]['category'],
                                   onPressed: () {
-                                    if (this.Categories.contains(categories[secondIndex]['category'])) {
-                                      this.Categories.remove(categories[secondIndex]['category']);
+                                    if (this.Categories.contains(
+                                        categories[secondIndex]['category'])) {
+                                      this.Categories.remove(
+                                          categories[secondIndex]['category']);
                                     } else {
-                                      this.Categories.add(categories[secondIndex]['category']);
+                                      this.Categories.add(
+                                          categories[secondIndex]['category']);
                                     }
                                     _updateCourses();
                                   },
@@ -210,7 +215,6 @@ class _AvailableCoursesState extends State<AvailableCourses> {
                         );
                       },
                     ),
-
                   ),
                 );
               }
