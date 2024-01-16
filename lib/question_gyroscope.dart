@@ -50,12 +50,18 @@ class _QuestionGyroscopeState extends State<QuestionGyroscope> {
               gyroscopeSubscription.cancel();
               print("left");
               widget.answers[widget.counter] = {'answer': 1};
-              navigateToQuestion(widget.counter + 1);
+              // Adding a delay of 500 milliseconds
+              Future.delayed(Duration(milliseconds: 500), () {
+                navigateToQuestion(widget.counter + 1);
+              });
             } else if (_gyroY > threshold) {
               gyroscopeSubscription.cancel();
               print("right");
               widget.answers[widget.counter] = {'answer': 2};
-              navigateToQuestion(widget.counter + 1);
+              // Adding a delay of 500 milliseconds
+              Future.delayed(Duration(milliseconds: 500), () {
+                navigateToQuestion(widget.counter + 1);
+              });
             }
           });
         });

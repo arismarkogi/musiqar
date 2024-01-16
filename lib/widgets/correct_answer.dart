@@ -7,6 +7,7 @@ Widget correctAnswer(
     String correctAnswerURL,
     String yourAnswerURL,
     bool isImage,
+    bool isCorrect, // Add a parameter to indicate whether the answer is correct
     ) {
   ImageProvider<Object> correctAnswerImageProvider;
   ImageProvider<Object> yourAnswerImageProvider;
@@ -23,11 +24,14 @@ Widget correctAnswer(
     yourAnswerImageProvider = FileImage(File(yourAnswerURL));
   }
 
+  // Set the background color based on whether the answer is correct or not
+  Color backgroundColor = isCorrect ? Colors.green : Colors.red;
+
   return Container(
     width: double.infinity,
     padding: EdgeInsets.all(16),
     decoration: BoxDecoration(
-      color: Colors.white,
+      color: backgroundColor,
       borderRadius: BorderRadius.circular(10),
       boxShadow: [
         BoxShadow(
@@ -75,6 +79,7 @@ Widget correctAnswer(
     ),
   );
 }
+
 
 Widget _buildAnswerRow(String label, String answer) {
   return Text(

@@ -112,10 +112,12 @@ class _CorrectAnswersState extends State<CorrectAnswers> {
                     question['answers'], // Assuming this is the correct answer image URL
                     answer['answer'], // Assuming this is the user's answer image URL
                     true,
+                    false
                   );
                 } else if (question['type'] == 'TorF' || question['type'] == 'Select') {
 
-                  if (question['correct_answer'] == answer['answer']) {
+                  bool isCorrect = question['correct_answer'] == answer['answer'];
+                  if (isCorrect) {
                     score++;
                   }
 
@@ -125,6 +127,7 @@ class _CorrectAnswersState extends State<CorrectAnswers> {
                     getAnswerURL(question['type'], question['correct_answer'], question['answers']), // Provide the correct answer based on type
                     getAnswerURL(question['type'], answer['answer'], question['answers']), // Provide the user's answer based on type
                     false,
+                    isCorrect
                   );
                 }
 
