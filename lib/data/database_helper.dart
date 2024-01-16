@@ -313,19 +313,18 @@ class DatabaseHelper {
   }
 
   Future<String> ChapthasQuestions(int chapterId) async {
-  var dbClient = await db;
-  List<Map<String, dynamic>> result = await dbClient.rawQuery('''
+    var dbClient = await db;
+    List<Map<String, dynamic>> result = await dbClient.rawQuery('''
     SELECT type FROM Question
     WHERE chapter_id = ?
     LIMIT 1
   ''', [chapterId]);
-  if (result.isNotEmpty) {
-    return result.first['type'];
-  } else {
-    return ''; 
+    if (result.isNotEmpty) {
+      return result.first['type'];
+    } else {
+      return '';
+    }
   }
-}
-
 
   Future<List<Map<String, dynamic>>> getEnrolledCourses(int userId) async {
     var dbClient = await db;
@@ -353,12 +352,10 @@ class DatabaseHelper {
     SELECT  DISTINCT category
     FROM course;
     ''');
-
-
   }
 
-
-  Future<List<Map<String, dynamic>>> getAvailableCourses(int userId, Set<String>? categories) async {
+  Future<List<Map<String, dynamic>>> getAvailableCourses(
+      int userId, Set<String>? categories) async {
     var dbClient = await db;
     String categoriesStr = '';
 
@@ -377,11 +374,8 @@ class DatabaseHelper {
     return await dbClient.rawQuery(query);
   }
 
-
-    Future<List<Map<String, dynamic>>> getInstructorCourses(int userId) async {
+  Future<List<Map<String, dynamic>>> getInstructorCourses(int userId) async {
     var dbClient = await db;
-
-
 
     String query = '''
     SELECT c.id as id, c.title as title, c.description as description, u1.name as name, c.image_url as image_url
@@ -406,17 +400,18 @@ class DatabaseHelper {
     return await dbClient.rawQuery(query);
   }
 
-  Future<List<Map<String, dynamic>>> getChapters(int courseId, int userId) async {
+  Future<List<Map<String, dynamic>>> getChapters(
+      int courseId, int userId) async {
     var dbClient = await db;
 
-      String query = '''
+    String query = '''
       SELECT c.title AS chapter_title, c.id
       FROM chapter c
       JOIN has_chapter hc ON c.id = hc.chapter_id
       WHERE hc.course_id = $courseId;
       ''';
-      return await dbClient.rawQuery(query);
-    }
+    return await dbClient.rawQuery(query);
+  }
 
   Future<List<Map<String, dynamic>>> getChapterInfo(int chapterId) async {
     var dbClient = await db;
@@ -428,6 +423,7 @@ class DatabaseHelper {
       ''';
     return await dbClient.rawQuery(query);
   }
+
   Future<bool> isChapterCompleted(int userId, int chapterId) async {
     var dbClient = await db;
 
@@ -441,9 +437,10 @@ class DatabaseHelper {
     return result.isNotEmpty;
   }
 
-  Future<void> updateHasCompleted(int userId, int chapterId, bool isCompleted) async {
+  Future<void> updateHasCompleted(
+      int userId, int chapterId, bool isCompleted) async {
     var dbClient = await db;
-    if(isCompleted){
+    if (isCompleted) {
       await dbClient.rawDelete(
         'DELETE FROM has_completed WHERE chapter_id = ? AND user_id = ?',
         [chapterId, userId],
@@ -452,11 +449,10 @@ class DatabaseHelper {
         'UPDATE users SET points = points - 1 WHERE id = ?',
         [userId],
       );
-    }
-    else{
+    } else {
       await dbClient.rawInsert(
-      'INSERT INTO has_completed (chapter_id, user_id) VALUES (?, ?)',
-      [chapterId, userId],
+        'INSERT INTO has_completed (chapter_id, user_id) VALUES (?, ?)',
+        [chapterId, userId],
       );
 
       await dbClient.rawUpdate(
@@ -475,9 +471,16 @@ class DatabaseHelper {
     );
   }
 
+  Future<List<Map<String, dynamic>>> getQuestionsForChapter(
+      int chapterId) async {
+    var dbClient = await db;
 
-
-
+    List<Map<String, dynamic>> questions = await dbClient.rawQuery(
+      'SELECT * FROM Question WHERE chapter_id = ?',
+      [chapterId],
+    );
+    return questions;
+  }
 
   Future<void> enrollUserInCourse(int userId, int courseId) async {
     var dbClient = await db;
@@ -487,7 +490,6 @@ class DatabaseHelper {
       [courseId, userId],
     );
   }
-
 
   Future<int> updateUser(Map<String, dynamic> user) async {
     var dbClient = await db;
@@ -543,7 +545,7 @@ class DatabaseHelper {
     ''', [title, chapterId]);
   }
 
-Future<void> updatequestiontitle(int questionId, String title) async {
+  Future<void> updatequestiontitle(int questionId, String title) async {
     var dbClient = await db;
     await dbClient.rawUpdate('''
       UPDATE Question
@@ -663,7 +665,6 @@ Future<void> updatequestiontitle(int questionId, String title) async {
     ''');
   }
 
-
   Future<List<Map<String, dynamic>>> getQuestion(int questionId) async {
     var dbClient = await db;
     return await dbClient.rawQuery('''
@@ -678,16 +679,6 @@ Future<void> updatequestiontitle(int questionId, String title) async {
     var dbClient = await db;
     return await dbClient
         .query('Question', where: 'id = ?', whereArgs: [questionId]);
-  }
-
-  Future<List<Map<String, dynamic>>> getQuestionsForChapter(
-      int chapterId) async {
-    var dbClient = await db;
-    return await dbClient.rawQuery('''
-      SELECT id, title, type
-      FROM question 
-      WHERE chapter_id = ?
-    ''', [chapterId]);
   }
 
   final String createQuestionTableQuery = '''
@@ -771,8 +762,4 @@ Future<void> updatequestiontitle(int questionId, String title) async {
       print('No insert statements to process');
     }
   }
-
-
-
-
 }

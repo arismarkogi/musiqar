@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'widgets/available_course.dart';
+import 'widgets/delete_course.dart';
 import 'profile_page.dart';
 import 'menu_page.dart';
 import 'widgets/category.dart';

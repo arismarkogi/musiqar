@@ -5,19 +5,36 @@ import 'profile_page.dart';
 import 'menu_page.dart';
 import 'widgets/purple_button.dart';
 import 'multiple_choice.dart';
+import 'question_gyroscope.dart';
+import 'question_draw.dart';
+import 'data/database_helper.dart';
 
-
-
-
-
-
-class StartQuiz extends StatelessWidget {
-
+class StartQuiz extends StatefulWidget {
   final int userId;
   final int courseId;
   final int chapterId;
 
   StartQuiz({required this.userId, required this.courseId, required this.chapterId, Key? key}) : super(key: key);
+
+  @override
+  _StartQuizState createState() => _StartQuizState();
+}
+
+class _StartQuizState extends State<StartQuiz> {
+  List<Map<String, dynamic>> questions = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    List<Map<String, dynamic>> fetchedQuestions = await DatabaseHelper().getQuestionsForChapter(widget.chapterId);
+    setState(() {
+      questions = fetchedQuestions;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,14 +53,14 @@ class StartQuiz extends StatelessWidget {
           leading: IconButton(
             icon: Icon(Icons.menu),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage(userId: userId)));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage(userId: widget.userId)));
             },
           ),
           actions: [
             IconButton(
               icon: Icon(Icons.account_circle),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage(userId: userId)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage(userId: widget.userId)));
               },
             ),
           ],
@@ -74,29 +91,135 @@ class StartQuiz extends StatelessWidget {
               ),
             ),
 
-
-            SizedBox(height: 50),
+            SizedBox(height: 100),
 
             Center(
-                child: startButton(
-                  "Start Quiz",
-                   () {
-                     Navigator.push(
-                       context,
-                       MaterialPageRoute(builder: (context) => QuestionMultiple(userId: userId, courseId: courseId, chapterId: chapterId)),
-                     );
-                   }
-                )
+              child: FutureBuilder<List<Map<String, dynamic>>>(
+                future: Future.value(questions),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    List<Map<String, dynamic>> questionsData = snapshot.data!;
+                    String quizType = questionsData.isNotEmpty ? questionsData[0]['type'].toString() : 'Unknown';
+
+                    List<Map<String, dynamic>> answers = List.filled(questionsData.length, {}); // Initialize answers list
+
+                    return startButton(
+                      "Start Quiz",
+                          () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              if (quizType == 'Select') {
+                                return QuestionMultiple(
+                                    userId: widget.userId,
+                                    courseId: widget.courseId,
+                                    chapterId: widget.chapterId,
+                                    questions: questionsData,
+                                    counter: 0, // Assume you start from the first question
+                                    answers: answers, // Initialize the answers list);
+                                );}
+                              else if (quizType == 'TorF') {
+                                return QuestionGyroscope(
+                                    userId: widget.userId,
+                                    courseId: widget.courseId,
+                                    chapterId: widget.chapterId,
+                                    questions: questionsData,
+                                    counter: 0, // Assume you start from the first question
+                                    answers: answers, // Initialize the answers list);
+                                );}
+                              else if (quizType == 'Draw') {
+                                return QuestionDraw(
+                                  userId: widget.userId,
+                                  courseId: widget.courseId,
+                                  chapterId: widget.chapterId,
+                                  questions: questionsData,
+                                  counter: 0, // Assume you start from the first question
+                                  answers: answers, // Initialize the answers list
+                                );
+                              } else {
+                                return QuestionMultiple(
+                                  userId: widget.userId,
+                                  courseId: widget.courseId,
+                                  chapterId: widget.chapterId,
+                                  questions: questionsData,
+                                  counter: 0, // Assume you start from the first question
+                                  answers: answers, // Initialize the answers list
+                                );
+                              }
+                            },
+                          ),
+                        );
+                      },
+                    );
+                  } else {
+                    // Handle other ConnectionState cases (e.g., waiting, active)
+                    return CircularProgressIndicator();
+                  }
+                },
+              ),
             ),
 
-            SizedBox(height: 150),
+            SizedBox(height:100),
+            Container(
+              width: 324,
+              padding: EdgeInsets.all(16.0),
+              child: FutureBuilder<List<Map<String, dynamic>>>(
+                future: Future.value(questions),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    List<Map<String, dynamic>> questionsData = snapshot.data!;
+                    String quizType = questionsData.isNotEmpty ? questionsData[0]['type'].toString() : 'Unknown';
+                  if(quizType == 'Select') {
+                    quizType = "Multiple Choice";
+                  }
+                  else if(quizType == "TorF"){
+                    quizType = "True or False";
+                  }
+                  else if (quizType == "Draw"){
+                    quizType = "Drawing";
+                  }
+                  else{
+                    quizType = "Undetermined";
+                    }
+                    return Text(
+                      'Quiz type: $quizType',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.w400,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 5,
+                    );
+                  } else {
+                    return Text(
+                      'Loading...',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.w400,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 5,
+                    );
+                  }
+                },
+              ),
+            ),
+
+            SizedBox(height: 120),
             Center(
               child: PurpleButton(
                 "Chapter Page",
                     () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ChapterPage(userId: userId, chapterId: chapterId,courseId: courseId,)),
+                    MaterialPageRoute(builder: (context) => ChapterPage(userId: widget.userId, chapterId: widget.chapterId, courseId: widget.courseId,)),
                   );
 
                 },
@@ -105,6 +228,5 @@ class StartQuiz extends StatelessWidget {
           ],
         )
     );
-    // Other widgets or sections in the body can be added below
   }
 }

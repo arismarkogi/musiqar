@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:musIQAR/question_draw.dart';
 import 'package:musIQAR/widgets/gyroscope_answer.dart';
 import 'widgets/quiz_question.dart';
 import 'widgets/purple_button.dart';
-import 'multiple_choice.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'dart:async';
+import 'submit_quiz.dart';
 
 class QuestionGyroscope extends StatefulWidget {
   final int userId;
   final int courseId;
   final int chapterId;
+  final List<Map<String, dynamic>> questions;
+  final int counter;
+  final List<Map<String, dynamic>> answers;
 
-  QuestionGyroscope({required this.userId, required this.courseId, required this.chapterId, Key? key})
-      : super(key: key);
+  QuestionGyroscope({
+    required this.userId,
+    required this.courseId,
+    required this.chapterId,
+    required this.questions,
+    required this.counter,
+    required this.answers,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _QuestionGyroscopeState createState() => _QuestionGyroscopeState();
@@ -30,40 +39,76 @@ class _QuestionGyroscopeState extends State<QuestionGyroscope> {
     startGyroscope();
   }
 
-  void startGyroscope() {
-    gyroscopeSubscription =
-        gyroscopeEventStream().listen((GyroscopeEvent event) {
+ void startGyroscope() {
+  bool processing = false; // Variable to track if processing is ongoing
+  double threshold = 5.0;
+
+  gyroscopeSubscription = gyroscopeEventStream().listen((GyroscopeEvent event) {
+    if (!processing) {
       setState(() {
         _gyroY = event.y;
 
-        double threshold = 2.0;
         if (_gyroY < -threshold) {
+          processing = true; 
           gyroscopeSubscription.cancel();
           print("left");
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => QuestionMultiple(
-                      userId: widget.userId,
-                      courseId: widget.courseId,
-                      chapterId: widget.chapterId,
-                    )),
-          );
+          widget.answers[widget.counter] = {'answer': 1};
+          print("answer ${widget.answers[widget.counter]}");
+          navigateToQuestion(widget.counter + 1);
         } else if (_gyroY > threshold) {
+          processing = true; 
           gyroscopeSubscription.cancel();
           print("right");
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => QuestionDraw(
-                      userId: widget.userId,
-                      courseId: widget.courseId,
-                      chapterId: widget.chapterId,
-                    )),
-          );
+          widget.answers[widget.counter] = {'answer': 2};
+          print("answer ${widget.answers[widget.counter]}");
+          navigateToQuestion(widget.counter + 1);
         }
+
+        Timer(Duration(seconds: 4), () {
+          processing = false;
+        });
       });
-    });
+    }
+  });
+}
+
+  void navigateToQuestion(int newCounter) {
+    print(widget.answers);
+    if (newCounter < 0) {
+      // If counter is negative, go to the first question
+      newCounter = 0;
+    } else if (newCounter >= widget.questions.length) {
+      print("Submitted ${widget.answers}");
+      // If counter exceeds the number of questions, go to SubmitQuiz
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SubmitQuiz(
+            userId: widget.userId,
+            courseId: widget.courseId,
+            chapterId: widget.chapterId,
+            questions: widget.questions,
+            counter: widget.counter,
+            answers: widget.answers,
+          ),
+        ),
+      );
+      return;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => QuestionGyroscope(
+          userId: widget.userId,
+          courseId: widget.courseId,
+          chapterId: widget.chapterId,
+          questions: widget.questions,
+          counter: newCounter,
+          answers: widget.answers,
+        ),
+      ),
+    );
   }
 
   @override
@@ -74,6 +119,7 @@ class _QuestionGyroscopeState extends State<QuestionGyroscope> {
 
   @override
   Widget build(BuildContext context) {
+    String currentQuestionText = widget.questions[widget.counter]['title'].toString();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -92,9 +138,9 @@ class _QuestionGyroscopeState extends State<QuestionGyroscope> {
           SizedBox(height: 20),
           Center(
             child: question(
-              42,
-              'Here is the text for the question i want to test if it works with two lines properly',
-            ),
+              widget.counter + 1,
+              currentQuestionText,
+              ),
           ),
           Center(
             child: Column(
@@ -103,59 +149,78 @@ class _QuestionGyroscopeState extends State<QuestionGyroscope> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    gyrAnswer(
-                        "Here is the text for the answer of the left option"),
+                    gyrAnswer("False","Tilt your device to the left to select False"),
                     SizedBox(width: 30),
-                    gyrAnswer(
-                        "Here is the text for the answer of the right option"),
+                    gyrAnswer("True","Tilt your device to the right to select True"),
                   ],
                 ),
               ],
             ),
           ),
-          SizedBox(height: 100),
-          SizedBox(
-            height: 100,
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(
+          SizedBox(height: 170),
+          Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Visibility(
+                  visible: widget.counter != 0, 
+                  child: SizedBox(
                     width: 133,
-                    child: PurpleButton(
-                      "Previous",
-                      () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => QuestionMultiple(
-                                  userId: widget.userId,
-                                  courseId: widget.courseId,
-                                  chapterId: widget.chapterId)),
-                        );
-                      },
-                    ),
+                    child: PurpleButton("Previous", () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => QuestionGyroscope(
+                            userId: widget.userId,
+                            courseId: widget.courseId,
+                            chapterId: widget.chapterId,
+                            questions: widget.questions,
+                            counter: widget.counter - 1,
+                            answers: widget.answers,
+                          ),
+                        ),
+                      );
+                    }),
                   ),
-                  SizedBox(width: 50),
-                  SizedBox(
-                    width: 133,
-                    child: PurpleButton(
-                      "Next",
-                      () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => QuestionDraw(
-                                    userId: widget.userId,
-                                    courseId: widget.courseId,
-                                    chapterId: widget.chapterId,
-                                  )),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                ),
+
+                SizedBox(width: 50),
+                SizedBox(
+                  width: 133,
+                  child: PurpleButton("Next", () {
+                    if (widget.counter == widget.questions.length - 1) {
+                      print("Submitted $widget.answers");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SubmitQuiz(
+                            userId: widget.userId,
+                            courseId: widget.courseId,
+                            chapterId: widget.chapterId,
+                            questions: widget.questions,
+                            counter: widget.counter,
+                            answers: widget.answers,
+                          ),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => QuestionGyroscope(
+                            userId: widget.userId,
+                            courseId: widget.courseId,
+                            chapterId: widget.chapterId,
+                            questions: widget.questions,
+                            counter: widget.counter + 1,
+                            answers: widget.answers,
+                          ),
+                        ),
+                      );
+                    }
+                  }),
+                ),
+              ],
             ),
           ),
         ],

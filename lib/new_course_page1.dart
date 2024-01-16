@@ -33,7 +33,9 @@ class _NewCoursePage1State extends State<NewCoursePage1> {
   bool validateInputs() {
     if (coursename.text.isEmpty ||
         category.text.isEmpty ||
-        description.text.isEmpty) {
+        description.text.isEmpty ||
+        selectedImage == null
+        ) {
       Vibration.vibrate(duration: 500);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

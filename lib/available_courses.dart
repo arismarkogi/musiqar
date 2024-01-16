@@ -4,7 +4,7 @@ import 'profile_page.dart';
 import 'menu_page.dart';
 import 'widgets/category.dart';
 import 'data/database_helper.dart';
-
+import 'dart:async';
 class AvailableCourses extends StatefulWidget {
   final int userId;
 
@@ -20,18 +20,25 @@ class _AvailableCoursesState extends State<AvailableCourses> {
 
   Set<String> Categories = {};
   int courseToAdd = -1;
+  // Add separate ScrollControllers for each ListView.separated
+  double _scrollPosition = 0.0;
+  ScrollController _coursesScrollController = ScrollController(initialScrollOffset: 0.0);
+
 
   void _updateCourses() {
     if (this.courseToAdd != -1)
       DatabaseHelper().enrollUserInCourse(widget.userId, this.courseToAdd);
 
     this.courseToAdd = -1;
-    setState(() {
+
+    setState(()  {
       this.availableCourses = DatabaseHelper().getAvailableCourses(
         widget.userId,
         this.Categories,
       );
     });
+
+
     print("available courses");
     print(availableCourses);
   }
@@ -118,11 +125,13 @@ class _AvailableCoursesState extends State<AvailableCourses> {
 
                 return Padding(
                   padding: EdgeInsets.only(left: 16.0),
+                  child: SingleChildScrollView(
                   child: Container(
                     height: 460,
                     child: courses.isNotEmpty
                         ? ListView.separated(
                             scrollDirection: Axis.horizontal,
+                            controller: _coursesScrollController,
                             itemCount: courses.length,
                             separatorBuilder: (context, _) =>
                                 SizedBox(width: 8),
@@ -145,7 +154,7 @@ class _AvailableCoursesState extends State<AvailableCourses> {
                           )
                         : Container(),
                   ),
-                );
+                ));
               }
             },
           ),

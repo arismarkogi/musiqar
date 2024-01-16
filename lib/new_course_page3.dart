@@ -99,7 +99,7 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
           chapterId: chapterId,
           questionId: questionId,
         );
-      case "LorR":
+      case "TorF":
         return NewCoursePage5(
           userId: userId,
           courseId: courseId,
@@ -240,7 +240,7 @@ class _NewCoursePage3State extends State<NewCoursePage3> {
                               if (validateInputs()) {
                                 if (widget.questionType == "Draw" ||
                                     widget.questionType == "Select" ||
-                                    widget.questionType == "LorR") {
+                                    widget.questionType == "TorF") {
                                   int selectedQuestionId = questionId ?? 0;
 
                                   if (existingQuestions.any(

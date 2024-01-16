@@ -139,7 +139,7 @@ class _Questiontype extends State<Questiontype> {
                                 userId: widget.userId,
                                 courseId: widget.courseId,
                                 chapterId: widget.chapterId,
-                                questionType: "LorR",
+                                questionType: "TorF",
                               )));
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(

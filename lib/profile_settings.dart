@@ -45,6 +45,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       emailController.text = userData['email'] ?? '';
       dobController.text = userData['dateofbirth'] ?? '';
       bioController.text = userData['bio'] ?? '';
+      passwordController.text = userData['password'] ?? '';
     });
   }
 
