@@ -45,7 +45,7 @@ class MusicSelectionScreen extends StatelessWidget {
                     builder: (context) => CombinedScreen(
                       camera: cameras.first,
                       musicAsset: 'Blue.mp3',
-                      modelAsset: 'assets/piano3d.glb',
+                      modelAsset: 'assets/Grand.glb',
                     ),
                   ),
                 );
@@ -102,6 +102,23 @@ class MusicSelectionScreen extends StatelessWidget {
                 );
               },
               child: Text('Violin'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () async {
+                List<CameraDescription> cameras = await getCameras();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CombinedScreen(
+                      camera: cameras.first,
+                      musicAsset: 'guitar.mp3',
+                      modelAsset: 'assets/guitar.glb',
+                    ),
+                  ),
+                );
+              },
+              child: Text('Guitar'),
             ),
           ],
         ),

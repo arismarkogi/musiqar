@@ -51,6 +51,8 @@ dependencies:
   shared_preferences:
   uuid:
   speech_to_text:
+  flutter_joystick:
+  joystick:
   flutter:
     sdk: flutter
 
@@ -108,4 +110,8 @@ flutter:
     - assets/saxophone.m4a
     - assets/logo2.png
     - assets/logo3.png
+    - assets/guitar.glb
+    - assets/Grand.glb
+    - assets/guitar.mp3
+
     

@@ -151,13 +151,15 @@ class _ChapterPageState extends State<ChapterPage> {
                     "Blue.mp3",
                     "saxophone.m4a",
                     "tuba.mp3",
-                    "violin.mp3"
+                    "violin.mp3",
+                    "guitar.mp3"
                   ];
                   List<String> glbFiles = [
-                    "piano3d.glb",
+                    "Grand.glb",
                     "saxophone.glb",
                     "tuba.glb",
-                    "violin.glb"
+                    "violin.glb",
+                    "guitar.glb"
                   ];
 
                   int randomIndex = Random().nextInt(mp3Files.length);

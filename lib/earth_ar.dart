@@ -4,6 +4,10 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter_joystick/flutter_joystick.dart';
+import 'package:joystick/joystick.dart';
+
+
 
 class BackgroundMusicPlayer {
   static AudioPlayer _audioPlayer = AudioPlayer();
@@ -20,6 +24,8 @@ class BackgroundMusicPlayer {
     await _audioPlayer.stop();
   }
 }
+
+
 
 class CombinedScreen extends StatefulWidget {
   final CameraDescription camera;
@@ -40,6 +46,7 @@ class CombinedScreen extends StatefulWidget {
 class _CombinedScreenState extends State<CombinedScreen> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
+  double _scale = 1.0;
 
   @override
   void initState() {
@@ -59,6 +66,13 @@ class _CombinedScreenState extends State<CombinedScreen> {
     super.dispose();
   }
 
+
+  void _updateScale(double newScale) {
+    setState(() {
+      _scale = newScale;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,18 +81,36 @@ class _CombinedScreenState extends State<CombinedScreen> {
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return Stack(
-              alignment: Alignment.center,
+            return Column(
               children: [
-                CameraPreview(_controller),
-                ModelViewer(
-                  src: widget.modelAsset,
-                  alt: 'Augmented Reality',
-                  ar: true,
-                  autoRotate: true,
-                  iosSrc:
-                      'https://modelviewer.dev/shared-assets/models/Astronaut.usdz',
-                  disableZoom: true,
+                Expanded(
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      //CameraPreview(_controller),
+                      Transform.scale(
+                        scale: _scale,
+                        child: ModelViewer(
+                          src: widget.modelAsset,
+                          alt: 'Augmented Reality',
+                          ar: true,
+                          autoRotate: true,
+                          iosSrc:
+                              'https://modelviewer.dev/shared-assets/models/Astronaut.usdz',
+                          disableZoom: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Slider(
+                    value: _scale,
+                    min: 0.2, 
+                    max: 2.0,
+                    onChanged: _updateScale,
+                  ),
                 ),
               ],
             );
