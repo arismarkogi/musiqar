@@ -8,7 +8,11 @@ Widget chapter(String chapterName, VoidCallback onTap, Future<bool> isCompleted,
     child: Container(
       width: 330,
       decoration: BoxDecoration(
-        color: const Color(0xFFCAC4D0),
+        gradient: LinearGradient(
+          colors: [Color(0xFFCAC4D0), Color(0xFFE1DCE3)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
@@ -38,8 +42,15 @@ Widget chapter(String chapterName, VoidCallback onTap, Future<bool> isCompleted,
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.bold,
                   letterSpacing: 0.15,
+                  shadows: [
+                    Shadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      blurRadius: 2,
+                      offset: Offset(1, 1),
+                    ),
+                  ],
                 ),
-              ),
+              )
             ),
           ),
         ],

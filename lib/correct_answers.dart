@@ -34,32 +34,11 @@ class _CorrectAnswersState extends State<CorrectAnswers> {
       List<String> answerOptions = answers.split('/**/');
       int selectedAnswerIndex = int.parse(answer.toString());
 
-      if (selectedAnswerIndex >= 1 &&
-          selectedAnswerIndex <= answerOptions.length) {
+      if (selectedAnswerIndex >= 1 && selectedAnswerIndex <= answerOptions.length) {
         return answerOptions[selectedAnswerIndex - 1];
       }
     }
     return '';
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      widget.questions.asMap().forEach((index, question) {
-        Map<String, dynamic> answer = widget.answers[index];
-
-        if (question['type'] == 'TorF' || question['type'] == 'Select') {
-          bool isCorrect = question['correct_answer'] == answer['answer'];
-          if (isCorrect) {
-            setState(() {
-              score++;
-            });
-          }
-        }
-      });
-    });
   }
 
   @override
@@ -80,8 +59,7 @@ class _CorrectAnswersState extends State<CorrectAnswers> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => MenuPage(userId: widget.userId)),
+              MaterialPageRoute(builder: (context) => MenuPage(userId: widget.userId)),
             );
           },
         ),
@@ -91,8 +69,7 @@ class _CorrectAnswersState extends State<CorrectAnswers> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => ProfilePage(userId: widget.userId)),
+                MaterialPageRoute(builder: (context) => ProfilePage(userId: widget.userId)),
               );
             },
           ),
@@ -104,23 +81,20 @@ class _CorrectAnswersState extends State<CorrectAnswers> {
           Center(
             child: PurpleButton(
               "Course Page",
-              () {
+                  () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => CoursePage(
-                          userId: widget.userId, courseId: widget.courseId)),
+                  MaterialPageRoute(builder: (context) => CoursePage(userId: widget.userId, courseId: widget.courseId)),
                 );
               },
             ),
           ),
           SizedBox(height: 20),
           Visibility(
-            visible:
-                widget.questions.any((question) => question['type'] != 'Draw'),
+            visible: widget.questions.any((question) => question['type'] != 'Draw'),
             child: Text(
               'Score: $score/${widget.questions.length}',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
           Expanded(
@@ -132,25 +106,32 @@ class _CorrectAnswersState extends State<CorrectAnswers> {
                 Map<String, dynamic> answer = widget.answers[index];
 
                 if (question['type'] == 'Draw') {
-                  return correctAnswer(index + 1, question['title'],
-                      question['answers'], answer['answer'], true, false);
-                } else if (question['type'] == 'TorF' ||
-                    question['type'] == 'Select') {
-                  bool isCorrect =
-                      question['correct_answer'] == answer['answer'];
+                  return correctAnswer(
+                    index + 1,
+                    question['title'],
+                    question['answers'], // Assuming this is the correct answer image URL
+                    answer['answer'], // Assuming this is the user's answer image URL
+                    true,
+                    false
+                  );
+                } else if (question['type'] == 'TorF' || question['type'] == 'Select') {
+
+                  bool isCorrect = question['correct_answer'] == answer['answer'];
+                  if (isCorrect) {
+                    score++;
+                  }
 
                   return correctAnswer(
-                      index + 1,
-                      question['title'],
-                      getAnswerURL(question['type'], question['correct_answer'],
-                          question['answers']),
-                      getAnswerURL(question['type'], answer['answer'],
-                          question['answers']),
-                      false,
-                      isCorrect);
+                    index + 1,
+                    question['title'],
+                    getAnswerURL(question['type'], question['correct_answer'], question['answers']), // Provide the correct answer based on type
+                    getAnswerURL(question['type'], answer['answer'], question['answers']), // Provide the user's answer based on type
+                    false,
+                    isCorrect
+                  );
                 }
 
-                return Container();
+                return Container(); // Placeholder for other question types
               },
             ),
           ),

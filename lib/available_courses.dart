@@ -5,6 +5,7 @@ import 'menu_page.dart';
 import 'widgets/category.dart';
 import 'data/database_helper.dart';
 import 'dart:async';
+import 'course_page.dart';
 
 class AvailableCourses extends StatefulWidget {
   final int userId;
@@ -26,20 +27,28 @@ class _AvailableCoursesState extends State<AvailableCourses> {
       ScrollController(initialScrollOffset: 0.0);
 
   void _updateCourses() {
-    if (this.courseToAdd != -1)
+    if (this.courseToAdd != -1) {
       DatabaseHelper().enrollUserInCourse(widget.userId, this.courseToAdd);
-
-    this.courseToAdd = -1;
-
-    setState(() {
-      this.availableCourses = DatabaseHelper().getAvailableCourses(
-        widget.userId,
-        this.Categories,
+      int course_id = this.courseToAdd;
+      this.courseToAdd = -1;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CoursePage(userId: widget.userId, courseId: course_id ),
+        ),
       );
-    });
+    }
+    else {
+      setState(() {
+        this.availableCourses = DatabaseHelper().getAvailableCourses(
+          widget.userId,
+          this.Categories,
+        );
+      });
 
-    print("available courses");
-    print(availableCourses);
+      print("available courses");
+      print(availableCourses);
+    }
   }
 
   @override
