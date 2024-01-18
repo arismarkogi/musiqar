@@ -75,7 +75,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           ),
         ),
       ),
-      body: Stack(
+      body: SingleChildScrollView(
+      child: Container(
+        height: MediaQuery.of(context).size.height, // Adjust this as needed
+        width: MediaQuery.of(context).size.width,   // Adjust this as needed
+        child: Stack(
         children: [
           Positioned(
             left: 10,
@@ -190,6 +194,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             ),
           ),
         ],
+      ),
+      ),
       ),
     );
   }
