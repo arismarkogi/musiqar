@@ -44,7 +44,7 @@ class MusicSelectionScreen extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => CombinedScreen(
                       camera: cameras.first,
-                      musicAsset: 'Blue.mp3',
+                      musicAsset: 'Blue.m4a',
                       modelAsset: 'assets/Grand.glb',
                     ),
                   ),
@@ -78,7 +78,7 @@ class MusicSelectionScreen extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => CombinedScreen(
                       camera: cameras.first,
-                      musicAsset: 'tuba.mp3',
+                      musicAsset: 'tuba.m4a',
                       modelAsset: 'assets/tuba.glb',
                     ),
                   ),
@@ -95,7 +95,7 @@ class MusicSelectionScreen extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => CombinedScreen(
                       camera: cameras.first,
-                      musicAsset: 'violin.mp3',
+                      musicAsset: 'violin.m4a',
                       modelAsset: 'assets/violin.glb',
                     ),
                   ),
@@ -112,7 +112,7 @@ class MusicSelectionScreen extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => CombinedScreen(
                       camera: cameras.first,
-                      musicAsset: 'guitar.mp3',
+                      musicAsset: 'guitar.m4a',
                       modelAsset: 'assets/guitar.glb',
                     ),
                   ),

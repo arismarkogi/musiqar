@@ -101,14 +101,14 @@ flutter:
     - assets/saxophone.glb
     - assets/tuba.glb
     - assets/violin.glb
-    - assets/Blue.mp3
-    - assets/violin.mp3
-    - assets/tuba.mp3
+    - assets/Blue.m4a
+    - assets/violin.m4a
+    - assets/tuba.m4a
     - assets/saxophone.m4a
     - assets/logo2.png
     - assets/logo3.png
     - assets/guitar.glb
     - assets/Grand.glb
-    - assets/guitar.mp3
+    - assets/guitar.m4a
 
     
