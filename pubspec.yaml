@@ -50,9 +50,6 @@ dependencies:
   just_audio:
   shared_preferences:
   uuid:
-  speech_to_text:
-  flutter_joystick:
-  joystick:
   flutter:
     sdk: flutter
 

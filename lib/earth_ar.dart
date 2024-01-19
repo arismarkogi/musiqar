@@ -4,8 +4,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter_joystick/flutter_joystick.dart';
-import 'package:joystick/joystick.dart';
 
 
 
