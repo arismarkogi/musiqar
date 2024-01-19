@@ -148,11 +148,11 @@ class _ChapterPageState extends State<ChapterPage> {
                 "assets/ar.png",
                 () async {
                   List<String> mp3Files = [
-                    "Blue.mp3",
+                    "Blue.m4a",
                     "saxophone.m4a",
-                    "tuba.mp3",
-                    "violin.mp3",
-                    "guitar.mp3"
+                    "tuba.m4a",
+                    "violin.m4a",
+                    "guitar.m4a"
                   ];
                   List<String> glbFiles = [
                     "Grand.glb",
